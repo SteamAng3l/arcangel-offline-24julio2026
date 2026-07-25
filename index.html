@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcángel – Guía y Mensajero de la Palabra</title>
+    <style>
+        /* ===== ESTILOS GLOBALES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #1a0f0f url('assets/fondo-pared.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #f5e9d8;
+            position: relative;
+        }
+
+        /* Oscurece ligeramente el fondo para que el texto resalte */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.35);
+            z-index: -1;
+        }
+
+        /* ===== PANEL PRINCIPAL (TRANSLÚCIDO) ===== */
+        .panel {
+            background: rgba(60, 30, 20, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.3rem;
+            letter-spacing: 2px;
+            color: #d4af37;
+        }
+
+        .subtitulo {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            color: #e0d3b8;
+            font-style: italic;
+        }
+
+        /* ===== FRASE DE BIENVENIDA ===== */
+        .frase-corazon {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: #f5e9d8;
+            font-weight: bold;
+        }
+
+        /* ===== ÁREA DE TEXTO Y BOTONES ===== */
+        textarea {
+            width: 100%;
+            height: 80px;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            color: #f5e9d8;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: none;
+            outline: none;
+            margin-bottom: 0.8rem;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        textarea::placeholder {
+            color: #cbbfa5;
+        }
+
+        .botonera {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            color: #f5e9d8;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: rgba(212, 175, 55, 0.4);
+            transform: scale(1.02);
+        }
+
+        button.microfono {
+            background: rgba(200, 100, 100, 0.3);
+            border-color: rgba(200, 100, 100, 0.6);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* ===== RESPUESTA DEL VERSÍCULO ===== */
+        .respuesta {
+            background: rgba(20, 10, 5, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .respuesta.activo {
+            display: block;
+        }
+
+        .versiculo-texto {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .versiculo-cita {
+            font-weight: bold;
+            color: #d4af37;
+        }
+
+        .frase-empatica {
+            font-style: italic;
+            color: #e0d3b8;
+            margin-top: 0.8rem;
+        }
+
+        /* ===== MODO OSCURO / CLARO ===== */
+        .modo-toggle {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="modo-toggle" onclick="toggleModo()">🌙</div>
+
+    <div class="panel">
+        <h1>Arcángel</h1>
+        <p class="subtitulo">Guía y Mensajero de la Palabra</p>
+        <p class="frase-corazon">¿Qué hay en tu corazón hoy?</p>
+
+        <textarea id="inputSentimiento" placeholder="Escribe cómo te sientes, tus preocupaciones o tus miedos..."></textarea>
+
+        <div class="botonera">
+            <button onclick="buscarVersiculo()">🔍 Buscar versículo</button>
+            <button onclick="versiculoAleatorio()">🎲 Versículo aleatorio</button>
+            <button class="microfono" onmousedown="iniciarDictado()" onmouseup="detenerDictado()" ontouchend="detenerDictado()">
+                🎤 Háblame
+            </button>
+        </div>
+
+        <div id="respuestaBox" class="respuesta">
+            <div class="versiculo-texto" id="textoVersiculo"></div>
+            <div class="versiculo-cita" id="citaVersiculo"></div>
+            <div class="frase-empatica" id="fraseEmpatica"></div>
+        </div>
+    </div>
+
+    <script src="bible.js"></script>
+    <script>
+        // ===== LÓGICA BÁSICA (Se irá completando) =====
+        let modoOscuro = true;
+
+        function toggleModo() {
+            // Por ahora solo cambia el icono; más tarde aplicaremos clases CSS.
+            const toggle = document.querySelector('.modo-toggle');
+            toggle.textContent = modoOscuro ? '☀️' : '🌙';
+            modoOscuro = !modoOscuro;
+        }
+
+        function buscarVersiculo() {
+            const sentimiento = document.getElementById('inputSentimiento').value.trim();
+            if (!sentimiento) return;
+            // Aquí vendrá la lógica de búsqueda por categoría
+            document.getElementById('respuestaBox').classList.add('activo');
+            document.getElementById('textoVersiculo').textContent = '“El Señor es mi pastor, nada me falta.”';
+            document.getElementById('citaVersiculo').textContent = '— Salmo 23:1';
+            document.getElementById('fraseEmpatica').textContent = 'Dios camina contigo en este momento.';
+        }
+
+        function versiculoAleatorio() {
+            document.getElementById('inputSentimiento').value = '';
+            buscarVersiculo();
+        }
+
+        // Funciones placeholder para dictado
+        function iniciarDictado() {
+            console.log('Iniciando dictado...');
+        }
+        function detenerDictado() {
+            console.log('Dictado detenido.');
+        }
+    </script>
+</body>
+</html>
