@@ -197,6 +197,7 @@
     </div>
 
     <script src="bible.js"></script>
+    <script src="categories.js"></script>
     <script>
         // ===== LÓGICA BÁSICA (Se irá completando) =====
         let modoOscuro = true;
@@ -208,20 +209,35 @@
             modoOscuro = !modoOscuro;
         }
 
-        function buscarVersiculo() {
-            const sentimiento = document.getElementById('inputSentimiento').value.trim();
-            if (!sentimiento) return;
-            // Aquí vendrá la lógica de búsqueda por categoría
-            document.getElementById('respuestaBox').classList.add('activo');
-            document.getElementById('textoVersiculo').textContent = '“El Señor es mi pastor, nada me falta.”';
-            document.getElementById('citaVersiculo').textContent = '— Salmo 23:1';
-            document.getElementById('fraseEmpatica').textContent = 'Dios camina contigo en este momento.';
-        }
+function buscarVersiculo() {
+  const sentimiento = document.getElementById('inputSentimiento').value.trim();
+  if (!sentimiento) return;
 
-        function versiculoAleatorio() {
-            document.getElementById('inputSentimiento').value = '';
-            buscarVersiculo();
-        }
+  const categoria = detectarCategoria(sentimiento);
+  const refAleatoria = categoria.referencias[Math.floor(Math.random() * categoria.referencias.length)];
+  const texto = obtenerTextoVersiculo(refAleatoria);
+  const cita = `${refAleatoria.libro} ${refAleatoria.capitulo}:${refAleatoria.versiculo}`;
+  const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
+
+  document.getElementById('respuestaBox').classList.add('activo');
+  document.getElementById('textoVersiculo').textContent = `“${texto}”`;
+  document.getElementById('citaVersiculo').textContent = `— ${cita}`;
+  document.getElementById('fraseEmpatica').textContent = frase;
+}
+
+function versiculoAleatorio() {
+  const categoria = categories[Math.floor(Math.random() * categories.length)];
+  const refAleatoria = categoria.referencias[Math.floor(Math.random() * categoria.referencias.length)];
+  const texto = obtenerTextoVersiculo(refAleatoria);
+  const cita = `${refAleatoria.libro} ${refAleatoria.capitulo}:${refAleatoria.versiculo}`;
+  const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
+
+  document.getElementById('inputSentimiento').value = '';
+  document.getElementById('respuestaBox').classList.add('activo');
+  document.getElementById('textoVersiculo').textContent = `“${texto}”`;
+  document.getElementById('citaVersiculo').textContent = `— ${cita}`;
+  document.getElementById('fraseEmpatica').textContent = frase;
+}
 
         // Funciones placeholder para dictado
         function iniciarDictado() {
