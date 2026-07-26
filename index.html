@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arcángel – Guía y Mensajero de la Palabra</title>
+    <!-- Tipografía bíblica -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -90,22 +91,10 @@
 
         .botonera {
             display: flex;
-            flex-direction: column;
             gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
             margin-bottom: 1rem;
-        }
-
-        .botonera button {
-            width: 100%;
-        }
-
-        .fila-botones {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .fila-botones button {
-            flex: 1;
         }
 
         button {
@@ -130,11 +119,9 @@
         button.microfono {
             background: rgba(200, 100, 100, 0.3);
             border-color: rgba(200, 100, 100, 0.6);
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 0.3rem;
-            width: 100%;
         }
 
         .respuesta {
@@ -174,9 +161,7 @@
             right: 20px;
             font-size: 1.5rem;
             cursor: pointer;
-            z-index: 10;
         }
-
     </style>
 </head>
 <body>
@@ -191,13 +176,15 @@
         <textarea id="inputSentimiento" placeholder="Escribe cómo te sientes, tus preocupaciones o tus miedos..."></textarea>
 
         <div class="botonera">
-            <button class="microfono" id="botonHablar" onmousedown="iniciarDictado()" onmouseup="detenerDictado()" ontouchend="detenerDictado()">
+            <button class="microfono" id="botonHablar"
+                    onmousedown="iniciarDictado()"
+                    onmouseup="detenerDictado()"
+                    ontouchstart="iniciarDictado()"
+                    ontouchend="detenerDictado()">
                 🎤 Háblame
             </button>
-            <div class="fila-botones">
-                <button onclick="buscarVersiculo()">🔍 Buscar versículo</button>
-                <button onclick="versiculoAleatorio()">✝️ Versículo aleatorio</button>
-            </div>
+            <button onclick="buscarVersiculo()">🔍 Buscar versículo</button>
+            <button onclick="versiculoAleatorio()">✝️ Versículo aleatorio</button>
         </div>
 
         <div id="respuestaBox" class="respuesta">
@@ -210,7 +197,6 @@
     <script src="bible.js"></script>
     <script src="categories.js"></script>
     <script>
-        // ===== LÓGICA COMPLETA =====
         let modoOscuro = true;
         let ultimosVersiculos = [];
         const MAX_HISTORIAL = 5;
@@ -242,11 +228,13 @@
         function buscarVersiculo() {
             const sentimiento = document.getElementById('inputSentimiento').value.trim();
             if (!sentimiento) return;
+
             const categoria = detectarCategoria(sentimiento);
             const refAleatoria = obtenerVersiculoUnico(categoria);
             const texto = obtenerTextoVersiculo(refAleatoria);
             const cita = `${refAleatoria.libro} ${refAleatoria.capitulo}:${refAleatoria.versiculo}`;
             const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
+
             document.getElementById('respuestaBox').classList.add('activo');
             document.getElementById('textoVersiculo').textContent = `“${texto}”`;
             document.getElementById('citaVersiculo').textContent = `— ${cita}`;
@@ -259,6 +247,7 @@
             const texto = obtenerTextoVersiculo(refAleatoria);
             const cita = `${refAleatoria.libro} ${refAleatoria.capitulo}:${refAleatoria.versiculo}`;
             const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
+
             document.getElementById('inputSentimiento').value = '';
             document.getElementById('respuestaBox').classList.add('activo');
             document.getElementById('textoVersiculo').textContent = `“${texto}”`;
@@ -266,93 +255,91 @@
             document.getElementById('fraseEmpatica').textContent = frase;
         }
 
-     // ===== BOTÓN DE VOZ (HÁBLAME) =====
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-let recognition = null;
-let botonHablar = null;
+        // ===== BOTÓN DE VOZ (HÁBLAME) =====
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition = null;
+        let botonHablar = null;
+        let estaGrabando = false;
 
-// Inicializar reconocimiento de voz al cargar la página
-window.addEventListener('DOMContentLoaded', () => {
-    botonHablar = document.getElementById('botonHablar');
-    
-    if (SpeechRecognition) {
-        recognition = new SpeechRecognition();
-        recognition.lang = 'es-MX';         // Español México
-        recognition.interimResults = false; // Solo resultado final
-        recognition.continuous = false;     // Una sola frase por pulsación
-        recognition.maxAlternatives = 1;
-        
-        recognition.onstart = function() {
-            // Cambiar estilo del botón para mostrar que está grabando
+        window.addEventListener('DOMContentLoaded', () => {
+            botonHablar = document.getElementById('botonHablar');
+
+            if (SpeechRecognition) {
+                recognition = new SpeechRecognition();
+                recognition.lang = 'es-MX';
+                recognition.interimResults = false;
+                recognition.continuous = false;
+                recognition.maxAlternatives = 1;
+
+                recognition.onstart = function() {
+                    estaGrabando = true;
+                    if (botonHablar) {
+                        botonHablar.style.background = 'rgba(200, 50, 50, 0.7)';
+                        botonHablar.style.transform = 'scale(1.05)';
+                        botonHablar.textContent = '🎤 Escuchando...';
+                    }
+                };
+
+                recognition.onresult = function(event) {
+                    const texto = event.results[0][0].transcript.trim();
+                    if (texto) {
+                        document.getElementById('inputSentimiento').value = texto;
+                        buscarVersiculo();
+                    }
+                };
+
+                recognition.onerror = function(event) {
+                    console.error('Error en reconocimiento de voz:', event.error);
+                    restaurarBoton();
+                    if (event.error === 'not-allowed') {
+                        alert('Permiso de micrófono denegado. Actívalo en ajustes del navegador.');
+                    } else if (event.error === 'no-speech') {
+                        alert('No se detectó voz. Intenta de nuevo.');
+                    }
+                };
+
+                recognition.onend = function() {
+                    restaurarBoton();
+                };
+            } else {
+                if (botonHablar) {
+                    botonHablar.style.opacity = '0.5';
+                    botonHablar.title = 'Reconocimiento de voz no soportado en este navegador';
+                    botonHablar.disabled = true;
+                }
+            }
+        });
+
+        function iniciarDictado() {
+            if (recognition && !estaGrabando) {
+                try {
+                    recognition.start();
+                } catch (e) {
+                    console.error('Error al iniciar dictado:', e);
+                    restaurarBoton();
+                }
+            }
+        }
+
+        function detenerDictado() {
+            if (recognition && estaGrabando) {
+                try {
+                    recognition.stop();
+                } catch (e) {
+                    console.error('Error al detener dictado:', e);
+                }
+            }
+            restaurarBoton();
+        }
+
+        function restaurarBoton() {
+            estaGrabando = false;
             if (botonHablar) {
-                botonHablar.style.background = 'rgba(200, 50, 50, 0.7)';
-                botonHablar.style.transform = 'scale(1.05)';
-                botonHablar.textContent = '🎤 Escuchando...';
+                botonHablar.style.background = 'rgba(200, 100, 100, 0.3)';
+                botonHablar.style.transform = 'scale(1)';
+                botonHablar.textContent = '🎤 Háblame';
             }
-        };
-        
-        recognition.onresult = function(event) {
-            const texto = event.results[0][0].transcript.trim();
-            if (texto) {
-                document.getElementById('inputSentimiento').value = texto;
-                buscarVersiculo(); // Buscar automáticamente al soltar
-            }
-        };
-        
-        recognition.onerror = function(event) {
-            console.error('Error en reconocimiento de voz:', event.error);
-            restaurarBoton();
-            if (event.error === 'not-allowed') {
-                alert('Permiso de micrófono denegado. Por favor, actívalo en la configuración de tu navegador.');
-            } else if (event.error === 'no-speech') {
-                alert('No se detectó voz. Intenta de nuevo.');
-            }
-        };
-        
-        recognition.onend = function() {
-            restaurarBoton();
-        };
-    } else {
-        // Navegador no soporta reconocimiento de voz
-        if (botonHablar) {
-            botonHablar.style.opacity = '0.5';
-            botonHablar.title = 'Reconocimiento de voz no soportado en este navegador';
-            botonHablar.onmousedown = null;
-            botonHablar.onmouseup = null;
-            botonHablar.ontouchend = null;
         }
-    }
-});
-
-function iniciarDictado() {
-    if (recognition) {
-        try {
-            recognition.start();
-        } catch (e) {
-            console.error('Error al iniciar dictado:', e);
-            restaurarBoton();
-        }
-    }
-}
-
-function detenerDictado() {
-    if (recognition) {
-        try {
-            recognition.stop();
-        } catch (e) {
-            console.error('Error al detener dictado:', e);
-        }
-    }
-    restaurarBoton();
-}
-
-function restaurarBoton() {
-    if (botonHablar) {
-        botonHablar.style.background = 'rgba(200, 100, 100, 0.3)';
-        botonHablar.style.transform = 'scale(1)';
-        botonHablar.textContent = '🎤 Háblame';
-    }
-}
     </script>
 </body>
 </html>
