@@ -182,20 +182,13 @@
 
         <textarea id="inputSentimiento" placeholder="Escribe cómo te sientes, tus preocupaciones o tus miedos..."></textarea>
 
-        <div class="botonera">
-    <button class="microfono" onmousedown="iniciarDictado()" onmouseup="detenerDictado()" ontouchend="detenerDictado()">
+    <div class="botonera">
+    <button class="microfono" id="botonHablar" onmousedown="iniciarDictado()" onmouseup="detenerDictado()" ontouchend="detenerDictado()">
         🎤 Háblame
     </button>
     <button onclick="buscarVersiculo()">🔍 Buscar versículo</button>
-    <button onclick="versiculoAleatorio()">🎲 Versículo aleatorio</button>
+    <button onclick="versiculoAleatorio()">✝️ Versículo aleatorio</button>
 </div>
-
-        <div id="respuestaBox" class="respuesta">
-            <div class="versiculo-texto" id="textoVersiculo"></div>
-            <div class="versiculo-cita" id="citaVersiculo"></div>
-            <div class="frase-empatica" id="fraseEmpatica"></div>
-        </div>
-    </div>
 
     <script src="bible.js"></script>
     <script src="categories.js"></script>
