@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arcángel – Guía y Mensajero de la Palabra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
-        /* ===== ESTILOS GLOBALES ===== */
         * {
             margin: 0;
             padding: 0;
@@ -26,7 +25,6 @@
             position: relative;
         }
 
-        /* Oscurece ligeramente el fondo para que el texto resalte */
         body::before {
             content: '';
             position: fixed;
@@ -36,7 +34,6 @@
             z-index: -1;
         }
 
-        /* ===== PANEL PRINCIPAL (TRANSLÚCIDO) ===== */
         .panel {
             background: rgba(60, 30, 20, 0.65);
             backdrop-filter: blur(8px);
@@ -63,7 +60,6 @@
             font-style: italic;
         }
 
-        /* ===== FRASE DE BIENVENIDA ===== */
         .frase-corazon {
             font-size: 1.4rem;
             margin-bottom: 1.5rem;
@@ -71,7 +67,6 @@
             font-weight: bold;
         }
 
-        /* ===== ÁREA DE TEXTO Y BOTONES ===== */
         textarea {
             width: 100%;
             height: 80px;
@@ -95,10 +90,22 @@
 
         .botonera {
             display: flex;
+            flex-direction: column;
             gap: 0.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
             margin-bottom: 1rem;
+        }
+
+        .botonera button {
+            width: 100%;
+        }
+
+        .fila-botones {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .fila-botones button {
+            flex: 1;
         }
 
         button {
@@ -123,12 +130,13 @@
         button.microfono {
             background: rgba(200, 100, 100, 0.3);
             border-color: rgba(200, 100, 100, 0.6);
-            display: inline-flex;
+            display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.3rem;
+            width: 100%;
         }
 
-        /* ===== RESPUESTA DEL VERSÍCULO ===== */
         .respuesta {
             background: rgba(20, 10, 5, 0.7);
             backdrop-filter: blur(10px);
@@ -160,13 +168,13 @@
             margin-top: 0.8rem;
         }
 
-        /* ===== MODO OSCURO / CLARO ===== */
         .modo-toggle {
             position: absolute;
             top: 15px;
             right: 20px;
             font-size: 1.5rem;
             cursor: pointer;
+            z-index: 10;
         }
 
     </style>
@@ -182,84 +190,86 @@
 
         <textarea id="inputSentimiento" placeholder="Escribe cómo te sientes, tus preocupaciones o tus miedos..."></textarea>
 
-    <div class="botonera">
-    <button class="microfono" id="botonHablar" onmousedown="iniciarDictado()" onmouseup="detenerDictado()" ontouchend="detenerDictado()">
-        🎤 Háblame
-    </button>
-    <button onclick="buscarVersiculo()">🔍 Buscar versículo</button>
-    <button onclick="versiculoAleatorio()">✝️ Versículo aleatorio</button>
-</div>
+        <div class="botonera">
+            <button class="microfono" id="botonHablar" onmousedown="iniciarDictado()" onmouseup="detenerDictado()" ontouchend="detenerDictado()">
+                🎤 Háblame
+            </button>
+            <div class="fila-botones">
+                <button onclick="buscarVersiculo()">🔍 Buscar versículo</button>
+                <button onclick="versiculoAleatorio()">✝️ Versículo aleatorio</button>
+            </div>
+        </div>
+
+        <div id="respuestaBox" class="respuesta">
+            <div class="versiculo-texto" id="textoVersiculo"></div>
+            <div class="versiculo-cita" id="citaVersiculo"></div>
+            <div class="frase-empatica" id="fraseEmpatica"></div>
+        </div>
+    </div>
 
     <script src="bible.js"></script>
     <script src="categories.js"></script>
     <script>
-        // ===== LÓGICA BÁSICA (Se irá completando) =====
+        // ===== LÓGICA COMPLETA =====
         let modoOscuro = true;
+        let ultimosVersiculos = [];
+        const MAX_HISTORIAL = 5;
 
         function toggleModo() {
-            // Por ahora solo cambia el icono; más tarde aplicaremos clases CSS.
             const toggle = document.querySelector('.modo-toggle');
             toggle.textContent = modoOscuro ? '☀️' : '🌙';
             modoOscuro = !modoOscuro;
-            // Historial para evitar repeticiones
-let ultimosVersiculos = [];
-const MAX_HISTORIAL = 5;
-
-function obtenerVersiculoUnico(categoria) {
-    const disponibles = categoria.referencias.filter(ref => {
-        const clave = `${ref.libro}-${ref.capitulo}-${ref.versiculo}`;
-        return !ultimosVersiculos.includes(clave);
-    });
-    // Si todos están repetidos, limpiamos historial y volvemos a intentar
-    if (disponibles.length === 0) {
-        ultimosVersiculos = [];
-        return obtenerVersiculoUnico(categoria);
-    }
-    const elegido = disponibles[Math.floor(Math.random() * disponibles.length)];
-    const claveElegida = `${elegido.libro}-${elegido.capitulo}-${elegido.versiculo}`;
-    // Agregar al historial y mantener solo los últimos 5
-    ultimosVersiculos.push(claveElegida);
-    if (ultimosVersiculos.length > MAX_HISTORIAL) {
-        ultimosVersiculos.shift();
-    }
-    return elegido;
-}
         }
 
-function buscarVersiculo() {
-  const sentimiento = document.getElementById('inputSentimiento').value.trim();
-  if (!sentimiento) return;
+        function obtenerVersiculoUnico(categoria) {
+            const disponibles = categoria.referencias.filter(ref => {
+                const clave = `${ref.libro}-${ref.capitulo}-${ref.versiculo}`;
+                return !ultimosVersiculos.includes(clave);
+            });
+            if (disponibles.length === 0) {
+                ultimosVersiculos = [];
+                return obtenerVersiculoUnico(categoria);
+            }
+            const elegido = disponibles[Math.floor(Math.random() * disponibles.length)];
+            const claveElegida = `${elegido.libro}-${elegido.capitulo}-${elegido.versiculo}`;
+            ultimosVersiculos.push(claveElegida);
+            if (ultimosVersiculos.length > MAX_HISTORIAL) {
+                ultimosVersiculos.shift();
+            }
+            return elegido;
+        }
 
-  const categoria = detectarCategoria(sentimiento);
- const refAleatoria = obtenerVersiculoUnico(categoria);
-  const texto = obtenerTextoVersiculo(refAleatoria);
-  const cita = `${refAleatoria.libro} ${refAleatoria.capitulo}:${refAleatoria.versiculo}`;
-  const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
+        function buscarVersiculo() {
+            const sentimiento = document.getElementById('inputSentimiento').value.trim();
+            if (!sentimiento) return;
+            const categoria = detectarCategoria(sentimiento);
+            const refAleatoria = obtenerVersiculoUnico(categoria);
+            const texto = obtenerTextoVersiculo(refAleatoria);
+            const cita = `${refAleatoria.libro} ${refAleatoria.capitulo}:${refAleatoria.versiculo}`;
+            const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
+            document.getElementById('respuestaBox').classList.add('activo');
+            document.getElementById('textoVersiculo').textContent = `“${texto}”`;
+            document.getElementById('citaVersiculo').textContent = `— ${cita}`;
+            document.getElementById('fraseEmpatica').textContent = frase;
+        }
 
-  document.getElementById('respuestaBox').classList.add('activo');
-  document.getElementById('textoVersiculo').textContent = `“${texto}”`;
-  document.getElementById('citaVersiculo').textContent = `— ${cita}`;
-  document.getElementById('fraseEmpatica').textContent = frase;
-}
+        function versiculoAleatorio() {
+            const categoria = categories[Math.floor(Math.random() * categories.length)];
+            const refAleatoria = obtenerVersiculoUnico(categoria);
+            const texto = obtenerTextoVersiculo(refAleatoria);
+            const cita = `${refAleatoria.libro} ${refAleatoria.capitulo}:${refAleatoria.versiculo}`;
+            const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
+            document.getElementById('inputSentimiento').value = '';
+            document.getElementById('respuestaBox').classList.add('activo');
+            document.getElementById('textoVersiculo').textContent = `“${texto}”`;
+            document.getElementById('citaVersiculo').textContent = `— ${cita}`;
+            document.getElementById('fraseEmpatica').textContent = frase;
+        }
 
-function versiculoAleatorio() {
-  const categoria = categories[Math.floor(Math.random() * categories.length)];
-  const refAleatoria = obtenerVersiculoUnico(categoria);
-  const texto = obtenerTextoVersiculo(refAleatoria);
-  const cita = `${refAleatoria.libro} ${refAleatoria.capitulo}:${refAleatoria.versiculo}`;
-  const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
-
-  document.getElementById('inputSentimiento').value = '';
-  document.getElementById('respuestaBox').classList.add('activo');
-  document.getElementById('textoVersiculo').textContent = `“${texto}”`;
-  document.getElementById('citaVersiculo').textContent = `— ${cita}`;
-  document.getElementById('fraseEmpatica').textContent = frase;
-}
-
-        // Funciones placeholder para dictado
         function iniciarDictado() {
-            console.log('Iniciando dictado...');
+            console.log('Dictado iniciado...');
         }
+
         function detenerDictado() {
             console.log('Dictado detenido.');
         }
