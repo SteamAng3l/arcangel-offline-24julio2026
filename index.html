@@ -266,13 +266,93 @@
             document.getElementById('fraseEmpatica').textContent = frase;
         }
 
-        function iniciarDictado() {
-            console.log('Dictado iniciado...');
-        }
+     // ===== BOTÓN DE VOZ (HÁBLAME) =====
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition = null;
+let botonHablar = null;
 
-        function detenerDictado() {
-            console.log('Dictado detenido.');
+// Inicializar reconocimiento de voz al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+    botonHablar = document.getElementById('botonHablar');
+    
+    if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.lang = 'es-MX';         // Español México
+        recognition.interimResults = false; // Solo resultado final
+        recognition.continuous = false;     // Una sola frase por pulsación
+        recognition.maxAlternatives = 1;
+        
+        recognition.onstart = function() {
+            // Cambiar estilo del botón para mostrar que está grabando
+            if (botonHablar) {
+                botonHablar.style.background = 'rgba(200, 50, 50, 0.7)';
+                botonHablar.style.transform = 'scale(1.05)';
+                botonHablar.textContent = '🎤 Escuchando...';
+            }
+        };
+        
+        recognition.onresult = function(event) {
+            const texto = event.results[0][0].transcript.trim();
+            if (texto) {
+                document.getElementById('inputSentimiento').value = texto;
+                buscarVersiculo(); // Buscar automáticamente al soltar
+            }
+        };
+        
+        recognition.onerror = function(event) {
+            console.error('Error en reconocimiento de voz:', event.error);
+            restaurarBoton();
+            if (event.error === 'not-allowed') {
+                alert('Permiso de micrófono denegado. Por favor, actívalo en la configuración de tu navegador.');
+            } else if (event.error === 'no-speech') {
+                alert('No se detectó voz. Intenta de nuevo.');
+            }
+        };
+        
+        recognition.onend = function() {
+            restaurarBoton();
+        };
+    } else {
+        // Navegador no soporta reconocimiento de voz
+        if (botonHablar) {
+            botonHablar.style.opacity = '0.5';
+            botonHablar.title = 'Reconocimiento de voz no soportado en este navegador';
+            botonHablar.onmousedown = null;
+            botonHablar.onmouseup = null;
+            botonHablar.ontouchend = null;
         }
+    }
+});
+
+function iniciarDictado() {
+    if (recognition) {
+        try {
+            recognition.start();
+        } catch (e) {
+            console.error('Error al iniciar dictado:', e);
+            restaurarBoton();
+        }
+    }
+}
+
+function detenerDictado() {
+    if (recognition) {
+        try {
+            recognition.stop();
+        } catch (e) {
+            console.error('Error al detener dictado:', e);
+        }
+    }
+    restaurarBoton();
+}
+
+function restaurarBoton() {
+    if (botonHablar) {
+        botonHablar.style.background = 'rgba(200, 100, 100, 0.3)';
+        botonHablar.style.transform = 'scale(1)';
+        botonHablar.textContent = '🎤 Háblame';
+    }
+}
     </script>
 </body>
 </html>
