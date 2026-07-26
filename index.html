@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arcángel – Guía y Mensajero de la Palabra</title>
     <style>
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
         /* ===== ESTILOS GLOBALES ===== */
         * {
             margin: 0;
@@ -13,7 +14,7 @@
         }
 
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: 'Cinzel', 'Times New Roman', serif;
             background: #1a0f0f url('assets/fondo-pared.jpg') no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
@@ -207,6 +208,29 @@
             const toggle = document.querySelector('.modo-toggle');
             toggle.textContent = modoOscuro ? '☀️' : '🌙';
             modoOscuro = !modoOscuro;
+            // Historial para evitar repeticiones
+let ultimosVersiculos = [];
+const MAX_HISTORIAL = 5;
+
+function obtenerVersiculoUnico(categoria) {
+    const disponibles = categoria.referencias.filter(ref => {
+        const clave = `${ref.libro}-${ref.capitulo}-${ref.versiculo}`;
+        return !ultimosVersiculos.includes(clave);
+    });
+    // Si todos están repetidos, limpiamos historial y volvemos a intentar
+    if (disponibles.length === 0) {
+        ultimosVersiculos = [];
+        return obtenerVersiculoUnico(categoria);
+    }
+    const elegido = disponibles[Math.floor(Math.random() * disponibles.length)];
+    const claveElegida = `${elegido.libro}-${elegido.capitulo}-${elegido.versiculo}`;
+    // Agregar al historial y mantener solo los últimos 5
+    ultimosVersiculos.push(claveElegida);
+    if (ultimosVersiculos.length > MAX_HISTORIAL) {
+        ultimosVersiculos.shift();
+    }
+    return elegido;
+}
         }
 
 function buscarVersiculo() {
@@ -214,7 +238,7 @@ function buscarVersiculo() {
   if (!sentimiento) return;
 
   const categoria = detectarCategoria(sentimiento);
-  const refAleatoria = categoria.referencias[Math.floor(Math.random() * categoria.referencias.length)];
+ const refAleatoria = obtenerVersiculoUnico(categoria);
   const texto = obtenerTextoVersiculo(refAleatoria);
   const cita = `${refAleatoria.libro} ${refAleatoria.capitulo}:${refAleatoria.versiculo}`;
   const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
@@ -227,7 +251,7 @@ function buscarVersiculo() {
 
 function versiculoAleatorio() {
   const categoria = categories[Math.floor(Math.random() * categories.length)];
-  const refAleatoria = categoria.referencias[Math.floor(Math.random() * categoria.referencias.length)];
+  const refAleatoria = obtenerVersiculoUnico(categoria);
   const texto = obtenerTextoVersiculo(refAleatoria);
   const cita = `${refAleatoria.libro} ${refAleatoria.capitulo}:${refAleatoria.versiculo}`;
   const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
