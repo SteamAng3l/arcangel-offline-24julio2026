@@ -128,6 +128,7 @@
         button:hover { background: rgba(212,175,55,0.4); transform:scale(1.02); }
         button.microfono { background: rgba(200,100,100,0.35); border-color: rgba(200,100,100,0.7); }
 
+        /* ===== CUADRO DE RESPUESTA UNIFICADO ===== */
         .respuesta {
             background: var(--resp-bg);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -137,14 +138,14 @@
         .respuesta .categoria-nombre {
             font-size:0.85rem; color:var(--resp-cita); margin-bottom:0.3rem; font-weight:bold;
         }
+        .respuesta .frase-empatica {
+            font-style:italic; color:var(--resp-empatica); margin-bottom:0.6rem;
+        }
         .respuesta .versiculo-texto {
-            font-size:1.15rem; margin-bottom:0.6rem; line-height:1.6; color: var(--resp-text);
+            font-size:1.15rem; margin-bottom:0.4rem; line-height:1.6;
         }
         .respuesta .versiculo-cita {
-            font-weight:bold; color:var(--resp-cita); margin-bottom:0.4rem;
-        }
-        .respuesta .frase-empatica {
-            font-style:italic; color:var(--resp-empatica); margin-bottom:0.8rem;
+            font-weight:bold; color:var(--resp-cita); margin-bottom:0.6rem;
         }
         .acciones-versiculo {
             display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:0.5rem;
@@ -155,6 +156,7 @@
             color: var(--resp-text);
         }
 
+        /* ===== MODAL ===== */
         .modal-overlay {
             position:fixed; top:0; left:0; width:100%; height:100%;
             background:rgba(0,0,0,0.7); display:none;
@@ -174,12 +176,8 @@
             position:absolute; top:10px; right:15px; background:transparent; border:none;
             color:var(--dorado); font-size:1.5rem; cursor:pointer;
         }
-        .modal-contenido .respuesta {
-            background: transparent;
-            padding: 0;
-            margin-top: 0;
-        }
 
+        /* ===== NAVBAR ===== */
         .navbar {
             position:fixed; bottom:0; left:0; width:100%;
             background:rgba(30,10,20,0.85); backdrop-filter:blur(15px);
@@ -214,9 +212,31 @@
         }
         .categoria-btn:hover { background:rgba(212,175,55,0.35); }
 
+        /* Favoritos */
         .favorito-item {
-            background:rgba(255,255,240,0.1); border-radius:12px;
+            background: var(--resp-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius:12px;
             padding:0.8rem; margin-bottom:0.6rem; text-align:left; position:relative;
+            color: var(--resp-text);
+        }
+        .favorito-item .categoria-nombre {
+            font-size:0.85rem; color:var(--resp-cita); margin-bottom:0.3rem; font-weight:bold;
+        }
+        .favorito-item .frase-empatica {
+            font-style:italic; color:var(--resp-empatica); margin-bottom:0.6rem;
+        }
+        .favorito-item .versiculo-texto {
+            font-size:1.15rem; margin-bottom:0.4rem; line-height:1.6;
+        }
+        .favorito-item .versiculo-cita {
+            font-weight:bold; color:var(--resp-cita); margin-bottom:0.6rem;
+        }
+        .favorito-item .acciones-versiculo button {
+            font-size:0.8rem; padding:0.3rem 0.7rem;
+            background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.3);
+            color: var(--resp-text);
         }
         .eliminar-fav {
             position:absolute; top:5px; right:10px; background:transparent;
@@ -254,8 +274,7 @@
                         <span class="material-icons-outlined">search</span> Buscar versículo
                     </button>
                     <button onclick="versiculoAleatorio()">
-                        <!-- Cruz minimalista en SVG -->
-                        <svg width="1.4em" height="1.4em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;">
+                        <svg width="1.4em" height="1.4em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 4v12M6 9h12"/>
                         </svg>
                         Versículo aleatorio
@@ -263,10 +282,11 @@
                 </div>
                 <div id="respuestaBox" class="respuesta" style="display:none;">
                     <div class="categoria-nombre" id="categoriaNombreInicio"></div>
+                    <div class="frase-empatica" id="fraseEmpatica"></div>
                     <div class="versiculo-texto" id="textoVersiculo"></div>
                     <div class="versiculo-cita" id="citaVersiculo"></div>
-                    <div class="frase-empatica" id="fraseEmpatica"></div>
                     <div class="acciones-versiculo">
+                        <button onclick="speakVersiculo()"><span class="material-icons-outlined">volume_up</span> Escuchar</button>
                         <button onclick="guardarFavorito()"><span class="material-icons-outlined">star</span> Guardar</button>
                         <button onclick="compartirImagen()"><span class="material-icons-outlined">share</span> Compartir</button>
                     </div>
@@ -286,14 +306,17 @@
         <div class="modal-overlay" id="modalCategoria">
             <div class="modal-contenido">
                 <button class="cerrar-modal" onclick="cerrarModal()">&times;</button>
-                <div class="categoria-nombre" id="categoriaNombreModal"></div>
-                <div class="versiculo-texto" id="textoVersiculoModal"></div>
-                <div class="versiculo-cita" id="citaVersiculoModal"></div>
-                <div class="frase-empatica" id="fraseEmpaticaModal"></div>
-                <div class="acciones-versiculo">
-                    <button onclick="nuevoVersiculoCategoria()"><span class="material-icons-outlined">refresh</span> Nuevo versículo</button>
-                    <button onclick="guardarFavoritoDesdeModal()"><span class="material-icons-outlined">star</span> Guardar</button>
-                    <button onclick="compartirDesdeModal()"><span class="material-icons-outlined">share</span> Compartir</button>
+                <div class="respuesta" id="respuestaModal">
+                    <div class="categoria-nombre" id="categoriaNombreModal"></div>
+                    <div class="frase-empatica" id="fraseEmpaticaModal"></div>
+                    <div class="versiculo-texto" id="textoVersiculoModal"></div>
+                    <div class="versiculo-cita" id="citaVersiculoModal"></div>
+                    <div class="acciones-versiculo">
+                        <button onclick="speakVersiculoModal()"><span class="material-icons-outlined">volume_up</span> Escuchar</button>
+                        <button onclick="nuevoVersiculoCategoria()"><span class="material-icons-outlined">refresh</span> Nuevo</button>
+                        <button onclick="guardarFavoritoDesdeModal()"><span class="material-icons-outlined">star</span> Guardar</button>
+                        <button onclick="compartirDesdeModal()"><span class="material-icons-outlined">share</span> Compartir</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -327,7 +350,7 @@
     <script src="bible.js"></script>
     <script src="categories.js"></script>
     <script>
-        // NAVEGACIÓN
+        // ===== NAVEGACIÓN =====
         function cambiarPagina(pagina) {
             document.querySelectorAll('.pagina').forEach(p => p.classList.remove('activa'));
             document.getElementById('pagina' + pagina.charAt(0).toUpperCase() + pagina.slice(1)).classList.add('activa');
@@ -337,14 +360,14 @@
             if (pagina === 'favoritos') cargarFavoritos();
         }
 
-        // MODO CLARO/OSCURO
+        // ===== MODO CLARO/OSCURO =====
         function toggleModo() {
             document.body.classList.toggle('modo-claro');
             const icono = document.querySelector('.modo-toggle');
             icono.textContent = document.body.classList.contains('modo-claro') ? '☀️' : '🌙';
         }
 
-        // CATEGORÍAS
+        // ===== CATEGORÍAS =====
         function cargarCategorias() {
             const container = document.getElementById('categoriasContainer');
             container.innerHTML = '';
@@ -375,9 +398,9 @@
             const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
             const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
             document.getElementById('categoriaNombreModal').textContent = categoria.nombre;
+            document.getElementById('fraseEmpaticaModal').textContent = frase;
             document.getElementById('textoVersiculoModal').textContent = `“${texto}”`;
             document.getElementById('citaVersiculoModal').textContent = `— ${cita}`;
-            document.getElementById('fraseEmpaticaModal').textContent = frase;
             versiculoActual = { texto, cita, categoria: categoria.nombre };
         }
 
@@ -388,7 +411,7 @@
         function guardarFavoritoDesdeModal() { guardarFavorito(); }
         function compartirDesdeModal() { compartirImagen(); }
 
-        // BÚSQUEDA PRINCIPAL
+        // ===== BÚSQUEDA PRINCIPAL =====
         let ultimosVersiculos = [];
         const MAX_HISTORIAL = 5;
         let versiculoActual = null;
@@ -429,13 +452,40 @@
             const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
             document.getElementById('respuestaBox').style.display = 'block';
             document.getElementById('categoriaNombreInicio').textContent = categoria.nombre;
+            document.getElementById('fraseEmpatica').textContent = frase;
             document.getElementById('textoVersiculo').textContent = `“${texto}”`;
             document.getElementById('citaVersiculo').textContent = `— ${cita}`;
-            document.getElementById('fraseEmpatica').textContent = frase;
             versiculoActual = { texto, cita, categoria: categoria.nombre };
         }
 
-        // FAVORITOS
+        // ===== LECTOR DE VERSÍCULOS (TTS) =====
+        function speakText(text) {
+            if (!window.speechSynthesis) {
+                alert('Tu navegador no soporta lectura en voz alta.');
+                return;
+            }
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-MX';
+            utterance.rate = 0.9;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function speakVersiculo() {
+            if (!versiculoActual) return;
+            speakText(`${versiculoActual.texto}. ${versiculoActual.cita}.`);
+        }
+
+        function speakVersiculoModal() {
+            if (!versiculoActual) return;
+            speakText(`${versiculoActual.texto}. ${versiculoActual.cita}.`);
+        }
+
+        function speakFavorito(texto, cita) {
+            speakText(`${texto}. ${cita}.`);
+        }
+
+        // ===== FAVORITOS =====
         function guardarFavorito() {
             if (!versiculoActual) return;
             let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
@@ -462,9 +512,13 @@
             lista.innerHTML = favoritos.map((fav, index) => `
                 <div class="favorito-item">
                     <button class="eliminar-fav" onclick="eliminarFavorito(${index})">&times;</button>
-                    <div class="categoria-nombre" style="color:var(--dorado);">${fav.categoria || ''}</div>
+                    <div class="categoria-nombre">${fav.categoria || ''}</div>
+                    <div class="frase-empatica">${fav.frase || ''}</div>
                     <div class="versiculo-texto">“${fav.texto}”</div>
                     <div class="versiculo-cita">— ${fav.cita}</div>
+                    <div class="acciones-versiculo">
+                        <button onclick="speakFavorito('${fav.texto.replace(/'/g, "\\'")}', '${fav.cita.replace(/'/g, "\\'")}')"><span class="material-icons-outlined">volume_up</span> Escuchar</button>
+                    </div>
                 </div>
             `).join('');
         }
@@ -476,7 +530,7 @@
             cargarFavoritos();
         }
 
-        // COMPARTIR IMAGEN
+        // ===== COMPARTIR IMAGEN =====
         function compartirImagen() {
             if (!versiculoActual) return;
             const canvas = document.getElementById('canvasCompartir');
@@ -525,7 +579,7 @@
             ctx.fillText(line, x, lineY);
         }
 
-        // BOTÓN DE VOZ
+        // ===== BOTÓN DE VOZ (DICTADO) =====
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition = null;
         let estaGrabando = false;
