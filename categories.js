@@ -1,5 +1,4 @@
-// categories.js – Arcángel App (33 categorías completas, Advocaciones en posición 9)
-
+// categories.js – Arcángel App (33 categorías completas con 33 referencias y 5 frases empáticas cada una)
 const categories = [
   {
     nombre: "Miedo / Ansiedad",
@@ -40,16 +39,11 @@ const categories = [
       { libro: "Romanos", capitulo: 8, versiculo: 31 }
     ],
     fraseEmpatica: [
-      "No temas, porque yo estoy contigo; no desmayes, porque yo soy tu Dios.",
+      "No temas, porque yo estoy contigo.",
       "El Señor está cerca de los quebrantados de corazón.",
       "Deposita tus preocupaciones en Él, que cuida de ti.",
-      "La paz de Dios, que sobrepasa todo entendimiento, guardará tu corazón.",
-      "Confía en el Señor con todo tu corazón y Él enderezará tus veredas.",
-      "Aunque camine por valles oscuros, no temeré, porque Tú estás conmigo.",
-      "El amor perfecto echa fuera el miedo.",
-      "No dejes que tu corazón se turbe; confía en Dios.",
-      "Dios es nuestro refugio y fortaleza, una ayuda siempre pronta en los peligros.",
-      "El ángel del Señor acampa alrededor de los que le temen y los defiende."
+      "La paz de Dios guardará tu corazón.",
+      "Confía en el Señor y Él te sostendrá."
     ]
   },
   {
@@ -95,17 +89,12 @@ const categories = [
       "Tus lágrimas son recogidas por Aquel que te ama.",
       "El consuelo de Dios sobrepasa toda tristeza.",
       "No estás solo en tu dolor; Él camina a tu lado.",
-      "La alegría vendrá por la mañana.",
-      "Dios enjugará cada lágrima de tus ojos.",
-      "Bienaventurados los que lloran, porque recibirán consolación.",
-      "En la oscuridad más profunda, su luz no se apaga.",
-      "Entrega a Dios tus cargas, y Él te sostendrá.",
-      "Aunque el llanto dure una noche, la alegría vendrá al amanecer."
+      "La alegría vendrá por la mañana."
     ]
   },
   {
     nombre: "Estrés / Agobio",
-    keywords: ["estrés","agobio","cansancio","sobrecarga","presión","agotamiento","quemado","burnout","tension"],
+    keywords: ["estrés","agobio","cansancio","sobrecarga","presión","agotamiento","burnout","tensión"],
     referencias: [
       { libro: "Mateo", capitulo: 11, versiculo: 28 },
       { libro: "Filipenses", capitulo: 4, versiculo: 6 },
@@ -142,16 +131,11 @@ const categories = [
       { libro: "Lucas", capitulo: 12, versiculo: 25 }
     ],
     fraseEmpatica: [
-      "Venid a mí todos los que estáis cansados y agobiados, y yo os haré descansar.",
+      "Venid a mí los que estáis cansados y agobiados, y yo os haré descansar.",
       "No estás solo en esta carga; el Señor te sostiene.",
       "Deja tu ansiedad en sus manos, porque Él cuida de ti.",
       "La paz os dejo, mi paz os doy; no se turbe vuestro corazón.",
-      "Los que confían en el Señor renovarán sus fuerzas.",
-      "Descansa en la certeza de que Dios nunca te dará más de lo que puedas soportar.",
-      "A veces la oración más poderosa es simplemente respirar y decir: 'Señor, aquí estoy'.",
-      "Dios no te pide que seas perfecto, solo que confíes.",
-      "En el silencio encontrarás la fuerza que necesitas.",
-      "Tus hombros no están hechos para cargar el mundo; suelta y confía."
+      "Los que confían en el Señor renovarán sus fuerzas."
     ]
   },
   {
@@ -171,7 +155,6 @@ const categories = [
       { libro: "Isaías", capitulo: 49, versiculo: 15 },
       { libro: "Salmos", capitulo: 25, versiculo: 16 },
       { libro: "Romanos", capitulo: 8, versiculo: 38 },
-      { libro: "Salmos", capitulo: 68, versiculo: 6 },
       { libro: "1 Reyes", capitulo: 19, versiculo: 14 },
       { libro: "Salmos", capitulo: 38, versiculo: 11 },
       { libro: "Jeremías", capitulo: 29, versiculo: 11 },
@@ -197,12 +180,7 @@ const categories = [
       "Yo estoy contigo todos los días, hasta el fin del mundo.",
       "Aunque mi padre y mi madre me abandonen, el Señor me recogerá.",
       "No te dejaré ni te abandonaré.",
-      "El Señor está cerca de quienes lo invocan.",
-      "En la soledad más profunda, Dios susurra: 'Aquí estoy'.",
-      "Nunca caminas solo; cada paso lo das con un ángel a tu lado.",
-      "La soledad es la antesala donde Dios te encuentra a solas.",
-      "Aunque no veas a nadie, el cielo entero te acompaña.",
-      "Él pone a los solitarios en familia."
+      "Nunca caminas solo; cada paso lo das con un ángel a tu lado."
     ]
   },
   {
@@ -244,16 +222,11 @@ const categories = [
       { libro: "Filipenses", capitulo: 1, versiculo: 6 }
     ],
     fraseEmpatica: [
-      "Porque yo sé los planes que tengo para ti, planes de bien y no de mal.",
-      "El Dios de la esperanza os llene de todo gozo y paz en la fe.",
+      "Porque yo sé los planes que tengo para ti, planes de bien.",
+      "El Dios de la esperanza os llene de todo gozo y paz.",
       "¿Por qué te abates, alma mía? Espera en Dios.",
-      "Los que esperan en el Señor renovarán sus fuerzas.",
       "Aunque el justo caiga siete veces, se levantará.",
-      "No te rindas; la cosecha llegará a su tiempo.",
-      "Dios no ha terminado contigo. Esta pausa es parte del plan.",
-      "La esperanza es el ancla del alma.",
-      "Cuando sientas que no puedes más, Él cargará contigo.",
-      "Después de la tormenta más oscura, sale el sol más brillante."
+      "No te rindas; la cosecha llegará a su tiempo."
     ]
   },
   {
@@ -296,15 +269,10 @@ const categories = [
     ],
     fraseEmpatica: [
       "Venid a mí los que estáis cansados y agobiados, y yo os haré descansar.",
-      "Él da fuerzas al cansado y multiplica el vigor del que no tiene.",
+      "Él da fuerzas al cansado y multiplica el vigor.",
       "En lugares de verdes pastos me hace descansar.",
       "Dios te ofrece un oasis en medio del desierto.",
-      "Descansa en el Señor; Él se encarga de lo que a ti te supera.",
-      "Cuando ya no puedas más, recuerda: su fuerza se perfecciona en tu debilidad.",
-      "Respira hondo y deja que la paz de Dios llene tu ser.",
-      "No estás diseñado para correr sin parar. Descansa en Él.",
-      "El sueño del justo es tranquilo, porque Dios vela su descanso.",
-      "Recuesta tu cabeza en el regazo del Padre."
+      "Respira hondo y deja que la paz de Dios llene tu ser."
     ]
   },
   {
@@ -350,12 +318,7 @@ const categories = [
       "Él envió su palabra y los sanó.",
       "Por sus llagas hemos sido sanados.",
       "El Señor te sostendrá en el lecho del dolor.",
-      "Tu fe te ha sanado; ve en paz.",
-      "Dios no te abandona en la enfermedad; está más cerca que nunca.",
-      "Cada dolor ofrecido a Dios se convierte en semilla de gloria.",
-      "Aunque el cuerpo se debilite, el alma se renueva en Él.",
-      "El médico divino conoce tu dolor y te abraza.",
-      "No hay enfermedad que Dios no pueda sanar, ni sufrimiento que Él no consuele."
+      "Dios no te abandona en la enfermedad; está más cerca que nunca."
     ]
   },
   {
@@ -397,16 +360,11 @@ const categories = [
       { libro: "Salmos", capitulo: 91, versiculo: 11 }
     ],
     fraseEmpatica: [
-      "Bienaventurados los que lloran, porque ellos recibirán consolación.",
+      "Bienaventurados los que lloran, porque recibirán consolación.",
       "El Señor está cerca de los quebrantados de corazón.",
       "Él enjugará toda lágrima de sus ojos.",
-      "No quiero que ignoréis acerca de los que duermen, para que no os entristezcáis como los que no tienen esperanza.",
-      "Aunque camine por el valle de sombra de muerte, no temeré.",
       "Tu ser querido no se ha ido, solo se ha adelantado.",
-      "El duelo es la forma más pura de amor. Dios lo entiende.",
-      "Él recoge tus lágrimas en un frasco; cada una cuenta.",
-      "La muerte no es el final, es el comienzo de la vida eterna.",
-      "Jesús lloró junto a la tumba de su amigo. Él llora contigo."
+      "El duelo es la forma más pura de amor. Dios lo entiende."
     ]
   },
   {
@@ -448,16 +406,11 @@ const categories = [
       { libro: "Lucas", capitulo: 1, versiculo: 47 }
     ],
     fraseEmpatica: [
-      "Engrandece mi alma al Señor, y mi espíritu se regocija en Dios mi Salvador.",
+      "Engrandece mi alma al Señor.",
       "Mujer, he ahí tu hijo.",
-      "He aquí la sierva del Señor; hágase conmigo conforme a tu palabra.",
-      "María guardaba todas estas cosas, meditándolas en su corazón.",
-      "Una gran señal apareció en el cielo: una mujer vestida del sol.",
-      "Acude a María, ella te guiará a Jesús.",
-      "La Madre celestial te cubre con su manto de amor.",
-      "En cada advocación mariana, Dios nos recuerda que somos hijos amados.",
-      "Reza el rosario, cadena dulce que une la tierra con el cielo.",
-      "Santa María, Madre de Dios, ruega por nosotros pecadores."
+      "He aquí la sierva del Señor.",
+      "Santa María, Madre de Dios, ruega por nosotros.",
+      "Acude a María, ella te guiará a Jesús."
     ]
   },
   {
@@ -500,15 +453,10 @@ const categories = [
     ],
     fraseEmpatica: [
       "La paz os dejo, mi paz os doy; no se turbe vuestro corazón.",
-      "La paz de Dios, que sobrepasa todo entendimiento, guardará vuestros corazones.",
+      "La paz de Dios guardará vuestros corazones.",
       "El Señor bendice a su pueblo con paz.",
-      "Tú guardarás en completa paz a aquel cuyo pensamiento en ti persevera.",
-      "En paz me acostaré y asimismo dormiré.",
       "Quédate quieto, reconoce que Él es Dios.",
-      "La paz no es ausencia de tormenta, es calma en medio de ella.",
-      "Respira. Dios está en el centro de tu ser.",
-      "El fruto del Espíritu es paz.",
-      "Cierra los ojos. El cielo te envuelve en su manto de tranquilidad."
+      "Respira. Dios está en el centro de tu ser."
     ]
   },
   {
@@ -551,15 +499,10 @@ const categories = [
     ],
     fraseEmpatica: [
       "Esfuérzate y sé valiente; no temas ni desmayes.",
-      "El Señor es mi luz y mi salvación, ¿de quién temeré?",
+      "El Señor es mi luz y mi salvación.",
       "Todo lo puedo en Cristo que me fortalece.",
       "Dios es nuestro refugio y fortaleza.",
-      "No te ha dado Dios espíritu de cobardía, sino de poder, amor y dominio propio.",
-      "Levántate. La fuerza que necesitas ya ha sido puesta en ti.",
-      "Eres más fuerte de lo que crees, porque Dios pelea contigo.",
-      "Cuando sientas que flaqueas, recuerda: sus alas te cubren.",
-      "La valentía no es no tener miedo, es seguir adelante a pesar de él.",
-      "El Dios que venció la muerte vive en ti."
+      "Levántate. La fuerza que necesitas ya ha sido puesta en ti."
     ]
   },
   {
@@ -578,7 +521,7 @@ const categories = [
       { libro: "Salmos", capitulo: 34, versiculo: 7 },
       { libro: "Deuteronomio", capitulo: 31, versiculo: 6 },
       { libro: "Salmos", capitulo: 125, versiculo: 2 },
-      { libro: "Salmo", capitulo: 140, versiculo: 4 },
+      { libro: "Salmos", capitulo: 140, versiculo: 4 },
       { libro: "Juan", capitulo: 17, versiculo: 15 },
       { libro: "Salmos", capitulo: 61, versiculo: 4 },
       { libro: "1 Pedro", capitulo: 3, versiculo: 12 },
@@ -601,15 +544,10 @@ const categories = [
       { libro: "Salmos", capitulo: 145, versiculo: 20 }
     ],
     fraseEmpatica: [
-      "El que habita al amparo del Altísimo descansará a la sombra del Omnipotente.",
-      "Torre fuerte es el nombre del Señor; a ella corre el justo y está a salvo.",
-      "Dios es nuestro amparo y fortaleza, nuestro pronto auxilio en las tribulaciones.",
-      "El Señor te guardará de todo mal; Él guardará tu alma.",
-      "El Señor es fiel, y Él os fortalecerá y os protegerá del maligno.",
+      "El que habita al amparo del Altísimo descansará.",
+      "Torre fuerte es el nombre del Señor.",
+      "Dios es nuestro amparo y fortaleza.",
       "Bajo sus alas encuentras el refugio más seguro.",
-      "No temas; mayor es el que está contigo que el que está en el mundo.",
-      "Dios envía a sus ángeles para que te guarden en todos tus caminos.",
-      "En la tormenta más feroz, Él es tu ancla.",
       "Muros invisibles te rodean; el cielo entero vela por ti."
     ]
   },
@@ -652,15 +590,10 @@ const categories = [
       { libro: "Salmos", capitulo: 84, versiculo: 12 }
     ],
     fraseEmpatica: [
-      "La fe es la certeza de lo que se espera, la convicción de lo que no se ve.",
-      "Confía en el Señor con todo tu corazón, y no te apoyes en tu propia prudencia.",
-      "Encomienda al Señor tu camino, confía en Él, y Él actuará.",
+      "La fe es la certeza de lo que se espera.",
+      "Confía en el Señor con todo tu corazón.",
+      "Encomienda al Señor tu camino.",
       "Tened fe en Dios.",
-      "Bienaventurados los que no vieron y creyeron.",
-      "Cuando la duda te invada, recuerda: un grano de fe mueve montañas.",
-      "Dios no te ha fallado nunca y no empezará ahora.",
-      "La confianza no es saber lo que viene, sino saber quién viene contigo.",
-      "Cada paso que das en la oscuridad, Él ya lo iluminó.",
       "No necesitas entender el plan; solo confiar en el Arquitecto."
     ]
   },
@@ -703,16 +636,11 @@ const categories = [
       { libro: "Salmos", capitulo: 143, versiculo: 1 }
     ],
     fraseEmpatica: [
-      "Tú, cuando ores, entra en tu aposento, cierra la puerta, y ora a tu Padre que está en secreto.",
+      "Entra en tu aposento y ora a tu Padre en secreto.",
       "Orad sin cesar.",
-      "Por nada estéis afanosos, sino sean conocidas vuestras peticiones delante de Dios.",
-      "Cercano está el Señor a todos los que le invocan.",
-      "Clama a mí y yo te responderé.",
-      "La oración más poderosa es la que sale del corazón, aunque no encuentre palabras.",
-      "Cuando no sepas qué decir, simplemente di: 'Aquí estoy, Señor'.",
-      "Habla con Dios como con un amigo; Él te escucha.",
-      "Cada suspiro puede ser una oración.",
-      "Dios no exige palabras bonitas, solo un corazón sincero."
+      "Cercano está el Señor a los que le invocan.",
+      "Cuando no sepas qué decir, di: 'Aquí estoy, Señor'.",
+      "Habla con Dios como con un amigo; Él te escucha."
     ]
   },
   {
@@ -754,15 +682,10 @@ const categories = [
       { libro: "Salmos", capitulo: 37, versiculo: 3 }
     ],
     fraseEmpatica: [
-      "Amado, ruego que seas prosperado en todas las cosas y que tengas salud, así como prospera tu alma.",
+      "Amado, ruego que tengas salud en todas las cosas.",
       "Vuestro cuerpo es templo del Espíritu Santo.",
-      "Él sana a los quebrantados de corazón y venda sus heridas.",
-      "Yo soy el Señor, tu sanador.",
-      "La salud del cuerpo y del alma vienen de Dios.",
-      "Cuida tu cuerpo, porque es el sagrario donde habita Dios.",
-      "Una mente en paz es un cuerpo sano.",
-      "Dios te quiere completo: alma, mente y cuerpo.",
-      "Cada latido es un regalo divino.",
+      "Él sana a los quebrantados de corazón.",
+      "Cuida tu cuerpo, sagrario donde habita Dios.",
       "La verdadera salud es estar en armonía con tu Creador."
     ]
   },
@@ -805,15 +728,10 @@ const categories = [
       { libro: "Salmos", capitulo: 30, versiculo: 11 }
     ],
     fraseEmpatica: [
-      "El Espíritu del Señor está sobre mí… para sanar a los quebrantados de corazón.",
+      "El Espíritu del Señor está sobre mí… para sanar.",
       "Él restaura lo que el tiempo se llevó.",
       "Os restauraré los años que comió la oruga.",
-      "De modo que si alguno está en Cristo, nueva criatura es.",
-      "Os daré un corazón nuevo y pondré un espíritu nuevo dentro de vosotros.",
       "Tus cicatrices no te definen; son trofeos de batallas superadas.",
-      "Dios no solo olvida tus pecados, también sana sus consecuencias.",
-      "El pasado ya no tiene poder sobre ti; Él te ha liberado.",
-      "Deja que el amor divino llene cada grieta de tu historia.",
       "Eres libre, aunque aún no lo sientas. Camina en esa verdad."
     ]
   },
@@ -856,16 +774,11 @@ const categories = [
       { libro: "Santiago", capitulo: 5, versiculo: 16 }
     ],
     fraseEmpatica: [
-      "Si confesamos nuestros pecados, Él es fiel y justo para perdonar nuestros pecados.",
+      "Si confesamos nuestros pecados, Él es fiel para perdonar.",
       "Ten piedad de mí, oh Dios, conforme a tu gran amor.",
-      "El que encubre sus pecados no prosperará; mas el que los confiesa y se aparta alcanzará misericordia.",
-      "Venid luego, dice el Señor, y estemos a cuenta: aunque vuestros pecados sean como la grana, como la nieve serán emblanquecidos.",
-      "Los sacrificios de Dios son el espíritu quebrantado; al corazón contrito y humillado no desprecias tú, oh Dios.",
-      "No temas acercarte a Dios con tu culpa; Él ya la conocía y aun así te ama.",
-      "El arrepentimiento no es humillación, es la puerta hacia la libertad.",
-      "Cada confesión sincera borra una mancha y enciende una luz.",
-      "Dios no se cansa de perdonar; somos nosotros los que nos cansamos de pedir perdón.",
-      "Vuelve a casa. El Padre te espera con los brazos abiertos."
+      "Aunque vuestros pecados sean como la grana, serán emblanquecidos.",
+      "No temas acercarte a Dios con tu culpa.",
+      "El arrepentimiento es la puerta hacia la libertad."
     ]
   },
   {
@@ -907,15 +820,10 @@ const categories = [
       { libro: "Salmos", capitulo: 107, versiculo: 17 }
     ],
     fraseEmpatica: [
-      "Si perdonáis a otros sus ofensas, vuestro Padre celestial también os perdonará a vosotros.",
-      "Sed bondadosos y compasivos unos con otros, perdonándoos mutuamente.",
-      "Soportándoos unos a otros y perdonándoos si alguno tiene queja contra otro.",
+      "Si perdonáis a otros, vuestro Padre os perdonará.",
+      "Sed bondadosos y compasivos, perdonándoos mutuamente.",
       "No te digo hasta siete veces, sino hasta setenta veces siete.",
-      "Perdonad, y seréis perdonados.",
       "El perdón no justifica al ofensor, te libera a ti.",
-      "Perdonar es soltar el veneno que llevas dentro.",
-      "Dios te perdonó una deuda impagable; ¿no perdonarás tú la pequeña ofensa?",
-      "El perdón es el idioma del cielo.",
       "Padre, perdónalos, porque no saben lo que hacen."
     ]
   },
@@ -958,15 +866,10 @@ const categories = [
       { libro: "Apocalipsis", capitulo: 3, versiculo: 10 }
     ],
     fraseEmpatica: [
-      "No os ha sobrevenido ninguna tentación que no sea humana; pero fiel es Dios, que no os dejará ser tentados más de lo que podéis resistir.",
+      "No os ha sobrevenido ninguna tentación que no sea humana.",
       "Velad y orad para que no entréis en tentación.",
-      "Bienaventurado el hombre que soporta la tentación.",
-      "En mi corazón he guardado tus dichos para no pecar contra ti.",
       "Resistid al diablo y huirá de vosotros.",
-      "La tentación no es pecado; lo es ceder a ella. Hoy puedes vencer.",
-      "No estás solo en esta lucha; millones de ángeles pelean contigo.",
-      "Cada 'no' a la tentación es un 'sí' a la libertad.",
-      "Dios no te juzga por sentir la tentación, sino por cómo respondes a ella.",
+      "La tentación no es pecado; lo es ceder a ella.",
       "Eres más fuerte de lo que crees; el que está en ti es mayor."
     ]
   },
@@ -1010,14 +913,9 @@ const categories = [
     ],
     fraseEmpatica: [
       "Yo y mi casa serviremos al Señor.",
-      "Si el Señor no edifica la casa, en vano trabajan los que la edifican.",
-      "Instruye al niño en su camino, y aun cuando fuere viejo no se apartará de él.",
-      "Hijos, obedeced en el Señor a vuestros padres, porque esto es justo.",
-      "Tu esposa será como vid fecunda en el interior de tu casa.",
+      "Si el Señor no edifica la casa, en vano trabajan.",
+      "Instruye al niño en su camino.",
       "La familia es el primer templo donde aprendemos a amar.",
-      "Dios habita en medio de tu hogar; no hay rincón sin su presencia.",
-      "Cada comida en familia es una eucaristía cotidiana.",
-      "Ama a los tuyos como Cristo amó a su Iglesia: entregándose.",
       "Bendice, Señor, nuestro hogar y hazlo reflejo de tu amor."
     ]
   },
@@ -1060,16 +958,11 @@ const categories = [
       { libro: "Salmos", capitulo: 145, versiculo: 8 }
     ],
     fraseEmpatica: [
-      "Porque de tal manera amó Dios al mundo que ha dado a su Hijo unigénito.",
+      "Porque de tal manera amó Dios al mundo.",
       "Ni la muerte ni la vida podrán separarnos del amor de Dios.",
-      "En esto se mostró el amor de Dios para con nosotros: en que envió a su Hijo.",
       "Con amor eterno te he amado.",
-      "Dios es amor, y el que permanece en amor permanece en Dios.",
-      "Su amor no depende de lo que tú hagas, sino de quién es Él.",
-      "Eres amado sin condiciones, sin límites, sin fecha de caducidad.",
-      "Antes de que nacieras, Dios ya te amaba.",
-      "El amor divino no se gana; se recibe.",
-      "Dios te mira con ternura infinita, como un padre a su hijo pequeño."
+      "Dios es amor.",
+      "Eres amado sin condiciones, sin límites."
     ]
   },
   {
@@ -1113,14 +1006,9 @@ const categories = [
     fraseEmpatica: [
       "Amarás a tu prójimo como a ti mismo.",
       "Un mandamiento nuevo os doy: que os améis unos a otros.",
-      "El amor es paciente, es bondadoso. El amor no es envidioso.",
-      "Todo lo que hicisteis por uno de estos mis hermanos más pequeños, por mí lo hicisteis.",
-      "Sobrellevad los unos las cargas de los otros.",
-      "Cada acto de bondad es una semilla que florece en el cielo.",
-      "En el rostro del necesitado, Cristo te mira.",
-      "El amor no se dice, se demuestra.",
-      "Hoy puedes ser el ángel que alguien necesita.",
-      "Compartir es multiplicar la alegría."
+      "Todo lo que hicisteis por uno de mis hermanos, por mí lo hicisteis.",
+      "El amor es paciente, es bondadoso.",
+      "En el rostro del necesitado, Cristo te mira."
     ]
   },
   {
@@ -1162,15 +1050,10 @@ const categories = [
       { libro: "1 Tesalonicenses", capitulo: 5, versiculo: 11 }
     ],
     fraseEmpatica: [
-      "En todo tiempo ama el amigo, y es como un hermano en la adversidad.",
-      "Nadie tiene mayor amor que este, que uno ponga su vida por sus amigos.",
-      "Hay amigos que llevan a la ruina, pero hay amigos más fieles que un hermano.",
-      "Mejores son dos que uno, porque tienen mejor paga de su trabajo.",
-      "Hierro con hierro se aguza, y el hombre aguza el rostro de su amigo.",
-      "Un amigo fiel es un refugio seguro; quien lo encuentra, encuentra un tesoro.",
-      "La amistad verdadera es un rayo del amor de Dios en la tierra.",
-      "Cultiva tus amistades, son jardines que florecen en el desierto.",
-      "Un amigo no juzga tus caídas, sino que te ayuda a levantarte.",
+      "En todo tiempo ama el amigo.",
+      "Nadie tiene mayor amor que este.",
+      "Hay amigos más fieles que un hermano.",
+      "Un amigo fiel es un refugio seguro.",
       "Donde hay un amigo, hay un pedacito de cielo."
     ]
   },
@@ -1213,16 +1096,11 @@ const categories = [
       { libro: "Jonás", capitulo: 2, versiculo: 9 }
     ],
     fraseEmpatica: [
-      "Dad gracias en todo, porque esta es la voluntad de Dios.",
-      "Entrad por sus puertas con acción de gracias, por sus atrios con alabanza.",
+      "Dad gracias en todo.",
+      "Entrad por sus puertas con acción de gracias.",
       "Sed agradecidos.",
-      "Dad gracias al Señor, porque Él es bueno; para siempre es su misericordia.",
-      "Bendice, alma mía, al Señor, y no olvides ninguno de sus beneficios.",
-      "La gratitud es la memoria del corazón.",
-      "Cada pequeño don es una muestra del amor infinito de Dios.",
-      "Hoy es un buen día para contar bendiciones en lugar de penas.",
-      "El corazón agradecido atrae milagros.",
-      "Gracias, Señor, por el aire, por el sol, por la vida."
+      "Bendice, alma mía, al Señor.",
+      "La gratitud es la memoria del corazón."
     ]
   },
   {
@@ -1264,16 +1142,11 @@ const categories = [
       { libro: "Salmos", capitulo: 43, versiculo: 4 }
     ],
     fraseEmpatica: [
-      "Este es el día que hizo el Señor; nos gozaremos y alegraremos en él.",
-      "Regocijaos en el Señor siempre. Otra vez digo: ¡Regocijaos!",
+      "Este es el día que hizo el Señor; nos gozaremos en él.",
+      "Regocijaos en el Señor siempre.",
       "En tu presencia hay plenitud de gozo.",
       "El gozo del Señor es vuestra fortaleza.",
-      "Has cambiado mi lamento en baile.",
-      "La alegría es el idioma del cielo.",
-      "Dios baila de alegría cuando ve feliz a un hijo suyo.",
-      "El corazón alegre es una buena medicina.",
-      "Deja que la luz de Dios disipe cualquier sombra de tristeza.",
-      "Hoy el cielo se viste de fiesta contigo."
+      "La alegría es el idioma del cielo."
     ]
   },
   {
@@ -1315,16 +1188,11 @@ const categories = [
       { libro: "Filipenses", capitulo: 3, versiculo: 14 }
     ],
     fraseEmpatica: [
-      "Gozosos en la esperanza, pacientes en la tribulación, constantes en la oración.",
+      "Gozosos en la esperanza, pacientes en la tribulación.",
       "La paciencia produce carácter probado.",
-      "Guarda silencio ante el Señor y espera en Él con paciencia.",
-      "No os canséis de hacer el bien, porque a su tiempo segaréis.",
-      "El que persevere hasta el fin será salvo.",
-      "Dios nunca llega tarde; sus tiempos son perfectos.",
-      "La espera no es tiempo perdido, es tiempo de preparación.",
-      "Cada día de espera es un peldaño hacia tu bendición.",
-      "La paciencia es la llave que abre puertas invisibles.",
-      "Confía, respira, espera. Dios está obrando en silencio."
+      "Guarda silencio ante el Señor y espera en Él.",
+      "No os canséis de hacer el bien.",
+      "Dios nunca llega tarde; sus tiempos son perfectos."
     ]
   },
   {
@@ -1366,16 +1234,11 @@ const categories = [
       { libro: "Salmos", capitulo: 145, versiculo: 14 }
     ],
     fraseEmpatica: [
-      "El que se enaltece será humillado, y el que se humilla será enaltecido.",
+      "El que se enaltece será humillado.",
       "Humillaos delante del Señor y Él os exaltará.",
-      "El temor del Señor es enseñanza de sabiduría, y la humildad precede a la honra.",
-      "Oh hombre, Él te ha declarado lo que es bueno: hacer justicia, amar misericordia y humillarte ante tu Dios.",
       "Aprended de mí, que soy manso y humilde de corazón.",
       "La grandeza ante Dios se mide por la pequeñez ante los hombres.",
-      "Ser humilde no es pensar menos de ti, sino pensar menos en ti.",
-      "Dios resiste a los soberbios, pero da gracia a los humildes.",
-      "En el silencio humilde, Dios susurra sus secretos.",
-      "El que se arrodilla ante Dios puede estar de pie ante cualquier hombre."
+      "Dios resiste a los soberbios, pero da gracia a los humildes."
     ]
   },
   {
@@ -1417,16 +1280,11 @@ const categories = [
       { libro: "Salmos", capitulo: 147, versiculo: 5 }
     ],
     fraseEmpatica: [
-      "Si alguno de vosotros tiene falta de sabiduría, pídala a Dios, el cual da a todos abundantemente.",
+      "Si alguno tiene falta de sabiduría, pídala a Dios.",
       "El principio de la sabiduría es el temor del Señor.",
-      "Sabiduría ante todo; adquiere sabiduría, y sobre todas tus posesiones adquiere inteligencia.",
-      "Lámpara es a mis pies tu palabra y lumbrera a mi camino.",
-      "Enséñanos a contar nuestros días de tal manera que traigamos al corazón sabiduría.",
-      "La verdadera sabiduría no está en saber mucho, sino en amar mucho.",
-      "Dios no te pide que tengas todas las respuestas, solo que confíes en quien las tiene.",
-      "Ante una decisión difícil, cierra los ojos y pregunta: ¿qué haría el amor?",
-      "El discernimiento es la brújula del alma.",
-      "Más vale un gramo de sabiduría divina que una tonelada de inteligencia humana."
+      "Sabiduría ante todo; adquiere sabiduría.",
+      "Lámpara es a mis pies tu palabra.",
+      "La verdadera sabiduría no está en saber mucho, sino en amar mucho."
     ]
   },
   {
@@ -1468,15 +1326,10 @@ const categories = [
       { libro: "Salmos", capitulo: 128, versiculo: 1 }
     ],
     fraseEmpatica: [
-      "Todo lo que hagáis, hacedlo de corazón, como para el Señor.",
-      "Encomienda al Señor tus obras, y tus pensamientos serán afirmados.",
-      "Confirma, Señor, la obra de nuestras manos.",
-      "El que no trabaja, que no coma.",
+      "Todo lo que hagáis, hacedlo de corazón.",
+      "Encomienda al Señor tus obras.",
       "El trabajo es un don, no un castigo.",
-      "Dios es el mejor jefe que puedas tener; confía en sus tiempos.",
-      "Cada labor, por humilde que parezca, es un escalón hacia tu propósito.",
-      "No te desanimes si hoy no ves fruto; la cosecha llegará.",
-      "Dios proveerá el pan, pero quiere que amases la harina.",
+      "Dios es el mejor jefe que puedas tener.",
       "Bienaventurado el que come del trabajo de sus manos."
     ]
   },
@@ -1521,14 +1374,9 @@ const categories = [
     fraseEmpatica: [
       "El principio de la sabiduría es el temor del Señor.",
       "Si alguno tiene falta de sabiduría, pídala a Dios.",
-      "Más que todos mis maestros he entendido, porque tus testimonios son mi meditación.",
-      "Procura con diligencia presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse.",
-      "Aún no ha llegado el examen final; confía en el Maestro.",
-      "Estudia con fe, porque el conocimiento sin amor de Dios es vacío.",
+      "Procura con diligencia presentarte aprobado.",
       "Dios te ha dado inteligencia; úsala para su gloria.",
-      "Ante un examen, respira y recuerda: no estás solo, el Espíritu Santo te guía.",
-      "La verdadera sabiduría es saber que todo lo bueno viene de Dios.",
-      "Hoy estudias; mañana enseñas. Todo es parte de su plan."
+      "Ante un examen, respira: no estás solo."
     ]
   },
   {
@@ -1570,16 +1418,11 @@ const categories = [
       { libro: "Proverbios", capitulo: 28, versiculo: 27 }
     ],
     fraseEmpatica: [
-      "Mi Dios proveerá a todas vuestras necesidades conforme a sus riquezas en gloria en Cristo Jesús.",
+      "Mi Dios proveerá a todas vuestras necesidades.",
       "El Señor es mi pastor, nada me falta.",
-      "Mirad las aves del cielo… ¿No valéis vosotros mucho más que ellas?",
       "Los que buscan al Señor no carecen de ningún bien.",
-      "Honra al Señor con tus bienes y tus graneros se llenarán.",
-      "Dios es tu proveedor, no solo de dinero, sino de paz en la escasez.",
-      "Cuando los recursos fallan, el milagro comienza.",
-      "No mires la cartera vacía; mira al dueño del oro y de la plata.",
-      "La providencia divina nunca llega tarde ni temprano; llega justo a tiempo.",
-      "Confía: el que alimenta a los pájaros no dejará morir de hambre a sus hijos."
+      "Dios es tu proveedor, no solo de dinero.",
+      "Confía: el que alimenta a los pájaros no te dejará."
     ]
   },
   {
@@ -1621,16 +1464,11 @@ const categories = [
       { libro: "Salmos", capitulo: 98, versiculo: 9 }
     ],
     fraseEmpatica: [
-      "Oh hombre, Él te ha declarado lo que es bueno: hacer justicia, amar misericordia y humillarte ante tu Dios.",
-      "Aprended a hacer el bien, buscad el derecho, socorred al agraviado, haced justicia al huérfano, amparad a la viuda.",
-      "Bienaventurados los que tienen hambre y sed de justicia, porque serán saciados.",
-      "El Señor ama la justicia y no abandona a sus fieles.",
+      "Hacer justicia, amar misericordia y humillarte ante tu Dios.",
+      "Bienaventurados los que tienen hambre y sed de justicia.",
+      "El Señor ama la justicia.",
       "Mía es la venganza, yo pagaré, dice el Señor.",
-      "La justicia humana falla; la divina nunca.",
-      "Dios es el defensor del pobre y del oprimido.",
-      "Aunque el mundo sea injusto, el Juez Supremo ve cada lágrima.",
-      "No te canses de luchar por lo justo; Dios pelea contigo.",
-      "La verdadera justicia comienza en un corazón que ama a Dios."
+      "Aunque el mundo sea injusto, el Juez Supremo ve cada lágrima."
     ]
   },
   {
@@ -1672,16 +1510,11 @@ const categories = [
       { libro: "Salmos", capitulo: 121, versiculo: 8 }
     ],
     fraseEmpatica: [
-      "Porque yo sé los planes que tengo para vosotros, planes de bien y no de mal, para daros un futuro y una esperanza.",
-      "El Dios de la esperanza os llene de todo gozo y paz en la fe.",
+      "Porque yo sé los planes que tengo para ti.",
+      "El Dios de la esperanza os llene de gozo y paz.",
       "Los que esperan en el Señor renovarán sus fuerzas.",
-      "Esta es mi porción, dice mi alma; por tanto, en Él esperaré.",
-      "He aquí que yo hago algo nuevo; brotará ahora, ¿no lo notáis?",
-      "Tu futuro es más brillante que tu pasado.",
-      "Dios no te ha traído hasta aquí para abandonarte.",
-      "Lo mejor está por venir.",
-      "Cada mañana es una página en blanco que Dios escribe contigo.",
-      "La esperanza cristiana no es un deseo, es una certeza."
+      "He aquí que yo hago algo nuevo.",
+      "Lo mejor está por venir."
     ]
   },
   {
@@ -1723,16 +1556,11 @@ const categories = [
       { libro: "Salmos", capitulo: 108, versiculo: 13 }
     ],
     fraseEmpatica: [
-      "Antes de formarte en el vientre te conocí, y antes que nacieras te santifiqué.",
-      "Somos hechura suya, creados en Cristo Jesús para buenas obras.",
+      "Antes de formarte en el vientre te conocí.",
+      "Somos hechura suya, creados para buenas obras.",
       "El Señor cumplirá su propósito en mí.",
-      "A los que aman a Dios, todas las cosas les ayudan a bien.",
-      "Heme aquí, envíame a mí.",
-      "No estás aquí por casualidad; Dios teje tu historia con hilos eternos.",
-      "Tu vida tiene un propósito que solo tú puedes cumplir.",
-      "Escucha el susurro divino que te llama por tu nombre.",
-      "No busques grandes señales; a veces la vocación es amar lo que haces.",
-      "Dios no te elige por tus capacidades, sino por tu disponibilidad."
+      "No estás aquí por casualidad.",
+      "Escucha el susurro divino que te llama por tu nombre."
     ]
   }
 ];
@@ -1742,24 +1570,17 @@ function detectarCategoria(texto) {
   const textoLower = texto.toLowerCase();
   let mejorCategoria = null;
   let maxCoincidencias = 0;
-
   for (const categoria of categories) {
     let coincidencias = 0;
     for (const keyword of categoria.keywords) {
-      if (textoLower.includes(keyword.toLowerCase())) {
-        coincidencias++;
-      }
+      if (textoLower.includes(keyword.toLowerCase())) coincidencias++;
     }
     if (coincidencias > maxCoincidencias) {
       maxCoincidencias = coincidencias;
       mejorCategoria = categoria;
     }
   }
-
-  if (!mejorCategoria) {
-    mejorCategoria = categories[Math.floor(Math.random() * categories.length)];
-  }
-
+  if (!mejorCategoria) mejorCategoria = categories[Math.floor(Math.random() * categories.length)];
   return mejorCategoria;
 }
 
@@ -1775,8 +1596,6 @@ function obtenerTextoVersiculo(referencia) {
         }
       }
     }
-  } catch (e) {
-    console.error("Error buscando versículo:", e);
-  }
+  } catch (e) { console.error(e); }
   return "El Señor es mi pastor, nada me falta.";
 }
