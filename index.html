@@ -128,7 +128,6 @@
         button:hover { background: rgba(212,175,55,0.4); transform:scale(1.02); }
         button.microfono { background: rgba(200,100,100,0.35); border-color: rgba(200,100,100,0.7); }
 
-        /* ===== CUADRO DE RESPUESTA UNIFICADO ===== */
         .respuesta {
             background: var(--resp-bg);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -350,54 +349,43 @@
     <script src="bible.js"></script>
     <script src="categories.js"></script>
     <script>
-        // ===== FUNCIONES AUXILIARES =====
-        function normalizarTexto(str) {
-            return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-        }
+        // ===== FUNCIONES AUXILIARES DE BÚSQUEDA =====
+        const soloLetras = str => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z]/g, '').toLowerCase();
+        const cacheLibros = {};
 
-        function obtenerTextoVersiculo(referencia) {
-            if (typeof bibleData === 'undefined') return 'Error: Biblia no cargada.';
-            
-            const refLibro = normalizarTexto(referencia.libro);
-            const refCap = referencia.capitulo.toString();
-            const refVer = referencia.versiculo.toString();
-
+        function buscarLibroEnBiblia(nombreLibro) {
+            if (cacheLibros[nombreLibro]) return cacheLibros[nombreLibro];
+            const nombreBuscado = soloLetras(nombreLibro);
             for (const testamento in bibleData) {
-                const resultado = buscarEnLibros(bibleData[testamento], refLibro, refCap, refVer);
-                if (resultado) return resultado;
-            }
-
-            // Variaciones: probar sin plural y con plural
-            const variantes = [];
-            if (refLibro.endsWith('s')) variantes.push(refLibro.slice(0, -1));
-            else variantes.push(refLibro + 's');
-            variantes.push(refLibro.charAt(0).toUpperCase() + refLibro.slice(1));
-
-            for (const testamento in bibleData) {
-                for (const variante of variantes) {
-                    const resultado = buscarEnLibros(bibleData[testamento], variante, refCap, refVer);
-                    if (resultado) return resultado;
-                }
-            }
-
-            console.warn(`❌ Libro no encontrado: ${referencia.libro}`);
-            return `[Libro no encontrado: ${referencia.libro}]`;
-        }
-
-        function buscarEnLibros(libros, nombreLibro, capitulo, versiculo) {
-            const nombreNormalizado = normalizarTexto(nombreLibro);
-            for (const clave in libros) {
-                if (normalizarTexto(clave) === nombreNormalizado) {
-                    const cap = libros[clave][capitulo];
-                    if (cap && cap[versiculo]) {
-                        return cap[versiculo];
-                    } else {
-                        console.warn(`⚠️ Capítulo/versículo no hallado: ${nombreLibro} ${capitulo}:${versiculo}`);
-                        return `[No encontrado: ${nombreLibro} ${capitulo}:${versiculo}]`;
+                const libros = bibleData[testamento];
+                for (const clave in libros) {
+                    if (soloLetras(clave) === nombreBuscado) {
+                        cacheLibros[nombreLibro] = libros[clave];
+                        return libros[clave];
                     }
                 }
             }
             return null;
+        }
+
+        function obtenerTextoVersiculo(referencia) {
+            if (typeof bibleData === 'undefined') return 'Error: Biblia no cargada.';
+            const libroData = buscarLibroEnBiblia(referencia.libro);
+            if (!libroData) {
+                console.warn(`❌ Libro no encontrado: ${referencia.libro}`);
+                return `[Libro no encontrado: ${referencia.libro}]`;
+            }
+            const cap = libroData[referencia.capitulo.toString()];
+            if (!cap) {
+                console.warn(`⚠️ Capítulo no encontrado: ${referencia.libro} ${referencia.capitulo}`);
+                return `[Capítulo no encontrado: ${referencia.libro} ${referencia.capitulo}]`;
+            }
+            const ver = cap[referencia.versiculo.toString()];
+            if (!ver) {
+                console.warn(`⚠️ Versículo no encontrado: ${referencia.libro} ${referencia.capitulo}:${referencia.versiculo}`);
+                return `[Versículo no encontrado: ${referencia.libro} ${referencia.capitulo}:${referencia.versiculo}]`;
+            }
+            return ver;
         }
 
         // ===== NAVEGACIÓN =====
