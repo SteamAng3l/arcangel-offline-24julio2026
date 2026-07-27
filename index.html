@@ -6,56 +6,63 @@
     <title>Arcángel – Guía y Mensajero de la Palabra</title>
     <!-- Tipografía bíblica -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Iconos minimalistas (Material Icons) -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
             --dorado: #d4af37;
             --purpura-oscuro: #2e1a2b;
-            --purpura-medio: #4a2c4e;
             --crema: #f5e9d8;
-            --blanco-roto: #fdfaf3;
-            --texto-oscuro: #3e2c1f;
-            --panel-bg: rgba(46, 26, 43, 0.7);
-            --panel-bg-claro: rgba(255, 250, 240, 0.7);
+            --bg-body: #1a0f0f;
+            --bg-panel: rgba(46, 26, 43, 0.7);
+            --text-color: #f5e9d8;
+            --text-secondary: #e0d3b8;
+            --button-bg: rgba(212, 175, 55, 0.2);
+            --button-border: rgba(212, 175, 55, 0.6);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        body.modo-claro {
+            --bg-body: #fdfaf3;
+            --bg-panel: rgba(255, 250, 240, 0.85);
+            --text-color: #3e2c1f;
+            --text-secondary: #5a4a3a;
+            --button-bg: rgba(212, 175, 55, 0.3);
+            --button-border: rgba(180, 130, 20, 0.6);
+            --crema: #3e2c1f;
         }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
 
         body {
             font-family: 'Cinzel', 'Times New Roman', serif;
-            background: #1a0f0f url('assets/fondo-pared.jpg') no-repeat center center fixed;
+            background: var(--bg-body) url('assets/fondo-pared.jpg') no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
-            color: var(--crema);
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
             padding: 20px 10px 90px 10px;
             position: relative;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         body::before {
             content: '';
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-            z-index: -1;
+            position: fixed; top:0; left:0;
+            width:100%; height:100%;
+            background-color: rgba(0,0,0,0.4);
+            z-index:-1;
+        }
+        body.modo-claro::before {
+            background-color: rgba(255,255,240,0.3);
         }
 
-        .app-container {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-        }
+        .app-container { width:100%; max-width:500px; margin:0 auto; }
 
-        /* ===== PANELES ===== */
         .panel {
-            background: var(--panel-bg);
+            background: var(--bg-panel);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: 20px;
@@ -63,234 +70,123 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             text-align: center;
             margin-bottom: 15px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            border: 1px solid rgba(212,175,55,0.3);
         }
 
-        h1 {
-            font-size: 2.4rem;
-            margin-bottom: 0.2rem;
-            color: var(--dorado);
-            letter-spacing: 3px;
-        }
-
-        .subtitulo {
-            font-size: 1rem;
-            color: #e0d3b8;
-            margin-bottom: 1.5rem;
-            font-style: italic;
-        }
-
-        .frase-corazon {
-            font-size: 1.3rem;
-            margin-bottom: 1.2rem;
-            color: var(--crema);
-            font-weight: bold;
-        }
+        h1 { font-size:2.4rem; margin-bottom:0.2rem; color:var(--dorado); letter-spacing:3px; }
+        .subtitulo { font-size:1rem; color:var(--text-secondary); margin-bottom:1.5rem; font-style:italic; }
+        .frase-corazon { font-size:1.3rem; margin-bottom:1.2rem; font-weight:bold; }
 
         textarea {
-            width: 100%;
-            height: 80px;
-            padding: 0.8rem;
-            border: 1px solid rgba(212, 175, 55, 0.5);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--crema);
-            font-family: inherit;
-            font-size: 1rem;
-            resize: none;
-            outline: none;
-            margin-bottom: 0.8rem;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            width:100%; height:80px; padding:0.8rem;
+            border:1px solid rgba(212,175,55,0.5); border-radius:12px;
+            background: rgba(255,255,255,0.1); color:var(--text-color);
+            font-family:inherit; font-size:1rem; resize:none; outline:none;
+            margin-bottom:0.8rem;
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
         }
+        textarea::placeholder { color: #cbbfa5; }
 
-        textarea::placeholder {
-            color: #cbbfa5;
-        }
-
-        .botonera {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 0.8rem;
-        }
-
+        .botonera { display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:center; margin-bottom:0.8rem; }
         button {
-            background: rgba(212, 175, 55, 0.2);
-            border: 1px solid rgba(212, 175, 55, 0.6);
-            color: var(--crema);
-            padding: 0.6rem 1.2rem;
-            border-radius: 30px;
-            font-family: inherit;
-            font-size: 0.95rem;
-            cursor: pointer;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            background: var(--button-bg);
+            border:1px solid var(--button-border);
+            color: var(--text-color);
+            padding:0.6rem 1.2rem; border-radius:30px;
+            font-family:inherit; font-size:0.95rem; cursor:pointer;
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
             transition: background 0.3s, transform 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
+            display:inline-flex; align-items:center; gap:0.3rem;
         }
-
-        button:hover {
-            background: rgba(212, 175, 55, 0.4);
-            transform: scale(1.02);
-        }
-
-        button.microfono {
-            background: rgba(200, 100, 100, 0.35);
-            border-color: rgba(200, 100, 100, 0.7);
-        }
+        button:hover { background: rgba(212,175,55,0.4); transform:scale(1.02); }
+        button.microfono { background: rgba(200,100,100,0.35); border-color: rgba(200,100,100,0.7); }
 
         .respuesta {
-            background: rgba(20, 10, 5, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 15px;
-            padding: 1.2rem;
-            margin-top: 1rem;
-            text-align: left;
+            background: rgba(20,10,5,0.75);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-radius:15px; padding:1.2rem; margin-top:1rem; text-align:left;
         }
+        .respuesta .categoria-nombre { font-size:0.85rem; color:var(--dorado); margin-bottom:0.3rem; font-weight:bold; }
+        .versiculo-texto { font-size:1.15rem; margin-bottom:0.6rem; line-height:1.6; }
+        .versiculo-cita { font-weight:bold; color:var(--dorado); margin-bottom:0.4rem; }
+        .frase-empatica { font-style:italic; color:var(--text-secondary); margin-bottom:0.8rem; }
+        .acciones-versiculo { display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:0.5rem; }
+        .acciones-versiculo button { font-size:0.9rem; padding:0.4rem 1rem; background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.3); }
 
-        .versiculo-texto {
-            font-size: 1.15rem;
-            margin-bottom: 0.6rem;
-            line-height: 1.6;
+        /* ===== MODAL FLOTANTE ===== */
+        .modal-overlay {
+            position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.7); display:none;
+            justify-content:center; align-items:center; z-index:300;
         }
-
-        .versiculo-cita {
-            font-weight: bold;
-            color: var(--dorado);
-            margin-bottom: 0.4rem;
+        .modal-overlay.activo { display:flex; }
+        .modal-contenido {
+            background: var(--bg-panel);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-radius:20px; padding:1.5rem;
+            max-width:90%; width:400px;
+            border:1px solid var(--dorado);
+            text-align:left;
         }
-
-        .frase-empatica {
-            font-style: italic;
-            color: #e0d3b8;
-            margin-bottom: 0.8rem;
-        }
-
-        .acciones-versiculo {
-            display: flex;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-            margin-top: 0.5rem;
-        }
-
-        .acciones-versiculo button {
-            font-size: 0.9rem;
-            padding: 0.4rem 1rem;
-            background: rgba(255,255,255,0.15);
-            border-color: rgba(255,255,255,0.3);
+        .modal-contenido .cerrar-modal {
+            position:absolute; top:10px; right:15px; background:transparent; border:none;
+            color:var(--dorado); font-size:1.5rem; cursor:pointer;
         }
 
         /* ===== NAVEGACIÓN INFERIOR ===== */
         .navbar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(30, 10, 20, 0.85);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0.7rem 0;
-            border-top: 1px solid rgba(212, 175, 55, 0.5);
-            z-index: 100;
+            position:fixed; bottom:0; left:0; width:100%;
+            background:rgba(30,10,20,0.85); backdrop-filter:blur(15px);
+            -webkit-backdrop-filter:blur(15px);
+            display:flex; justify-content:space-around; align-items:center;
+            padding:0.7rem 0; border-top:1px solid rgba(212,175,55,0.5); z-index:100;
         }
-
         .navbar button {
-            background: transparent;
-            border: none;
-            color: #cbbfa5;
-            font-size: 1.1rem;
-            flex-direction: column;
-            gap: 0.2rem;
-            padding: 0.3rem 0.8rem;
-            border-radius: 12px;
+            background:transparent; border:none; color:#cbbfa5;
+            font-size:0.9rem; flex-direction:column; gap:0.2rem;
+            padding:0.3rem 0.8rem; border-radius:12px;
         }
-
-        .navbar button.activo {
-            color: var(--dorado);
-            background: rgba(212, 175, 55, 0.2);
-        }
-
-        .navbar button span {
-            font-size: 0.75rem;
-        }
+        .navbar button.activo { color:var(--dorado); background:rgba(212,175,55,0.2); }
+        .navbar button .material-icons { font-size:1.4rem; }
 
         /* ===== PÁGINAS ===== */
-        .pagina {
-            display: none;
-        }
+        .pagina { display:none; }
+        .pagina.activa { display:block; }
 
-        .pagina.activa {
-            display: block;
-        }
-
-        /* Categorías */
+        /* Categorías grid */
         .categorias-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-top: 1rem;
+            display:grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap:0.5rem;
+            justify-items: stretch;
+            margin-top:1rem;
         }
-
         .categoria-btn {
-            background: rgba(212, 175, 55, 0.15);
-            border: 1px solid rgba(212, 175, 55, 0.5);
-            color: var(--crema);
-            padding: 0.5rem 0.8rem;
-            border-radius: 25px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: background 0.3s;
+            background:var(--button-bg); border:1px solid var(--button-border);
+            color:var(--text-color); padding:0.5rem; border-radius:15px;
+            font-size:0.85rem; cursor:pointer; transition:background 0.3s;
+            text-align:center;
         }
-
-        .categoria-btn:hover {
-            background: rgba(212, 175, 55, 0.35);
-        }
+        .categoria-btn:hover { background:rgba(212,175,55,0.35); }
 
         /* Favoritos */
         .favorito-item {
-            background: rgba(255,255,240,0.1);
-            border-radius: 12px;
-            padding: 0.8rem;
-            margin-bottom: 0.6rem;
-            text-align: left;
-            position: relative;
+            background:rgba(255,255,240,0.1); border-radius:12px;
+            padding:0.8rem; margin-bottom:0.6rem; text-align:left; position:relative;
         }
-
-        .favorito-item .eliminar-fav {
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            background: transparent;
-            border: none;
-            color: #e0d3b8;
-            font-size: 1.2rem;
-            cursor: pointer;
+        .eliminar-fav {
+            position:absolute; top:5px; right:10px; background:transparent;
+            border:none; color:#e0d3b8; font-size:1.2rem; cursor:pointer;
         }
+        .no-favoritos { font-style:italic; color:#cbbfa5; margin-top:1.5rem; }
 
-        .no-favoritos {
-            font-style: italic;
-            color: #cbbfa5;
-            margin-top: 1.5rem;
-        }
-
-        /* ===== MODO CLARO/OSCURO ===== */
+        /* Modo toggle */
         .modo-toggle {
-            position: fixed;
-            top: 15px;
-            right: 20px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 200;
+            position:fixed; top:15px; right:20px; font-size:1.5rem; cursor:pointer; z-index:200;
         }
+
+        /* Compartir imagen – canvas oculto */
+        #canvasCompartir { display:none; }
     </style>
 </head>
 <body>
@@ -305,28 +201,24 @@
                 <h1>Arcángel</h1>
                 <p class="subtitulo">Guía y Mensajero de la Palabra</p>
                 <p class="frase-corazon">¿Qué hay en tu corazón hoy?</p>
-
-                <textarea id="inputSentimiento" placeholder="Escribe cómo te sientes, tus preocupaciones o tus miedos..."></textarea>
-
+                <textarea id="inputSentimiento" placeholder="Escribe cómo te sientes..."></textarea>
                 <div class="botonera">
                     <button class="microfono" id="botonHablar"
-                            onmousedown="iniciarDictado()"
-                            onmouseup="detenerDictado()"
-                            ontouchstart="iniciarDictado()"
-                            ontouchend="detenerDictado()">
-                        🎤 Háblame
+                            onmousedown="iniciarDictado()" onmouseup="detenerDictado()"
+                            ontouchstart="iniciarDictado()" ontouchend="detenerDictado()">
+                        <i class="material-icons">mic</i> Háblame
                     </button>
-                    <button onclick="buscarVersiculo()">🔍 Buscar versículo</button>
-                    <button onclick="versiculoAleatorio()">✝️ Versículo aleatorio</button>
+                    <button onclick="buscarVersiculo()"><i class="material-icons">search</i> Buscar</button>
+                    <button onclick="versiculoAleatorio()">✝️ Aleatorio</button>
                 </div>
-
                 <div id="respuestaBox" class="respuesta" style="display:none;">
+                    <div class="categoria-nombre" id="categoriaNombreInicio"></div>
                     <div class="versiculo-texto" id="textoVersiculo"></div>
                     <div class="versiculo-cita" id="citaVersiculo"></div>
                     <div class="frase-empatica" id="fraseEmpatica"></div>
                     <div class="acciones-versiculo">
-                        <button onclick="guardarFavorito()">❤️ Guardar</button>
-                        <button onclick="compartirImagen()">📤 Compartir</button>
+                        <button onclick="guardarFavorito()"><i class="material-icons">star</i> Guardar</button>
+                        <button onclick="compartirImagen()"><i class="material-icons">share</i> Compartir</button>
                     </div>
                 </div>
             </div>
@@ -337,10 +229,21 @@
             <div class="panel">
                 <h2 style="color:var(--dorado); margin-bottom:1rem;">Categorías</h2>
                 <div class="categorias-grid" id="categoriasContainer"></div>
-                <div id="respuestaCategoria" class="respuesta" style="display:none; margin-top:1rem;">
-                    <div class="versiculo-texto" id="textoVersiculoCat"></div>
-                    <div class="versiculo-cita" id="citaVersiculoCat"></div>
-                    <div class="frase-empatica" id="fraseEmpaticaCat"></div>
+            </div>
+        </div>
+
+        <!-- MODAL FLOTANTE PARA CATEGORÍAS -->
+        <div class="modal-overlay" id="modalCategoria">
+            <div class="modal-contenido">
+                <button class="cerrar-modal" onclick="cerrarModal()">&times;</button>
+                <div class="categoria-nombre" id="categoriaNombreModal"></div>
+                <div class="versiculo-texto" id="textoVersiculoModal"></div>
+                <div class="versiculo-cita" id="citaVersiculoModal"></div>
+                <div class="frase-empatica" id="fraseEmpaticaModal"></div>
+                <div class="acciones-versiculo">
+                    <button onclick="nuevoVersiculoCategoria()"><i class="material-icons">refresh</i> Nuevo versículo</button>
+                    <button onclick="guardarFavoritoDesdeModal()"><i class="material-icons">star</i> Guardar</button>
+                    <button onclick="compartirDesdeModal()"><i class="material-icons">share</i> Compartir</button>
                 </div>
             </div>
         </div>
@@ -359,48 +262,87 @@
     <!-- BARRA DE NAVEGACIÓN -->
     <div class="navbar">
         <button id="navInicio" class="activo" onclick="cambiarPagina('inicio')">
-            🏠 <span>Inicio</span>
+            <i class="material-icons">home</i> <span>Inicio</span>
         </button>
         <button id="navCategorias" onclick="cambiarPagina('categorias')">
-            📂 <span>Categorías</span>
+            <i class="material-icons">category</i> <span>Categorías</span>
         </button>
         <button id="navFavoritos" onclick="cambiarPagina('favoritos')">
-            ⭐ <span>Favoritos</span>
+            <i class="material-icons">star</i> <span>Favoritos</span>
         </button>
     </div>
+
+    <!-- Canvas oculto para compartir -->
+    <canvas id="canvasCompartir" width="800" height="800"></canvas>
 
     <script src="bible.js"></script>
     <script src="categories.js"></script>
     <script>
-        // ===== LÓGICA DE NAVEGACIÓN =====
+        // ===== NAVEGACIÓN =====
         function cambiarPagina(pagina) {
-            // Ocultar todas
-            document.getElementById('paginaInicio').classList.remove('activa');
-            document.getElementById('paginaCategorias').classList.remove('activa');
-            document.getElementById('paginaFavoritos').classList.remove('activa');
-            // Mostrar seleccionada
+            document.querySelectorAll('.pagina').forEach(p => p.classList.remove('activa'));
             document.getElementById('pagina' + pagina.charAt(0).toUpperCase() + pagina.slice(1)).classList.add('activa');
-            // Actualizar nav
-            document.getElementById('navInicio').classList.remove('activo');
-            document.getElementById('navCategorias').classList.remove('activo');
-            document.getElementById('navFavoritos').classList.remove('activo');
+            document.querySelectorAll('.navbar button').forEach(b => b.classList.remove('activo'));
             document.getElementById('nav' + pagina.charAt(0).toUpperCase() + pagina.slice(1)).classList.add('activo');
             if (pagina === 'categorias') cargarCategorias();
             if (pagina === 'favoritos') cargarFavoritos();
         }
 
         // ===== MODO CLARO/OSCURO =====
-        let modoOscuro = true;
         function toggleModo() {
-            modoOscuro = !modoOscuro;
-            document.querySelector('.modo-toggle').textContent = modoOscuro ? '🌙' : '☀️';
-            // Lógica de colores (simplificada)
+            document.body.classList.toggle('modo-claro');
+            const icono = document.querySelector('.modo-toggle');
+            icono.textContent = document.body.classList.contains('modo-claro') ? '☀️' : '🌙';
         }
 
-        // ===== BÚSQUEDA Y RESPUESTA =====
+        // ===== CATEGORÍAS =====
+        function cargarCategorias() {
+            const container = document.getElementById('categoriasContainer');
+            container.innerHTML = '';
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'categoria-btn';
+                btn.textContent = cat.nombre;
+                btn.onclick = () => abrirModalCategoria(cat);
+                container.appendChild(btn);
+            });
+        }
+
+        let categoriaActualModal = null;
+
+        function abrirModalCategoria(categoria) {
+            categoriaActualModal = categoria;
+            document.getElementById('modalCategoria').classList.add('activo');
+            mostrarResultadoEnModal(categoria);
+        }
+
+        function cerrarModal() {
+            document.getElementById('modalCategoria').classList.remove('activo');
+        }
+
+        function mostrarResultadoEnModal(categoria) {
+            const ref = obtenerVersiculoUnico(categoria);
+            const texto = obtenerTextoVersiculo(ref);
+            const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
+            const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
+            document.getElementById('categoriaNombreModal').textContent = categoria.nombre;
+            document.getElementById('textoVersiculoModal').textContent = `“${texto}”`;
+            document.getElementById('citaVersiculoModal').textContent = `— ${cita}`;
+            document.getElementById('fraseEmpaticaModal').textContent = frase;
+            versiculoActual = { texto, cita, categoria: categoria.nombre };
+        }
+
+        function nuevoVersiculoCategoria() {
+            if (categoriaActualModal) mostrarResultadoEnModal(categoriaActualModal);
+        }
+
+        function guardarFavoritoDesdeModal() { guardarFavorito(); }
+        function compartirDesdeModal() { compartirImagen(); }
+
+        // ===== BÚSQUEDA PRINCIPAL =====
         let ultimosVersiculos = [];
         const MAX_HISTORIAL = 5;
-        let versiculoActual = null; // Para guardar en favoritos / compartir
+        let versiculoActual = null;
 
         function obtenerVersiculoUnico(categoria) {
             const disponibles = categoria.referencias.filter(ref => {
@@ -422,51 +364,35 @@
             const sentimiento = document.getElementById('inputSentimiento').value.trim();
             if (!sentimiento) return;
             const categoria = detectarCategoria(sentimiento);
-            mostrarResultado(categoria, 'respuestaBox', 'textoVersiculo', 'citaVersiculo', 'fraseEmpatica');
+            mostrarResultadoInicio(categoria);
         }
 
         function versiculoAleatorio() {
             const categoria = categories[Math.floor(Math.random() * categories.length)];
             document.getElementById('inputSentimiento').value = '';
-            mostrarResultado(categoria, 'respuestaBox', 'textoVersiculo', 'citaVersiculo', 'fraseEmpatica');
+            mostrarResultadoInicio(categoria);
         }
 
-        function mostrarResultado(categoria, boxId, textoId, citaId, fraseId) {
+        function mostrarResultadoInicio(categoria) {
             const ref = obtenerVersiculoUnico(categoria);
             const texto = obtenerTextoVersiculo(ref);
             const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
             const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
-            document.getElementById(boxId).style.display = 'block';
-            document.getElementById(textoId).textContent = `“${texto}”`;
-            document.getElementById(citaId).textContent = `— ${cita}`;
-            document.getElementById(fraseId).textContent = frase;
-            // Guardar versículo actual para favoritos/compartir
+            document.getElementById('respuestaBox').style.display = 'block';
+            document.getElementById('categoriaNombreInicio').textContent = categoria.nombre;
+            document.getElementById('textoVersiculo').textContent = `“${texto}”`;
+            document.getElementById('citaVersiculo').textContent = `— ${cita}`;
+            document.getElementById('fraseEmpatica').textContent = frase;
             versiculoActual = { texto, cita, categoria: categoria.nombre };
-        }
-
-        // ===== CATEGORÍAS =====
-        function cargarCategorias() {
-            const container = document.getElementById('categoriasContainer');
-            container.innerHTML = '';
-            categories.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.className = 'categoria-btn';
-                btn.textContent = cat.nombre;
-                btn.onclick = () => {
-                    mostrarResultado(cat, 'respuestaCategoria', 'textoVersiculoCat', 'citaVersiculoCat', 'fraseEmpaticaCat');
-                };
-                container.appendChild(btn);
-            });
         }
 
         // ===== FAVORITOS =====
         function guardarFavorito() {
             if (!versiculoActual) return;
             let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
-            // Evitar duplicados exactos
             const yaExiste = favoritos.some(f => f.texto === versiculoActual.texto && f.cita === versiculoActual.cita);
             if (!yaExiste) {
-                favoritos.unshift(versiculoActual); // añadir al principio
+                favoritos.unshift(versiculoActual);
                 localStorage.setItem('arcangelFavs', JSON.stringify(favoritos));
                 alert('Versículo guardado en favoritos ⭐');
             } else {
@@ -486,10 +412,10 @@
             noMsg.style.display = 'none';
             lista.innerHTML = favoritos.map((fav, index) => `
                 <div class="favorito-item">
-                    <button class="eliminar-fav" onclick="eliminarFavorito(${index})">✕</button>
+                    <button class="eliminar-fav" onclick="eliminarFavorito(${index})">&times;</button>
+                    <div class="categoria-nombre" style="color:var(--dorado);">${fav.categoria || ''}</div>
                     <div class="versiculo-texto">“${fav.texto}”</div>
                     <div class="versiculo-cita">— ${fav.cita}</div>
-                    <div style="font-size:0.8rem; color:#d4af37;">${fav.categoria || ''}</div>
                 </div>
             `).join('');
         }
@@ -501,43 +427,40 @@
             cargarFavoritos();
         }
 
-        // ===== COMPARTIR COMO IMAGEN =====
+        // ===== COMPARTIR IMAGEN MEJORADA =====
         function compartirImagen() {
             if (!versiculoActual) return;
-            const canvas = document.createElement('canvas');
-            canvas.width = 800;
-            canvas.height = 800;
+            const canvas = document.getElementById('canvasCompartir');
             const ctx = canvas.getContext('2d');
-            // Fondo (color sólido púrpura oscuro)
-            ctx.fillStyle = '#2e1a2b';
+            // Fondo claro con textura simulada
+            ctx.fillStyle = '#fdfaf3';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            // Podríamos cargar la imagen de fondo, pero para simplificar usamos un degradado
-            const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            grad.addColorStop(0, '#3a2742');
-            grad.addColorStop(1, '#1e1022');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            // Texto del versículo
-            ctx.fillStyle = '#f5e9d8';
-            ctx.font = 'bold 32px "Cinzel", "Times New Roman", serif';
+            // Borde dorado
+            ctx.strokeStyle = '#d4af37';
+            ctx.lineWidth = 20;
+            ctx.strokeRect(10, 10, canvas.width-20, canvas.height-20);
+            // Texto
+            ctx.fillStyle = '#3e2c1f';
+            ctx.font = 'bold 30px "Cinzel", "Times New Roman", serif';
             ctx.textAlign = 'center';
             wrapText(ctx, `“${versiculoActual.texto}”`, canvas.width/2, 250, 600, 38);
-            // Cita
             ctx.fillStyle = '#d4af37';
-            ctx.font = '28px "Cinzel", serif';
-            ctx.fillText(`— ${versiculoActual.cita}`, canvas.width/2, 500);
-            // Pie
-            ctx.fillStyle = '#cbbfa5';
+            ctx.font = '26px "Cinzel", serif';
+            ctx.fillText(`— ${versiculoActual.cita}`, canvas.width/2, 480);
+            ctx.fillStyle = '#5a4a3a';
             ctx.font = '20px Arial';
             ctx.fillText('Arcángel App', canvas.width/2, 650);
             // Descargar
-            const link = document.createElement('a');
-            link.download = 'versiculo-arcangel.png';
-            link.href = canvas.toDataURL();
-            link.click();
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'versiculo-arcangel.png';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
         }
 
-        // Función para ajustar texto a varias líneas en canvas
         function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
             const words = text.split(' ');
             let line = '';
@@ -557,28 +480,22 @@
             ctx.fillText(line, x, lineY);
         }
 
-        // ===== BOTÓN DE VOZ (HÁBLAME) =====
+        // ===== BOTÓN DE VOZ =====
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition = null;
-        let botonHablar = null;
         let estaGrabando = false;
-
         window.addEventListener('DOMContentLoaded', () => {
-            botonHablar = document.getElementById('botonHablar');
+            const botonHablar = document.getElementById('botonHablar');
             if (SpeechRecognition) {
                 recognition = new SpeechRecognition();
                 recognition.lang = 'es-MX';
                 recognition.interimResults = false;
                 recognition.continuous = false;
                 recognition.maxAlternatives = 1;
-
                 recognition.onstart = () => {
                     estaGrabando = true;
-                    if (botonHablar) {
-                        botonHablar.style.background = 'rgba(200, 50, 50, 0.7)';
-                        botonHablar.style.transform = 'scale(1.05)';
-                        botonHablar.textContent = '🎤 Escuchando...';
-                    }
+                    botonHablar.style.background = 'rgba(200,50,50,0.7)';
+                    botonHablar.innerHTML = '<i class="material-icons">mic</i> Escuchando...';
                 };
                 recognition.onresult = (event) => {
                     const texto = event.results[0][0].transcript.trim();
@@ -588,18 +505,15 @@
                     }
                 };
                 recognition.onerror = (event) => {
-                    console.error('Error voz:', event.error);
                     restaurarBoton();
                     if (event.error === 'not-allowed') alert('Permiso de micrófono denegado.');
                     else if (event.error === 'no-speech') alert('No se detectó voz.');
                 };
                 recognition.onend = restaurarBoton;
             } else {
-                if (botonHablar) {
-                    botonHablar.style.opacity = '0.5';
-                    botonHablar.title = 'Reconocimiento de voz no soportado';
-                    botonHablar.disabled = true;
-                }
+                botonHablar.style.opacity = '0.5';
+                botonHablar.title = 'Reconocimiento de voz no soportado';
+                botonHablar.disabled = true;
             }
         });
 
@@ -616,10 +530,10 @@
         }
         function restaurarBoton() {
             estaGrabando = false;
+            const botonHablar = document.getElementById('botonHablar');
             if (botonHablar) {
-                botonHablar.style.background = 'rgba(200, 100, 100, 0.35)';
-                botonHablar.style.transform = 'scale(1)';
-                botonHablar.textContent = '🎤 Háblame';
+                botonHablar.style.background = 'rgba(200,100,100,0.35)';
+                botonHablar.innerHTML = '<i class="material-icons">mic</i> Háblame';
             }
         }
     </script>
