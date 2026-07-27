@@ -7,6 +7,17 @@
     <!-- Tipografía bíblica -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --dorado: #d4af37;
+            --purpura-oscuro: #2e1a2b;
+            --purpura-medio: #4a2c4e;
+            --crema: #f5e9d8;
+            --blanco-roto: #fdfaf3;
+            --texto-oscuro: #3e2c1f;
+            --panel-bg: rgba(46, 26, 43, 0.7);
+            --panel-bg-claro: rgba(255, 250, 240, 0.7);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -18,11 +29,12 @@
             background: #1a0f0f url('assets/fondo-pared.jpg') no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
+            color: var(--crema);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            color: #f5e9d8;
+            justify-content: flex-start;
+            padding: 20px 10px 90px 10px;
             position: relative;
         }
 
@@ -31,40 +43,47 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.35);
+            background-color: rgba(0, 0, 0, 0.4);
             z-index: -1;
         }
 
-        .panel {
-            background: rgba(60, 30, 20, 0.65);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 20px;
-            padding: 2rem 1.5rem;
-            width: 90%;
+        .app-container {
+            width: 100%;
             max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* ===== PANELES ===== */
+        .panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.8rem 1.5rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             text-align: center;
+            margin-bottom: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.3rem;
-            letter-spacing: 2px;
-            color: #d4af37;
+            font-size: 2.4rem;
+            margin-bottom: 0.2rem;
+            color: var(--dorado);
+            letter-spacing: 3px;
         }
 
         .subtitulo {
             font-size: 1rem;
-            margin-bottom: 2rem;
             color: #e0d3b8;
+            margin-bottom: 1.5rem;
             font-style: italic;
         }
 
         .frase-corazon {
-            font-size: 1.4rem;
-            margin-bottom: 1.5rem;
-            color: #f5e9d8;
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+            color: var(--crema);
             font-weight: bold;
         }
 
@@ -72,10 +91,10 @@
             width: 100%;
             height: 80px;
             padding: 0.8rem;
-            border: none;
+            border: 1px solid rgba(212, 175, 55, 0.5);
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.15);
-            color: #f5e9d8;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--crema);
             font-family: inherit;
             font-size: 1rem;
             resize: none;
@@ -94,21 +113,24 @@
             gap: 0.5rem;
             flex-wrap: wrap;
             justify-content: center;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
 
         button {
             background: rgba(212, 175, 55, 0.2);
-            border: 1px solid rgba(212, 175, 55, 0.5);
-            color: #f5e9d8;
-            padding: 0.7rem 1.2rem;
+            border: 1px solid rgba(212, 175, 55, 0.6);
+            color: var(--crema);
+            padding: 0.6rem 1.2rem;
             border-radius: 30px;
             font-family: inherit;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             transition: background 0.3s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
         }
 
         button:hover {
@@ -117,50 +139,157 @@
         }
 
         button.microfono {
-            background: rgba(200, 100, 100, 0.3);
-            border-color: rgba(200, 100, 100, 0.6);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
+            background: rgba(200, 100, 100, 0.35);
+            border-color: rgba(200, 100, 100, 0.7);
         }
 
         .respuesta {
-            background: rgba(20, 10, 5, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(20, 10, 5, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 15px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            display: none;
-        }
-
-        .respuesta.activo {
-            display: block;
+            padding: 1.2rem;
+            margin-top: 1rem;
+            text-align: left;
         }
 
         .versiculo-texto {
-            font-size: 1.2rem;
-            margin-bottom: 0.8rem;
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
             line-height: 1.6;
         }
 
         .versiculo-cita {
             font-weight: bold;
-            color: #d4af37;
+            color: var(--dorado);
+            margin-bottom: 0.4rem;
         }
 
         .frase-empatica {
             font-style: italic;
             color: #e0d3b8;
-            margin-top: 0.8rem;
+            margin-bottom: 0.8rem;
         }
 
-        .modo-toggle {
+        .acciones-versiculo {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .acciones-versiculo button {
+            font-size: 0.9rem;
+            padding: 0.4rem 1rem;
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        /* ===== NAVEGACIÓN INFERIOR ===== */
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(30, 10, 20, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0.7rem 0;
+            border-top: 1px solid rgba(212, 175, 55, 0.5);
+            z-index: 100;
+        }
+
+        .navbar button {
+            background: transparent;
+            border: none;
+            color: #cbbfa5;
+            font-size: 1.1rem;
+            flex-direction: column;
+            gap: 0.2rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+        }
+
+        .navbar button.activo {
+            color: var(--dorado);
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        .navbar button span {
+            font-size: 0.75rem;
+        }
+
+        /* ===== PÁGINAS ===== */
+        .pagina {
+            display: none;
+        }
+
+        .pagina.activa {
+            display: block;
+        }
+
+        /* Categorías */
+        .categorias-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .categoria-btn {
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            color: var(--crema);
+            padding: 0.5rem 0.8rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .categoria-btn:hover {
+            background: rgba(212, 175, 55, 0.35);
+        }
+
+        /* Favoritos */
+        .favorito-item {
+            background: rgba(255,255,240,0.1);
+            border-radius: 12px;
+            padding: 0.8rem;
+            margin-bottom: 0.6rem;
+            text-align: left;
+            position: relative;
+        }
+
+        .favorito-item .eliminar-fav {
             position: absolute;
+            top: 5px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: #e0d3b8;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .no-favoritos {
+            font-style: italic;
+            color: #cbbfa5;
+            margin-top: 1.5rem;
+        }
+
+        /* ===== MODO CLARO/OSCURO ===== */
+        .modo-toggle {
+            position: fixed;
             top: 15px;
             right: 20px;
             font-size: 1.5rem;
             cursor: pointer;
+            z-index: 200;
         }
     </style>
 </head>
@@ -168,44 +297,110 @@
 
     <div class="modo-toggle" onclick="toggleModo()">🌙</div>
 
-    <div class="panel">
-        <h1>Arcángel</h1>
-        <p class="subtitulo">Guía y Mensajero de la Palabra</p>
-        <p class="frase-corazon">¿Qué hay en tu corazón hoy?</p>
+    <div class="app-container">
 
-        <textarea id="inputSentimiento" placeholder="Escribe cómo te sientes, tus preocupaciones o tus miedos..."></textarea>
+        <!-- PÁGINA INICIO -->
+        <div id="paginaInicio" class="pagina activa">
+            <div class="panel">
+                <h1>Arcángel</h1>
+                <p class="subtitulo">Guía y Mensajero de la Palabra</p>
+                <p class="frase-corazon">¿Qué hay en tu corazón hoy?</p>
 
-        <div class="botonera">
-            <button class="microfono" id="botonHablar"
-                    onmousedown="iniciarDictado()"
-                    onmouseup="detenerDictado()"
-                    ontouchstart="iniciarDictado()"
-                    ontouchend="detenerDictado()">
-                🎤 Háblame
-            </button>
-            <button onclick="buscarVersiculo()">🔍 Buscar versículo</button>
-            <button onclick="versiculoAleatorio()">✝️ Versículo aleatorio</button>
+                <textarea id="inputSentimiento" placeholder="Escribe cómo te sientes, tus preocupaciones o tus miedos..."></textarea>
+
+                <div class="botonera">
+                    <button class="microfono" id="botonHablar"
+                            onmousedown="iniciarDictado()"
+                            onmouseup="detenerDictado()"
+                            ontouchstart="iniciarDictado()"
+                            ontouchend="detenerDictado()">
+                        🎤 Háblame
+                    </button>
+                    <button onclick="buscarVersiculo()">🔍 Buscar versículo</button>
+                    <button onclick="versiculoAleatorio()">✝️ Versículo aleatorio</button>
+                </div>
+
+                <div id="respuestaBox" class="respuesta" style="display:none;">
+                    <div class="versiculo-texto" id="textoVersiculo"></div>
+                    <div class="versiculo-cita" id="citaVersiculo"></div>
+                    <div class="frase-empatica" id="fraseEmpatica"></div>
+                    <div class="acciones-versiculo">
+                        <button onclick="guardarFavorito()">❤️ Guardar</button>
+                        <button onclick="compartirImagen()">📤 Compartir</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div id="respuestaBox" class="respuesta">
-            <div class="versiculo-texto" id="textoVersiculo"></div>
-            <div class="versiculo-cita" id="citaVersiculo"></div>
-            <div class="frase-empatica" id="fraseEmpatica"></div>
+        <!-- PÁGINA CATEGORÍAS -->
+        <div id="paginaCategorias" class="pagina">
+            <div class="panel">
+                <h2 style="color:var(--dorado); margin-bottom:1rem;">Categorías</h2>
+                <div class="categorias-grid" id="categoriasContainer"></div>
+                <div id="respuestaCategoria" class="respuesta" style="display:none; margin-top:1rem;">
+                    <div class="versiculo-texto" id="textoVersiculoCat"></div>
+                    <div class="versiculo-cita" id="citaVersiculoCat"></div>
+                    <div class="frase-empatica" id="fraseEmpaticaCat"></div>
+                </div>
+            </div>
         </div>
+
+        <!-- PÁGINA FAVORITOS -->
+        <div id="paginaFavoritos" class="pagina">
+            <div class="panel">
+                <h2 style="color:var(--dorado); margin-bottom:1rem;">Mis Favoritos</h2>
+                <div id="listaFavoritos"></div>
+                <div class="no-favoritos" id="noFavoritosMsg">No tienes versículos guardados aún.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <div class="navbar">
+        <button id="navInicio" class="activo" onclick="cambiarPagina('inicio')">
+            🏠 <span>Inicio</span>
+        </button>
+        <button id="navCategorias" onclick="cambiarPagina('categorias')">
+            📂 <span>Categorías</span>
+        </button>
+        <button id="navFavoritos" onclick="cambiarPagina('favoritos')">
+            ⭐ <span>Favoritos</span>
+        </button>
     </div>
 
     <script src="bible.js"></script>
     <script src="categories.js"></script>
     <script>
+        // ===== LÓGICA DE NAVEGACIÓN =====
+        function cambiarPagina(pagina) {
+            // Ocultar todas
+            document.getElementById('paginaInicio').classList.remove('activa');
+            document.getElementById('paginaCategorias').classList.remove('activa');
+            document.getElementById('paginaFavoritos').classList.remove('activa');
+            // Mostrar seleccionada
+            document.getElementById('pagina' + pagina.charAt(0).toUpperCase() + pagina.slice(1)).classList.add('activa');
+            // Actualizar nav
+            document.getElementById('navInicio').classList.remove('activo');
+            document.getElementById('navCategorias').classList.remove('activo');
+            document.getElementById('navFavoritos').classList.remove('activo');
+            document.getElementById('nav' + pagina.charAt(0).toUpperCase() + pagina.slice(1)).classList.add('activo');
+            if (pagina === 'categorias') cargarCategorias();
+            if (pagina === 'favoritos') cargarFavoritos();
+        }
+
+        // ===== MODO CLARO/OSCURO =====
         let modoOscuro = true;
+        function toggleModo() {
+            modoOscuro = !modoOscuro;
+            document.querySelector('.modo-toggle').textContent = modoOscuro ? '🌙' : '☀️';
+            // Lógica de colores (simplificada)
+        }
+
+        // ===== BÚSQUEDA Y RESPUESTA =====
         let ultimosVersiculos = [];
         const MAX_HISTORIAL = 5;
-
-        function toggleModo() {
-            const toggle = document.querySelector('.modo-toggle');
-            toggle.textContent = modoOscuro ? '☀️' : '🌙';
-            modoOscuro = !modoOscuro;
-        }
+        let versiculoActual = null; // Para guardar en favoritos / compartir
 
         function obtenerVersiculoUnico(categoria) {
             const disponibles = categoria.referencias.filter(ref => {
@@ -219,40 +414,147 @@
             const elegido = disponibles[Math.floor(Math.random() * disponibles.length)];
             const claveElegida = `${elegido.libro}-${elegido.capitulo}-${elegido.versiculo}`;
             ultimosVersiculos.push(claveElegida);
-            if (ultimosVersiculos.length > MAX_HISTORIAL) {
-                ultimosVersiculos.shift();
-            }
+            if (ultimosVersiculos.length > MAX_HISTORIAL) ultimosVersiculos.shift();
             return elegido;
         }
 
         function buscarVersiculo() {
             const sentimiento = document.getElementById('inputSentimiento').value.trim();
             if (!sentimiento) return;
-
             const categoria = detectarCategoria(sentimiento);
-            const refAleatoria = obtenerVersiculoUnico(categoria);
-            const texto = obtenerTextoVersiculo(refAleatoria);
-            const cita = `${refAleatoria.libro} ${refAleatoria.capitulo}:${refAleatoria.versiculo}`;
-            const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
-
-            document.getElementById('respuestaBox').classList.add('activo');
-            document.getElementById('textoVersiculo').textContent = `“${texto}”`;
-            document.getElementById('citaVersiculo').textContent = `— ${cita}`;
-            document.getElementById('fraseEmpatica').textContent = frase;
+            mostrarResultado(categoria, 'respuestaBox', 'textoVersiculo', 'citaVersiculo', 'fraseEmpatica');
         }
 
         function versiculoAleatorio() {
             const categoria = categories[Math.floor(Math.random() * categories.length)];
-            const refAleatoria = obtenerVersiculoUnico(categoria);
-            const texto = obtenerTextoVersiculo(refAleatoria);
-            const cita = `${refAleatoria.libro} ${refAleatoria.capitulo}:${refAleatoria.versiculo}`;
-            const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
-
             document.getElementById('inputSentimiento').value = '';
-            document.getElementById('respuestaBox').classList.add('activo');
-            document.getElementById('textoVersiculo').textContent = `“${texto}”`;
-            document.getElementById('citaVersiculo').textContent = `— ${cita}`;
-            document.getElementById('fraseEmpatica').textContent = frase;
+            mostrarResultado(categoria, 'respuestaBox', 'textoVersiculo', 'citaVersiculo', 'fraseEmpatica');
+        }
+
+        function mostrarResultado(categoria, boxId, textoId, citaId, fraseId) {
+            const ref = obtenerVersiculoUnico(categoria);
+            const texto = obtenerTextoVersiculo(ref);
+            const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
+            const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
+            document.getElementById(boxId).style.display = 'block';
+            document.getElementById(textoId).textContent = `“${texto}”`;
+            document.getElementById(citaId).textContent = `— ${cita}`;
+            document.getElementById(fraseId).textContent = frase;
+            // Guardar versículo actual para favoritos/compartir
+            versiculoActual = { texto, cita, categoria: categoria.nombre };
+        }
+
+        // ===== CATEGORÍAS =====
+        function cargarCategorias() {
+            const container = document.getElementById('categoriasContainer');
+            container.innerHTML = '';
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'categoria-btn';
+                btn.textContent = cat.nombre;
+                btn.onclick = () => {
+                    mostrarResultado(cat, 'respuestaCategoria', 'textoVersiculoCat', 'citaVersiculoCat', 'fraseEmpaticaCat');
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        // ===== FAVORITOS =====
+        function guardarFavorito() {
+            if (!versiculoActual) return;
+            let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
+            // Evitar duplicados exactos
+            const yaExiste = favoritos.some(f => f.texto === versiculoActual.texto && f.cita === versiculoActual.cita);
+            if (!yaExiste) {
+                favoritos.unshift(versiculoActual); // añadir al principio
+                localStorage.setItem('arcangelFavs', JSON.stringify(favoritos));
+                alert('Versículo guardado en favoritos ⭐');
+            } else {
+                alert('Este versículo ya está en favoritos.');
+            }
+        }
+
+        function cargarFavoritos() {
+            const lista = document.getElementById('listaFavoritos');
+            const noMsg = document.getElementById('noFavoritosMsg');
+            let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
+            if (favoritos.length === 0) {
+                lista.innerHTML = '';
+                noMsg.style.display = 'block';
+                return;
+            }
+            noMsg.style.display = 'none';
+            lista.innerHTML = favoritos.map((fav, index) => `
+                <div class="favorito-item">
+                    <button class="eliminar-fav" onclick="eliminarFavorito(${index})">✕</button>
+                    <div class="versiculo-texto">“${fav.texto}”</div>
+                    <div class="versiculo-cita">— ${fav.cita}</div>
+                    <div style="font-size:0.8rem; color:#d4af37;">${fav.categoria || ''}</div>
+                </div>
+            `).join('');
+        }
+
+        function eliminarFavorito(index) {
+            let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
+            favoritos.splice(index, 1);
+            localStorage.setItem('arcangelFavs', JSON.stringify(favoritos));
+            cargarFavoritos();
+        }
+
+        // ===== COMPARTIR COMO IMAGEN =====
+        function compartirImagen() {
+            if (!versiculoActual) return;
+            const canvas = document.createElement('canvas');
+            canvas.width = 800;
+            canvas.height = 800;
+            const ctx = canvas.getContext('2d');
+            // Fondo (color sólido púrpura oscuro)
+            ctx.fillStyle = '#2e1a2b';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Podríamos cargar la imagen de fondo, pero para simplificar usamos un degradado
+            const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            grad.addColorStop(0, '#3a2742');
+            grad.addColorStop(1, '#1e1022');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Texto del versículo
+            ctx.fillStyle = '#f5e9d8';
+            ctx.font = 'bold 32px "Cinzel", "Times New Roman", serif';
+            ctx.textAlign = 'center';
+            wrapText(ctx, `“${versiculoActual.texto}”`, canvas.width/2, 250, 600, 38);
+            // Cita
+            ctx.fillStyle = '#d4af37';
+            ctx.font = '28px "Cinzel", serif';
+            ctx.fillText(`— ${versiculoActual.cita}`, canvas.width/2, 500);
+            // Pie
+            ctx.fillStyle = '#cbbfa5';
+            ctx.font = '20px Arial';
+            ctx.fillText('Arcángel App', canvas.width/2, 650);
+            // Descargar
+            const link = document.createElement('a');
+            link.download = 'versiculo-arcangel.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Función para ajustar texto a varias líneas en canvas
+        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            let testLine = '';
+            let lineY = y;
+            for (let n = 0; n < words.length; n++) {
+                testLine = line + words[n] + ' ';
+                const metrics = ctx.measureText(testLine);
+                if (metrics.width > maxWidth && n > 0) {
+                    ctx.fillText(line, x, lineY);
+                    line = words[n] + ' ';
+                    lineY += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line, x, lineY);
         }
 
         // ===== BOTÓN DE VOZ (HÁBLAME) =====
@@ -263,7 +565,6 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             botonHablar = document.getElementById('botonHablar');
-
             if (SpeechRecognition) {
                 recognition = new SpeechRecognition();
                 recognition.lang = 'es-MX';
@@ -271,7 +572,7 @@
                 recognition.continuous = false;
                 recognition.maxAlternatives = 1;
 
-                recognition.onstart = function() {
+                recognition.onstart = () => {
                     estaGrabando = true;
                     if (botonHablar) {
                         botonHablar.style.background = 'rgba(200, 50, 50, 0.7)';
@@ -279,32 +580,24 @@
                         botonHablar.textContent = '🎤 Escuchando...';
                     }
                 };
-
-                recognition.onresult = function(event) {
+                recognition.onresult = (event) => {
                     const texto = event.results[0][0].transcript.trim();
                     if (texto) {
                         document.getElementById('inputSentimiento').value = texto;
                         buscarVersiculo();
                     }
                 };
-
-                recognition.onerror = function(event) {
-                    console.error('Error en reconocimiento de voz:', event.error);
+                recognition.onerror = (event) => {
+                    console.error('Error voz:', event.error);
                     restaurarBoton();
-                    if (event.error === 'not-allowed') {
-                        alert('Permiso de micrófono denegado. Actívalo en ajustes del navegador.');
-                    } else if (event.error === 'no-speech') {
-                        alert('No se detectó voz. Intenta de nuevo.');
-                    }
+                    if (event.error === 'not-allowed') alert('Permiso de micrófono denegado.');
+                    else if (event.error === 'no-speech') alert('No se detectó voz.');
                 };
-
-                recognition.onend = function() {
-                    restaurarBoton();
-                };
+                recognition.onend = restaurarBoton;
             } else {
                 if (botonHablar) {
                     botonHablar.style.opacity = '0.5';
-                    botonHablar.title = 'Reconocimiento de voz no soportado en este navegador';
+                    botonHablar.title = 'Reconocimiento de voz no soportado';
                     botonHablar.disabled = true;
                 }
             }
@@ -312,30 +605,19 @@
 
         function iniciarDictado() {
             if (recognition && !estaGrabando) {
-                try {
-                    recognition.start();
-                } catch (e) {
-                    console.error('Error al iniciar dictado:', e);
-                    restaurarBoton();
-                }
+                try { recognition.start(); } catch(e) { restaurarBoton(); }
             }
         }
-
         function detenerDictado() {
             if (recognition && estaGrabando) {
-                try {
-                    recognition.stop();
-                } catch (e) {
-                    console.error('Error al detener dictado:', e);
-                }
+                try { recognition.stop(); } catch(e) {}
             }
             restaurarBoton();
         }
-
         function restaurarBoton() {
             estaGrabando = false;
             if (botonHablar) {
-                botonHablar.style.background = 'rgba(200, 100, 100, 0.3)';
+                botonHablar.style.background = 'rgba(200, 100, 100, 0.35)';
                 botonHablar.style.transform = 'scale(1)';
                 botonHablar.textContent = '🎤 Háblame';
             }
