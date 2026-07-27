@@ -9,64 +9,28 @@
     <style>
         :root {
             --dorado: #d4af37;
-            --purpura-oscuro: #2e1a2b;
-            --crema: #f5e9d8;
-            --bg-body: #1a0f0f;
             --bg-panel: rgba(46, 26, 43, 0.7);
             --text-color: #f5e9d8;
-            --text-secondary: #e0d3b8;
+            --bg-body: #1a0f0f;
             --button-bg: rgba(212, 175, 55, 0.2);
             --button-border: rgba(212, 175, 55, 0.6);
             --resp-bg: rgba(20, 10, 5, 0.8);
             --resp-text: #f5e9d8;
             --resp-cita: #d4af37;
-            --resp-empatica: #e0d3b8;
         }
-
-        body.modo-claro {
-            --bg-body: #fdfaf3;
-            --bg-panel: rgba(255, 250, 240, 0.85);
-            --text-color: #3e2c1f;
-            --text-secondary: #5a4a3a;
-            --button-bg: rgba(212, 175, 55, 0.3);
-            --button-border: rgba(180, 130, 20, 0.6);
-            --crema: #3e2c1f;
-            --resp-bg: rgba(20, 10, 5, 0.85);
-            --resp-text: #f5e9d8;
-            --resp-cita: #d4af37;
-            --resp-empatica: #e0d3b8;
-        }
-
         * { margin:0; padding:0; box-sizing:border-box; }
-
         body {
             font-family: 'Cinzel', 'Times New Roman', serif;
-            background: var(--bg-body) url('assets/fondo-pared.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background: var(--bg-body);
             min-height: 100vh;
             color: var(--text-color);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
             padding: 20px 10px 90px 10px;
             position: relative;
-            transition: background-color 0.3s, color 0.3s;
         }
-
-        body::before {
-            content: '';
-            position: fixed; top:0; left:0;
-            width:100%; height:100%;
-            background-color: rgba(0,0,0,0.4);
-            z-index:-1;
-        }
-        body.modo-claro::before {
-            background-color: rgba(255,255,240,0.3);
-        }
-
         .app-container { width:100%; max-width:500px; margin:0 auto; }
-
         .panel {
             background: var(--bg-panel);
             backdrop-filter: blur(10px);
@@ -78,11 +42,9 @@
             margin-bottom: 15px;
             border: 1px solid rgba(212,175,55,0.3);
         }
-
         h1 { font-size:2.4rem; margin-bottom:0.2rem; color:var(--dorado); letter-spacing:3px; }
-        .subtitulo { font-size:1rem; color:var(--text-secondary); margin-bottom:1.5rem; font-style:italic; }
+        .subtitulo { font-size:1rem; color:#e0d3b8; margin-bottom:1.5rem; font-style:italic; }
         .frase-corazon { font-size:1.3rem; margin-bottom:1.2rem; font-weight:bold; }
-
         textarea {
             width:100%; height:80px; padding:0.8rem;
             border:1px solid rgba(212,175,55,0.5); border-radius:12px;
@@ -92,29 +54,7 @@
             backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
         }
         textarea::placeholder { color: #cbbfa5; }
-
-        .botonera {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            align-items: center;
-            margin-bottom: 0.8rem;
-        }
-        .botonera > button {
-            width: 100%;
-            justify-content: center;
-        }
-        @media (min-width: 360px) {
-            .botonera {
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-            .botonera > button {
-                width: auto;
-                flex: 1;
-            }
-        }
-
+        .botonera { display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:center; margin-bottom:0.8rem; }
         button {
             background: var(--button-bg);
             border:1px solid var(--button-border);
@@ -127,7 +67,6 @@
         }
         button:hover { background: rgba(212,175,55,0.4); transform:scale(1.02); }
         button.microfono { background: rgba(200,100,100,0.35); border-color: rgba(200,100,100,0.7); }
-
         .respuesta {
             background: var(--resp-bg);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -137,24 +76,20 @@
         .respuesta .categoria-nombre {
             font-size:0.85rem; color:var(--resp-cita); margin-bottom:0.3rem; font-weight:bold;
         }
-        .respuesta .frase-empatica {
-            font-style:italic; color:var(--resp-empatica); margin-bottom:0.6rem;
-        }
         .respuesta .versiculo-texto {
             font-size:1.15rem; margin-bottom:0.4rem; line-height:1.6;
         }
         .respuesta .versiculo-cita {
             font-weight:bold; color:var(--resp-cita); margin-bottom:0.6rem;
         }
-        .acciones-versiculo {
-            display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:0.5rem;
-        }
+        .acciones-versiculo { display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:0.5rem; }
         .acciones-versiculo button {
             font-size:0.9rem; padding:0.4rem 1rem;
             background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.3);
             color: var(--resp-text);
         }
 
+        /* Modal */
         .modal-overlay {
             position:fixed; top:0; left:0; width:100%; height:100%;
             background:rgba(0,0,0,0.7); display:none;
@@ -175,6 +110,7 @@
             color:var(--dorado); font-size:1.5rem; cursor:pointer;
         }
 
+        /* Navbar */
         .navbar {
             position:fixed; bottom:0; left:0; width:100%;
             background:rgba(30,10,20,0.85); backdrop-filter:blur(15px);
@@ -220,19 +156,11 @@
         .favorito-item .categoria-nombre {
             font-size:0.85rem; color:var(--resp-cita); margin-bottom:0.3rem; font-weight:bold;
         }
-        .favorito-item .frase-empatica {
-            font-style:italic; color:var(--resp-empatica); margin-bottom:0.6rem;
-        }
         .favorito-item .versiculo-texto {
             font-size:1.15rem; margin-bottom:0.4rem; line-height:1.6;
         }
         .favorito-item .versiculo-cita {
             font-weight:bold; color:var(--resp-cita); margin-bottom:0.6rem;
-        }
-        .favorito-item .acciones-versiculo button {
-            font-size:0.8rem; padding:0.3rem 0.7rem;
-            background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.3);
-            color: var(--resp-text);
         }
         .eliminar-fav {
             position:absolute; top:5px; right:10px; background:transparent;
@@ -249,7 +177,6 @@
 </head>
 <body>
     <div class="modo-toggle" onclick="toggleModo()">🌙</div>
-
     <div class="app-container">
         <!-- INICIO -->
         <div id="paginaInicio" class="pagina activa">
@@ -276,7 +203,6 @@
                 </div>
                 <div id="respuestaBox" class="respuesta" style="display:none;">
                     <div class="categoria-nombre" id="categoriaNombreInicio"></div>
-                    <div class="frase-empatica" id="fraseEmpatica"></div>
                     <div class="versiculo-texto" id="textoVersiculo"></div>
                     <div class="versiculo-cita" id="citaVersiculo"></div>
                     <div class="acciones-versiculo">
@@ -302,7 +228,6 @@
                 <button class="cerrar-modal" onclick="cerrarModal()">&times;</button>
                 <div class="respuesta" id="respuestaModal">
                     <div class="categoria-nombre" id="categoriaNombreModal"></div>
-                    <div class="frase-empatica" id="fraseEmpaticaModal"></div>
                     <div class="versiculo-texto" id="textoVersiculoModal"></div>
                     <div class="versiculo-cita" id="citaVersiculoModal"></div>
                     <div class="acciones-versiculo">
@@ -343,52 +268,8 @@
     <script src="bible.js"></script>
     <script src="categories.js"></script>
     <script>
-        // ===== DICCIONARIO DE NOMBRES DE LIBROS A ABREVIATURAS =====
-        const librosMap = {
-            "génesis": "gn", "exodo": "ex", "levítico": "lv", "números": "nm", "deuteronomio": "dt",
-            "josué": "jos", "jueces": "jue", "ruth": "rt", "1 samuel": "1sm", "2 samuel": "2sm",
-            "1 reyes": "1re", "2 reyes": "2re", "1 crónicas": "1cr", "2 crónicas": "2cr", "esdras": "esd",
-            "nehemías": "neh", "ester": "est", "job": "job", "salmos": "sal", "proverbios": "pro",
-            "eclesiastés": "ecl", "cantares": "cnt", "isaías": "isa", "jeremías": "jer", "lamentaciones": "lam",
-            "ezequiel": "eze", "daniel": "dan", "oseas": "ose", "joel": "joe", "amós": "amo", "obadías": "oba",
-            "jonás": "jon", "miqueas": "miq", "nahúm": "nah", "habacuc": "hab", "sofonías": "sof", "ageo": "age",
-            "zacarías": "zac", "malaquías": "mal",
-            "mateo": "mat", "marcos": "mar", "lucas": "luc", "juan": "jua", "hechos": "hch",
-            "romanos": "rom", "1 corintios": "1co", "2 corintios": "2co", "gálatas": "gal", "efesios": "efe",
-            "filipenses": "fil", "colosenses": "col", "1 tesalonicenses": "1ts", "2 tesalonicenses": "2ts",
-            "1 timoteo": "1ti", "2 timoteo": "2ti", "tito": "tit", "filemón": "flm", "hebreos": "heb",
-            "santiago": "snt", "1 pedro": "1pe", "2 pedro": "2pe", "1 juan": "1jn", "2 juan": "2jn",
-            "3 juan": "3jn", "judas": "jud", "apocalipsis": "apo"
-        };
-
-        // ===== BÚSQUEDA EN FORMATO ARRAY =====
-        function obtenerTextoVersiculo(referencia) {
-            if (!Array.isArray(bibleData)) return 'Error: Formato de Biblia no reconocido.';
-            const nombreNormalizado = referencia.libro.trim().toLowerCase().replace(/\s+/g, ' ');
-            const abrev = librosMap[nombreNormalizado];
-            if (!abrev) {
-                console.warn('Abreviatura no encontrada para:', referencia.libro);
-                return `[Abreviatura no encontrada: ${referencia.libro}]`;
-            }
-            // Buscar el libro en el array
-            const libro = bibleData.find(b => b.abbrev === abrev);
-            if (!libro) {
-                console.warn('Libro no encontrado con abrev:', abrev);
-                return `[Libro no encontrado: ${referencia.libro} (abrev: ${abrev})]`;
-            }
-            const capitulo = parseInt(referencia.capitulo);
-            const versiculo = parseInt(referencia.versiculo);
-            if (!libro.chapters || !libro.chapters[capitulo - 1]) {
-                console.warn('Capítulo no encontrado:', referencia.libro, capitulo);
-                return `[Capítulo no encontrado: ${referencia.libro} ${capitulo}]`;
-            }
-            const versiculos = libro.chapters[capitulo - 1];
-            if (!versiculos[versiculo - 1]) {
-                console.warn('Versículo no encontrado:', referencia.libro, capitulo, ':', versiculo);
-                return `[Versículo no encontrado: ${referencia.libro} ${capitulo}:${versiculo}]`;
-            }
-            return versiculos[versiculo - 1];
-        }
+        // ===== CONFIGURACIÓN INICIAL =====
+        const SALMO_COMODIN = "El Señor es mi pastor, nada me falta.";
 
         // ===== NAVEGACIÓN =====
         function cambiarPagina(pagina) {
@@ -400,12 +281,13 @@
             if (pagina === 'favoritos') cargarFavoritos();
         }
 
+        // ===== MODO CLARO/OSCURO =====
         function toggleModo() {
             document.body.classList.toggle('modo-claro');
-            const icono = document.querySelector('.modo-toggle');
-            icono.textContent = document.body.classList.contains('modo-claro') ? '☀️' : '🌙';
+            document.querySelector('.modo-toggle').textContent = document.body.classList.contains('modo-claro') ? '☀️' : '🌙';
         }
 
+        // ===== CATEGORÍAS (SOLO LAS QUE TIENEN REFERENCIAS EN EL AT) =====
         function cargarCategorias() {
             const container = document.getElementById('categoriasContainer');
             container.innerHTML = '';
@@ -424,26 +306,32 @@
             document.getElementById('modalCategoria').classList.add('activo');
             mostrarResultadoEnModal(categoria);
         }
-        function cerrarModal() {
-            document.getElementById('modalCategoria').classList.remove('activo');
-        }
-        function mostrarResultadoEnModal(categoria) {
-            const ref = obtenerVersiculoUnico(categoria);
-            const texto = obtenerTextoVersiculo(ref);
-            const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
-            const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
-            document.getElementById('categoriaNombreModal').textContent = categoria.nombre;
-            document.getElementById('fraseEmpaticaModal').textContent = frase;
-            document.getElementById('textoVersiculoModal').textContent = `“${texto}”`;
-            document.getElementById('citaVersiculoModal').textContent = `— ${cita}`;
-            versiculoActual = { texto, cita, categoria: categoria.nombre };
-        }
-        function nuevoVersiculoCategoria() {
-            if (categoriaActualModal) mostrarResultadoEnModal(categoriaActualModal);
-        }
-        function guardarFavoritoDesdeModal() { guardarFavorito(); }
-        function compartirDesdeModal() { compartirImagen(); }
+        function cerrarModal() { document.getElementById('modalCategoria').classList.remove('activo'); }
 
+        // ===== BÚSQUEDA DE VERSÍCULOS (SOLO AT) =====
+        function obtenerTextoVersiculo(referencia) {
+            const abrevMap = {
+                "génesis": "gn", "exodo": "ex", "levítico": "lv", "números": "nm", "deuteronomio": "dt",
+                "josué": "jos", "jueces": "jue", "ruth": "rt", "1 samuel": "1sm", "2 samuel": "2sm",
+                "1 reyes": "1re", "2 reyes": "2re", "1 crónicas": "1cr", "2 crónicas": "2cr", "esdras": "esd",
+                "nehemías": "neh", "ester": "est", "job": "job", "salmos": "sal", "proverbios": "pro",
+                "eclesiastés": "ecl", "cantares": "cnt", "isaías": "isa", "jeremías": "jer", "lamentaciones": "lam",
+                "ezequiel": "eze", "daniel": "dan", "oseas": "ose", "joel": "joe", "amós": "amo", "obadías": "oba",
+                "jonás": "jon", "miqueas": "miq", "nahúm": "nah", "habacuc": "hab", "sofonías": "sof", "ageo": "age",
+                "zacarías": "zac", "malaquías": "mal"
+            };
+            const nombreNormalizado = referencia.libro.trim().toLowerCase().replace(/\s+/g, ' ');
+            const abrev = abrevMap[nombreNormalizado];
+            if (!abrev) return null;
+            const libro = bibleData.find(b => b.abbrev === abrev);
+            if (!libro || !libro.chapters) return null;
+            const capitulo = parseInt(referencia.capitulo);
+            const versiculo = parseInt(referencia.versiculo);
+            if (!libro.chapters[capitulo - 1] || !libro.chapters[capitulo - 1][versiculo - 1]) return null;
+            return libro.chapters[capitulo - 1][versiculo - 1];
+        }
+
+        // ===== MOSTRAR RESULTADOS (SOLO CATEGORÍA, VERSÍCULO, CITA) =====
         let ultimosVersiculos = [];
         const MAX_HISTORIAL = 5;
         let versiculoActual = null;
@@ -470,51 +358,38 @@
             const categoria = detectarCategoria(sentimiento);
             mostrarResultadoInicio(categoria);
         }
-
         function versiculoAleatorio() {
             const categoria = categories[Math.floor(Math.random() * categories.length)];
             document.getElementById('inputSentimiento').value = '';
             mostrarResultadoInicio(categoria);
         }
-
         function mostrarResultadoInicio(categoria) {
             const ref = obtenerVersiculoUnico(categoria);
-            const texto = obtenerTextoVersiculo(ref);
+            const texto = obtenerTextoVersiculo(ref) || SALMO_COMODIN;
             const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
-            const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
             document.getElementById('respuestaBox').style.display = 'block';
             document.getElementById('categoriaNombreInicio').textContent = categoria.nombre;
-            document.getElementById('fraseEmpatica').textContent = frase;
             document.getElementById('textoVersiculo').textContent = `“${texto}”`;
             document.getElementById('citaVersiculo').textContent = `— ${cita}`;
             versiculoActual = { texto, cita, categoria: categoria.nombre };
         }
 
-        function formatearCitaParaVoz(cita) {
-            return cita.replace(/(\d+):(\d+)/, 'capítulo $1, versículo $2');
+        function mostrarResultadoEnModal(categoria) {
+            const ref = obtenerVersiculoUnico(categoria);
+            const texto = obtenerTextoVersiculo(ref) || SALMO_COMODIN;
+            const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
+            document.getElementById('categoriaNombreModal').textContent = categoria.nombre;
+            document.getElementById('textoVersiculoModal').textContent = `“${texto}”`;
+            document.getElementById('citaVersiculoModal').textContent = `— ${cita}`;
+            versiculoActual = { texto, cita, categoria: categoria.nombre };
         }
-        function speakText(text) {
-            if (!window.speechSynthesis) return alert('Tu navegador no soporta lectura en voz alta.');
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'es-MX'; utterance.rate = 0.9;
-            window.speechSynthesis.speak(utterance);
+        function nuevoVersiculoCategoria() {
+            if (categoriaActualModal) mostrarResultadoEnModal(categoriaActualModal);
         }
-        function speakVersiculo() {
-            if (!versiculoActual) return;
-            const citaLimpia = formatearCitaParaVoz(versiculoActual.cita);
-            speakText(`${versiculoActual.texto}. ${citaLimpia}.`);
-        }
-        function speakVersiculoModal() {
-            if (!versiculoActual) return;
-            const citaLimpia = formatearCitaParaVoz(versiculoActual.cita);
-            speakText(`${versiculoActual.texto}. ${citaLimpia}.`);
-        }
-        function speakFavorito(texto, cita) {
-            const citaLimpia = formatearCitaParaVoz(cita);
-            speakText(`${texto}. ${citaLimpia}.`);
-        }
+        function guardarFavoritoDesdeModal() { guardarFavorito(); }
+        function compartirDesdeModal() { compartirImagen(); }
 
+        // ===== FAVORITOS =====
         function guardarFavorito() {
             if (!versiculoActual) return;
             let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
@@ -525,7 +400,6 @@
                 alert('Versículo guardado en favoritos ⭐');
             } else alert('Este versículo ya está en favoritos.');
         }
-
         function cargarFavoritos() {
             const lista = document.getElementById('listaFavoritos');
             const noMsg = document.getElementById('noFavoritosMsg');
@@ -540,7 +414,6 @@
                 <div class="favorito-item">
                     <button class="eliminar-fav" onclick="eliminarFavorito(${index})">&times;</button>
                     <div class="categoria-nombre">${fav.categoria || ''}</div>
-                    <div class="frase-empatica">${fav.frase || ''}</div>
                     <div class="versiculo-texto">“${fav.texto}”</div>
                     <div class="versiculo-cita">— ${fav.cita}</div>
                     <div class="acciones-versiculo">
@@ -549,7 +422,6 @@
                 </div>
             `).join('');
         }
-
         function eliminarFavorito(index) {
             let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
             favoritos.splice(index, 1);
@@ -557,6 +429,30 @@
             cargarFavoritos();
         }
 
+        // ===== VOZ =====
+        function formatearCitaParaVoz(cita) {
+            return cita.replace(/(\d+):(\d+)/, 'capítulo $1, versículo $2');
+        }
+        function speakText(text) {
+            if (!window.speechSynthesis) return alert('Tu navegador no soporta lectura en voz alta.');
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-MX'; utterance.rate = 0.9;
+            window.speechSynthesis.speak(utterance);
+        }
+        function speakVersiculo() {
+            if (!versiculoActual) return;
+            speakText(`${versiculoActual.texto}. ${formatearCitaParaVoz(versiculoActual.cita)}.`);
+        }
+        function speakVersiculoModal() {
+            if (!versiculoActual) return;
+            speakText(`${versiculoActual.texto}. ${formatearCitaParaVoz(versiculoActual.cita)}.`);
+        }
+        function speakFavorito(texto, cita) {
+            speakText(`${texto}. ${formatearCitaParaVoz(cita)}.`);
+        }
+
+        // ===== COMPARTIR IMAGEN =====
         function compartirImagen() {
             if (!versiculoActual) return;
             const canvas = document.getElementById('canvasCompartir');
@@ -577,7 +473,6 @@
                 URL.revokeObjectURL(url);
             });
         }
-
         function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
             const words = text.split(' '); let line = '', testLine = '', lineY = y;
             for (let n = 0; n < words.length; n++) {
@@ -591,7 +486,7 @@
             ctx.fillText(line, x, lineY);
         }
 
-        // ===== BOTÓN DE VOZ =====
+        // ===== DICTADO POR VOZ =====
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition = null;
         let estaGrabando = false;
@@ -625,7 +520,6 @@
                 botonHablar.disabled = true;
             }
         });
-
         function iniciarDictado() {
             if (recognition && !estaGrabando) {
                 try { recognition.start(); } catch(e) { restaurarBoton(); }
