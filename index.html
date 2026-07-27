@@ -458,13 +458,11 @@
             versiculoActual = { texto, cita, categoria: categoria.nombre };
         }
 
-        // ===== FORMATEAR CITA PARA TTS =====
+        // ===== LECTOR DE VERSÍCULOS =====
         function formatearCitaParaVoz(cita) {
-            // Ejemplo: "Salmo 23:1" → "Salmo capítulo 23, versículo 1"
             return cita.replace(/(\d+):(\d+)/, 'capítulo $1, versículo $2');
         }
 
-        // ===== LECTOR DE VERSÍCULOS (TTS) =====
         function speakText(text) {
             if (!window.speechSynthesis) {
                 alert('Tu navegador no soporta lectura en voz alta.');
