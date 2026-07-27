@@ -458,6 +458,12 @@
             versiculoActual = { texto, cita, categoria: categoria.nombre };
         }
 
+        // ===== FORMATEAR CITA PARA TTS =====
+        function formatearCitaParaVoz(cita) {
+            // Ejemplo: "Salmo 23:1" → "Salmo capítulo 23, versículo 1"
+            return cita.replace(/(\d+):(\d+)/, 'capítulo $1, versículo $2');
+        }
+
         // ===== LECTOR DE VERSÍCULOS (TTS) =====
         function speakText(text) {
             if (!window.speechSynthesis) {
@@ -473,16 +479,19 @@
 
         function speakVersiculo() {
             if (!versiculoActual) return;
-            speakText(`${versiculoActual.texto}. ${versiculoActual.cita}.`);
+            const citaLimpia = formatearCitaParaVoz(versiculoActual.cita);
+            speakText(`${versiculoActual.texto}. ${citaLimpia}.`);
         }
 
         function speakVersiculoModal() {
             if (!versiculoActual) return;
-            speakText(`${versiculoActual.texto}. ${versiculoActual.cita}.`);
+            const citaLimpia = formatearCitaParaVoz(versiculoActual.cita);
+            speakText(`${versiculoActual.texto}. ${citaLimpia}.`);
         }
 
         function speakFavorito(texto, cita) {
-            speakText(`${texto}. ${cita}.`);
+            const citaLimpia = formatearCitaParaVoz(cita);
+            speakText(`${texto}. ${citaLimpia}.`);
         }
 
         // ===== FAVORITOS =====
