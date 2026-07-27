@@ -89,7 +89,6 @@
             color: var(--resp-text);
         }
 
-        /* Modal */
         .modal-overlay {
             position:fixed; top:0; left:0; width:100%; height:100%;
             background:rgba(0,0,0,0.7); display:none;
@@ -110,7 +109,6 @@
             color:var(--dorado); font-size:1.5rem; cursor:pointer;
         }
 
-        /* Navbar */
         .navbar {
             position:fixed; bottom:0; left:0; width:100%;
             background:rgba(30,10,20,0.85); backdrop-filter:blur(15px);
@@ -267,9 +265,6 @@
 
     <script src="categories.js"></script>
     <script>
-        // ===== CONFIGURACIÓN INICIAL =====
-        const SALMO_COMODIN = "El Señor es mi pastor, nada me falta.";
-
         // ===== NAVEGACIÓN =====
         function cambiarPagina(pagina) {
             document.querySelectorAll('.pagina').forEach(p => p.classList.remove('activa'));
@@ -280,13 +275,12 @@
             if (pagina === 'favoritos') cargarFavoritos();
         }
 
-        // ===== MODO CLARO/OSCURO =====
         function toggleModo() {
             document.body.classList.toggle('modo-claro');
             document.querySelector('.modo-toggle').textContent = document.body.classList.contains('modo-claro') ? '☀️' : '🌙';
         }
 
-        // ===== CATEGORÍAS (SOLO LAS QUE TIENEN REFERENCIAS EN EL AT) =====
+        // ===== CATEGORÍAS =====
         function cargarCategorias() {
             const container = document.getElementById('categoriasContainer');
             container.innerHTML = '';
@@ -307,48 +301,10 @@
         }
         function cerrarModal() { document.getElementById('modalCategoria').classList.remove('activo'); }
 
-        // ===== BÚSQUEDA DE VERSÍCULOS (SOLO AT) =====
-        function obtenerTextoVersiculo(referencia) {
-            const abrevMap = {
-                "génesis": "gn", "exodo": "ex", "levítico": "lv", "números": "nm", "deuteronomio": "dt",
-                "josué": "jos", "jueces": "jue", "ruth": "rt", "1 samuel": "1sm", "2 samuel": "2sm",
-                "1 reyes": "1re", "2 reyes": "2re", "1 crónicas": "1cr", "2 crónicas": "2cr", "esdras": "esd",
-                "nehemías": "neh", "ester": "est", "job": "job", "salmos": "sal", "proverbios": "pro",
-                "eclesiastés": "ecl", "cantares": "cnt", "isaías": "isa", "jeremías": "jer", "lamentaciones": "lam",
-                "ezequiel": "eze", "daniel": "dan", "oseas": "ose", "joel": "joe", "amós": "amo", "obadías": "oba",
-                "jonás": "jon", "miqueas": "miq", "nahúm": "nah", "habacuc": "hab", "sofonías": "sof", "ageo": "age",
-                "zacarías": "zac", "malaquías": "mal"
-            };
-            const nombreNormalizado = referencia.libro.trim().toLowerCase().replace(/\s+/g, ' ');
-            const abrev = abrevMap[nombreNormalizado];
-            if (!abrev) return null;
-            const libro = bibleData.find(b => b.abbrev === abrev);
-            if (!libro || !libro.chapters) return null;
-            const capitulo = parseInt(referencia.capitulo);
-            const versiculo = parseInt(referencia.versiculo);
-            if (!libro.chapters[capitulo - 1] || !libro.chapters[capitulo - 1][versiculo - 1]) return null;
-            return libro.chapters[capitulo - 1][versiculo - 1];
-        }
-
-        // ===== MOSTRAR RESULTADOS (SOLO CATEGORÍA, VERSÍCULO, CITA) =====
-        let ultimosVersiculos = [];
-        const MAX_HISTORIAL = 5;
-        let versiculoActual = null;
-
-        function obtenerVersiculoUnico(categoria) {
-            const disponibles = categoria.referencias.filter(ref => {
-                const clave = `${ref.libro}-${ref.capitulo}-${ref.versiculo}`;
-                return !ultimosVersiculos.includes(clave);
-            });
-            if (disponibles.length === 0) {
-                ultimosVersiculos = [];
-                return obtenerVersiculoUnico(categoria);
-            }
-            const elegido = disponibles[Math.floor(Math.random() * disponibles.length)];
-            const claveElegida = `${elegido.libro}-${elegido.capitulo}-${elegido.versiculo}`;
-            ultimosVersiculos.push(claveElegida);
-            if (ultimosVersiculos.length > MAX_HISTORIAL) ultimosVersiculos.shift();
-            return elegido;
+        // ===== SELECCIÓN DE VERSÍCULO (desde categories.js) =====
+        function obtenerVersiculoAleatorio(categoria) {
+            const arr = categoria.versiculos;
+            return arr[Math.floor(Math.random() * arr.length)];
         }
 
         function buscarVersiculo() {
@@ -357,31 +313,30 @@
             const categoria = detectarCategoria(sentimiento);
             mostrarResultadoInicio(categoria);
         }
+
         function versiculoAleatorio() {
             const categoria = categories[Math.floor(Math.random() * categories.length)];
             document.getElementById('inputSentimiento').value = '';
             mostrarResultadoInicio(categoria);
         }
+
         function mostrarResultadoInicio(categoria) {
-            const ref = obtenerVersiculoUnico(categoria);
-            const texto = obtenerTextoVersiculo(ref) || SALMO_COMODIN;
-            const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
+            const verso = obtenerVersiculoAleatorio(categoria);
             document.getElementById('respuestaBox').style.display = 'block';
             document.getElementById('categoriaNombreInicio').textContent = categoria.nombre;
-            document.getElementById('textoVersiculo').textContent = `“${texto}”`;
-            document.getElementById('citaVersiculo').textContent = `— ${cita}`;
-            versiculoActual = { texto, cita, categoria: categoria.nombre };
+            document.getElementById('textoVersiculo').textContent = `“${verso.texto}”`;
+            document.getElementById('citaVersiculo').textContent = `— ${verso.cita}`;
+            versiculoActual = { texto: verso.texto, cita: verso.cita, categoria: categoria.nombre };
         }
 
         function mostrarResultadoEnModal(categoria) {
-            const ref = obtenerVersiculoUnico(categoria);
-            const texto = obtenerTextoVersiculo(ref) || SALMO_COMODIN;
-            const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
+            const verso = obtenerVersiculoAleatorio(categoria);
             document.getElementById('categoriaNombreModal').textContent = categoria.nombre;
-            document.getElementById('textoVersiculoModal').textContent = `“${texto}”`;
-            document.getElementById('citaVersiculoModal').textContent = `— ${cita}`;
-            versiculoActual = { texto, cita, categoria: categoria.nombre };
+            document.getElementById('textoVersiculoModal').textContent = `“${verso.texto}”`;
+            document.getElementById('citaVersiculoModal').textContent = `— ${verso.cita}`;
+            versiculoActual = { texto: verso.texto, cita: verso.cita, categoria: categoria.nombre };
         }
+
         function nuevoVersiculoCategoria() {
             if (categoriaActualModal) mostrarResultadoEnModal(categoriaActualModal);
         }
@@ -389,6 +344,7 @@
         function compartirDesdeModal() { compartirImagen(); }
 
         // ===== FAVORITOS =====
+        let versiculoActual = null;
         function guardarFavorito() {
             if (!versiculoActual) return;
             let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
@@ -399,6 +355,7 @@
                 alert('Versículo guardado en favoritos ⭐');
             } else alert('Este versículo ya está en favoritos.');
         }
+
         function cargarFavoritos() {
             const lista = document.getElementById('listaFavoritos');
             const noMsg = document.getElementById('noFavoritosMsg');
@@ -421,6 +378,7 @@
                 </div>
             `).join('');
         }
+
         function eliminarFavorito(index) {
             let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
             favoritos.splice(index, 1);
@@ -472,6 +430,7 @@
                 URL.revokeObjectURL(url);
             });
         }
+
         function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
             const words = text.split(' '); let line = '', testLine = '', lineY = y;
             for (let n = 0; n < words.length; n++) {
@@ -519,6 +478,7 @@
                 botonHablar.disabled = true;
             }
         });
+
         function iniciarDictado() {
             if (recognition && !estaGrabando) {
                 try { recognition.start(); } catch(e) { restaurarBoton(); }
