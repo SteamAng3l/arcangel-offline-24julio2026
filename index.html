@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arcángel – Guía y Mensajero de la Palabra</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <style>
         :root {
             --dorado: #d4af37;
@@ -17,6 +17,10 @@
             --text-secondary: #e0d3b8;
             --button-bg: rgba(212, 175, 55, 0.2);
             --button-border: rgba(212, 175, 55, 0.6);
+            --resp-bg: rgba(20, 10, 5, 0.8);
+            --resp-text: #f5e9d8;
+            --resp-cita: #d4af37;
+            --resp-empatica: #e0d3b8;
         }
 
         body.modo-claro {
@@ -27,6 +31,10 @@
             --button-bg: rgba(212, 175, 55, 0.3);
             --button-border: rgba(180, 130, 20, 0.6);
             --crema: #3e2c1f;
+            --resp-bg: rgba(20, 10, 5, 0.85);
+            --resp-text: #f5e9d8;
+            --resp-cita: #d4af37;
+            --resp-empatica: #e0d3b8;
         }
 
         * { margin:0; padding:0; box-sizing:border-box; }
@@ -115,24 +123,38 @@
             font-family:inherit; font-size:0.95rem; cursor:pointer;
             backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
             transition: background 0.3s, transform 0.2s;
-            display:inline-flex; align-items:center; gap:0.3rem;
+            display:inline-flex; align-items:center; gap:0.4rem;
         }
         button:hover { background: rgba(212,175,55,0.4); transform:scale(1.02); }
         button.microfono { background: rgba(200,100,100,0.35); border-color: rgba(200,100,100,0.7); }
 
         .respuesta {
-            background: rgba(20,10,5,0.75);
+            background: var(--resp-bg);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             border-radius:15px; padding:1.2rem; margin-top:1rem; text-align:left;
+            color: var(--resp-text);
         }
-        .respuesta .categoria-nombre { font-size:0.85rem; color:var(--dorado); margin-bottom:0.3rem; font-weight:bold; }
-        .versiculo-texto { font-size:1.15rem; margin-bottom:0.6rem; line-height:1.6; }
-        .versiculo-cita { font-weight:bold; color:var(--dorado); margin-bottom:0.4rem; }
-        .frase-empatica { font-style:italic; color:var(--text-secondary); margin-bottom:0.8rem; }
-        .acciones-versiculo { display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:0.5rem; }
-        .acciones-versiculo button { font-size:0.9rem; padding:0.4rem 1rem; background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.3); }
+        .respuesta .categoria-nombre {
+            font-size:0.85rem; color:var(--resp-cita); margin-bottom:0.3rem; font-weight:bold;
+        }
+        .respuesta .versiculo-texto {
+            font-size:1.15rem; margin-bottom:0.6rem; line-height:1.6; color: var(--resp-text);
+        }
+        .respuesta .versiculo-cita {
+            font-weight:bold; color:var(--resp-cita); margin-bottom:0.4rem;
+        }
+        .respuesta .frase-empatica {
+            font-style:italic; color:var(--resp-empatica); margin-bottom:0.8rem;
+        }
+        .acciones-versiculo {
+            display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:0.5rem;
+        }
+        .acciones-versiculo button {
+            font-size:0.9rem; padding:0.4rem 1rem;
+            background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.3);
+            color: var(--resp-text);
+        }
 
-        /* MODAL */
         .modal-overlay {
             position:fixed; top:0; left:0; width:100%; height:100%;
             background:rgba(0,0,0,0.7); display:none;
@@ -152,8 +174,12 @@
             position:absolute; top:10px; right:15px; background:transparent; border:none;
             color:var(--dorado); font-size:1.5rem; cursor:pointer;
         }
+        .modal-contenido .respuesta {
+            background: transparent;
+            padding: 0;
+            margin-top: 0;
+        }
 
-        /* NAVBAR */
         .navbar {
             position:fixed; bottom:0; left:0; width:100%;
             background:rgba(30,10,20,0.85); backdrop-filter:blur(15px);
@@ -165,9 +191,10 @@
             background:transparent; border:none; color:#cbbfa5;
             font-size:0.9rem; flex-direction:column; gap:0.2rem;
             padding:0.3rem 0.8rem; border-radius:12px;
+            display:flex; align-items:center;
         }
         .navbar button.activo { color:var(--dorado); background:rgba(212,175,55,0.2); }
-        .navbar button .material-icons { font-size:1.4rem; }
+        .navbar button .material-icons-outlined { font-size:1.4rem; }
 
         .pagina { display:none; }
         .pagina.activa { display:block; }
@@ -221,10 +248,18 @@
                     <button class="microfono" id="botonHablar"
                             onmousedown="iniciarDictado()" onmouseup="detenerDictado()"
                             ontouchstart="iniciarDictado()" ontouchend="detenerDictado()">
-                        <i class="material-icons">mic</i> Háblame
+                        <span class="material-icons-outlined">mic</span> Háblame
                     </button>
-                    <button onclick="buscarVersiculo()"><i class="material-icons">search</i> Buscar versículo</button>
-                    <button onclick="versiculoAleatorio()">✝️ Versículo aleatorio</button>
+                    <button onclick="buscarVersiculo()">
+                        <span class="material-icons-outlined">search</span> Buscar versículo
+                    </button>
+                    <button onclick="versiculoAleatorio()">
+                        <!-- Cruz minimalista en SVG -->
+                        <svg width="1.4em" height="1.4em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;">
+                            <path d="M12 4v12M6 9h12"/>
+                        </svg>
+                        Versículo aleatorio
+                    </button>
                 </div>
                 <div id="respuestaBox" class="respuesta" style="display:none;">
                     <div class="categoria-nombre" id="categoriaNombreInicio"></div>
@@ -232,8 +267,8 @@
                     <div class="versiculo-cita" id="citaVersiculo"></div>
                     <div class="frase-empatica" id="fraseEmpatica"></div>
                     <div class="acciones-versiculo">
-                        <button onclick="guardarFavorito()"><i class="material-icons">star</i> Guardar</button>
-                        <button onclick="compartirImagen()"><i class="material-icons">share</i> Compartir</button>
+                        <button onclick="guardarFavorito()"><span class="material-icons-outlined">star</span> Guardar</button>
+                        <button onclick="compartirImagen()"><span class="material-icons-outlined">share</span> Compartir</button>
                     </div>
                 </div>
             </div>
@@ -256,9 +291,9 @@
                 <div class="versiculo-cita" id="citaVersiculoModal"></div>
                 <div class="frase-empatica" id="fraseEmpaticaModal"></div>
                 <div class="acciones-versiculo">
-                    <button onclick="nuevoVersiculoCategoria()"><i class="material-icons">refresh</i> Nuevo versículo</button>
-                    <button onclick="guardarFavoritoDesdeModal()"><i class="material-icons">star</i> Guardar</button>
-                    <button onclick="compartirDesdeModal()"><i class="material-icons">share</i> Compartir</button>
+                    <button onclick="nuevoVersiculoCategoria()"><span class="material-icons-outlined">refresh</span> Nuevo versículo</button>
+                    <button onclick="guardarFavoritoDesdeModal()"><span class="material-icons-outlined">star</span> Guardar</button>
+                    <button onclick="compartirDesdeModal()"><span class="material-icons-outlined">share</span> Compartir</button>
                 </div>
             </div>
         </div>
@@ -277,13 +312,13 @@
     <!-- NAVBAR -->
     <div class="navbar">
         <button id="navInicio" class="activo" onclick="cambiarPagina('inicio')">
-            <i class="material-icons">home</i> <span>Inicio</span>
+            <span class="material-icons-outlined">home</span> <span>Inicio</span>
         </button>
         <button id="navCategorias" onclick="cambiarPagina('categorias')">
-            <i class="material-icons">category</i> <span>Categorías</span>
+            <span class="material-icons-outlined">apps</span> <span>Categorías</span>
         </button>
         <button id="navFavoritos" onclick="cambiarPagina('favoritos')">
-            <i class="material-icons">star</i> <span>Favoritos</span>
+            <span class="material-icons-outlined">star</span> <span>Favoritos</span>
         </button>
     </div>
 
@@ -505,7 +540,7 @@
                 recognition.onstart = () => {
                     estaGrabando = true;
                     botonHablar.style.background = 'rgba(200,50,50,0.7)';
-                    botonHablar.innerHTML = '<i class="material-icons">mic</i> Escuchando...';
+                    botonHablar.innerHTML = '<span class="material-icons-outlined">mic</span> Escuchando...';
                 };
                 recognition.onresult = (event) => {
                     const texto = event.results[0][0].transcript.trim();
@@ -543,7 +578,7 @@
             const botonHablar = document.getElementById('botonHablar');
             if (botonHablar) {
                 botonHablar.style.background = 'rgba(200,100,100,0.35)';
-                botonHablar.innerHTML = '<i class="material-icons">mic</i> Háblame';
+                botonHablar.innerHTML = '<span class="material-icons-outlined">mic</span> Háblame';
             }
         }
     </script>
