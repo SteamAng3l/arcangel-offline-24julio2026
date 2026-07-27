@@ -155,7 +155,6 @@
             color: var(--resp-text);
         }
 
-        /* ===== MODAL ===== */
         .modal-overlay {
             position:fixed; top:0; left:0; width:100%; height:100%;
             background:rgba(0,0,0,0.7); display:none;
@@ -176,7 +175,6 @@
             color:var(--dorado); font-size:1.5rem; cursor:pointer;
         }
 
-        /* ===== NAVBAR ===== */
         .navbar {
             position:fixed; bottom:0; left:0; width:100%;
             background:rgba(30,10,20,0.85); backdrop-filter:blur(15px);
@@ -211,7 +209,6 @@
         }
         .categoria-btn:hover { background:rgba(212,175,55,0.35); }
 
-        /* Favoritos */
         .favorito-item {
             background: var(--resp-bg);
             backdrop-filter: blur(10px);
@@ -251,11 +248,9 @@
     </style>
 </head>
 <body>
-
     <div class="modo-toggle" onclick="toggleModo()">🌙</div>
 
     <div class="app-container">
-
         <!-- INICIO -->
         <div id="paginaInicio" class="pagina activa">
             <div class="panel">
@@ -328,7 +323,6 @@
                 <div class="no-favoritos" id="noFavoritosMsg">No tienes versículos guardados aún.</div>
             </div>
         </div>
-
     </div>
 
     <!-- NAVBAR -->
@@ -349,43 +343,51 @@
     <script src="bible.js"></script>
     <script src="categories.js"></script>
     <script>
-        // ===== FUNCIONES AUXILIARES DE BÚSQUEDA =====
-        const soloLetras = str => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z]/g, '').toLowerCase();
-        const cacheLibros = {};
+        // ===== DICCIONARIO DE NOMBRES DE LIBROS A ABREVIATURAS =====
+        const librosMap = {
+            "génesis": "gn", "exodo": "ex", "levítico": "lv", "números": "nm", "deuteronomio": "dt",
+            "josué": "jos", "jueces": "jue", "ruth": "rt", "1 samuel": "1sm", "2 samuel": "2sm",
+            "1 reyes": "1re", "2 reyes": "2re", "1 crónicas": "1cr", "2 crónicas": "2cr", "esdras": "esd",
+            "nehemías": "neh", "ester": "est", "job": "job", "salmos": "sal", "proverbios": "pro",
+            "eclesiastés": "ecl", "cantares": "cnt", "isaías": "isa", "jeremías": "jer", "lamentaciones": "lam",
+            "ezequiel": "eze", "daniel": "dan", "oseas": "ose", "joel": "joe", "amós": "amo", "obadías": "oba",
+            "jonás": "jon", "miqueas": "miq", "nahúm": "nah", "habacuc": "hab", "sofonías": "sof", "ageo": "age",
+            "zacarías": "zac", "malaquías": "mal",
+            "mateo": "mat", "marcos": "mar", "lucas": "luc", "juan": "jua", "hechos": "hch",
+            "romanos": "rom", "1 corintios": "1co", "2 corintios": "2co", "gálatas": "gal", "efesios": "efe",
+            "filipenses": "fil", "colosenses": "col", "1 tesalonicenses": "1ts", "2 tesalonicenses": "2ts",
+            "1 timoteo": "1ti", "2 timoteo": "2ti", "tito": "tit", "filemón": "flm", "hebreos": "heb",
+            "santiago": "snt", "1 pedro": "1pe", "2 pedro": "2pe", "1 juan": "1jn", "2 juan": "2jn",
+            "3 juan": "3jn", "judas": "jud", "apocalipsis": "apo"
+        };
 
-        function buscarLibroEnBiblia(nombreLibro) {
-            if (cacheLibros[nombreLibro]) return cacheLibros[nombreLibro];
-            const nombreBuscado = soloLetras(nombreLibro);
-            for (const testamento in bibleData) {
-                const libros = bibleData[testamento];
-                for (const clave in libros) {
-                    if (soloLetras(clave) === nombreBuscado) {
-                        cacheLibros[nombreLibro] = libros[clave];
-                        return libros[clave];
-                    }
-                }
-            }
-            return null;
-        }
-
+        // ===== BÚSQUEDA EN FORMATO ARRAY =====
         function obtenerTextoVersiculo(referencia) {
-            if (typeof bibleData === 'undefined') return 'Error: Biblia no cargada.';
-            const libroData = buscarLibroEnBiblia(referencia.libro);
-            if (!libroData) {
-                console.warn(`❌ Libro no encontrado: ${referencia.libro}`);
-                return `[Libro no encontrado: ${referencia.libro}]`;
+            if (!Array.isArray(bibleData)) return 'Error: Formato de Biblia no reconocido.';
+            const nombreNormalizado = referencia.libro.trim().toLowerCase().replace(/\s+/g, ' ');
+            const abrev = librosMap[nombreNormalizado];
+            if (!abrev) {
+                console.warn('Abreviatura no encontrada para:', referencia.libro);
+                return `[Abreviatura no encontrada: ${referencia.libro}]`;
             }
-            const cap = libroData[referencia.capitulo.toString()];
-            if (!cap) {
-                console.warn(`⚠️ Capítulo no encontrado: ${referencia.libro} ${referencia.capitulo}`);
-                return `[Capítulo no encontrado: ${referencia.libro} ${referencia.capitulo}]`;
+            // Buscar el libro en el array
+            const libro = bibleData.find(b => b.abbrev === abrev);
+            if (!libro) {
+                console.warn('Libro no encontrado con abrev:', abrev);
+                return `[Libro no encontrado: ${referencia.libro} (abrev: ${abrev})]`;
             }
-            const ver = cap[referencia.versiculo.toString()];
-            if (!ver) {
-                console.warn(`⚠️ Versículo no encontrado: ${referencia.libro} ${referencia.capitulo}:${referencia.versiculo}`);
-                return `[Versículo no encontrado: ${referencia.libro} ${referencia.capitulo}:${referencia.versiculo}]`;
+            const capitulo = parseInt(referencia.capitulo);
+            const versiculo = parseInt(referencia.versiculo);
+            if (!libro.chapters || !libro.chapters[capitulo - 1]) {
+                console.warn('Capítulo no encontrado:', referencia.libro, capitulo);
+                return `[Capítulo no encontrado: ${referencia.libro} ${capitulo}]`;
             }
-            return ver;
+            const versiculos = libro.chapters[capitulo - 1];
+            if (!versiculos[versiculo - 1]) {
+                console.warn('Versículo no encontrado:', referencia.libro, capitulo, ':', versiculo);
+                return `[Versículo no encontrado: ${referencia.libro} ${capitulo}:${versiculo}]`;
+            }
+            return versiculos[versiculo - 1];
         }
 
         // ===== NAVEGACIÓN =====
@@ -398,14 +400,12 @@
             if (pagina === 'favoritos') cargarFavoritos();
         }
 
-        // ===== MODO CLARO/OSCURO =====
         function toggleModo() {
             document.body.classList.toggle('modo-claro');
             const icono = document.querySelector('.modo-toggle');
             icono.textContent = document.body.classList.contains('modo-claro') ? '☀️' : '🌙';
         }
 
-        // ===== CATEGORÍAS =====
         function cargarCategorias() {
             const container = document.getElementById('categoriasContainer');
             container.innerHTML = '';
@@ -419,17 +419,14 @@
         }
 
         let categoriaActualModal = null;
-
         function abrirModalCategoria(categoria) {
             categoriaActualModal = categoria;
             document.getElementById('modalCategoria').classList.add('activo');
             mostrarResultadoEnModal(categoria);
         }
-
         function cerrarModal() {
             document.getElementById('modalCategoria').classList.remove('activo');
         }
-
         function mostrarResultadoEnModal(categoria) {
             const ref = obtenerVersiculoUnico(categoria);
             const texto = obtenerTextoVersiculo(ref);
@@ -441,15 +438,12 @@
             document.getElementById('citaVersiculoModal').textContent = `— ${cita}`;
             versiculoActual = { texto, cita, categoria: categoria.nombre };
         }
-
         function nuevoVersiculoCategoria() {
             if (categoriaActualModal) mostrarResultadoEnModal(categoriaActualModal);
         }
-
         function guardarFavoritoDesdeModal() { guardarFavorito(); }
         function compartirDesdeModal() { compartirImagen(); }
 
-        // ===== BÚSQUEDA PRINCIPAL =====
         let ultimosVersiculos = [];
         const MAX_HISTORIAL = 5;
         let versiculoActual = null;
@@ -496,41 +490,31 @@
             versiculoActual = { texto, cita, categoria: categoria.nombre };
         }
 
-        // ===== LECTOR DE VERSÍCULOS =====
         function formatearCitaParaVoz(cita) {
             return cita.replace(/(\d+):(\d+)/, 'capítulo $1, versículo $2');
         }
-
         function speakText(text) {
-            if (!window.speechSynthesis) {
-                alert('Tu navegador no soporta lectura en voz alta.');
-                return;
-            }
+            if (!window.speechSynthesis) return alert('Tu navegador no soporta lectura en voz alta.');
             window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'es-MX';
-            utterance.rate = 0.9;
+            utterance.lang = 'es-MX'; utterance.rate = 0.9;
             window.speechSynthesis.speak(utterance);
         }
-
         function speakVersiculo() {
             if (!versiculoActual) return;
             const citaLimpia = formatearCitaParaVoz(versiculoActual.cita);
             speakText(`${versiculoActual.texto}. ${citaLimpia}.`);
         }
-
         function speakVersiculoModal() {
             if (!versiculoActual) return;
             const citaLimpia = formatearCitaParaVoz(versiculoActual.cita);
             speakText(`${versiculoActual.texto}. ${citaLimpia}.`);
         }
-
         function speakFavorito(texto, cita) {
             const citaLimpia = formatearCitaParaVoz(cita);
             speakText(`${texto}. ${citaLimpia}.`);
         }
 
-        // ===== FAVORITOS =====
         function guardarFavorito() {
             if (!versiculoActual) return;
             let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
@@ -539,9 +523,7 @@
                 favoritos.unshift(versiculoActual);
                 localStorage.setItem('arcangelFavs', JSON.stringify(favoritos));
                 alert('Versículo guardado en favoritos ⭐');
-            } else {
-                alert('Este versículo ya está en favoritos.');
-            }
+            } else alert('Este versículo ya está en favoritos.');
         }
 
         function cargarFavoritos() {
@@ -575,56 +557,41 @@
             cargarFavoritos();
         }
 
-        // ===== COMPARTIR IMAGEN =====
         function compartirImagen() {
             if (!versiculoActual) return;
             const canvas = document.getElementById('canvasCompartir');
             const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#fdfaf3';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.strokeStyle = '#d4af37';
-            ctx.lineWidth = 20;
-            ctx.strokeRect(10, 10, canvas.width-20, canvas.height-20);
+            ctx.fillStyle = '#fdfaf3'; ctx.fillRect(0,0,canvas.width,canvas.height);
+            ctx.strokeStyle = '#d4af37'; ctx.lineWidth = 20;
+            ctx.strokeRect(10,10,canvas.width-20,canvas.height-20);
             ctx.fillStyle = '#3e2c1f';
-            ctx.font = 'bold 30px "Cinzel", "Times New Roman", serif';
-            ctx.textAlign = 'center';
+            ctx.font = 'bold 30px "Cinzel", serif'; ctx.textAlign = 'center';
             wrapText(ctx, `“${versiculoActual.texto}”`, canvas.width/2, 250, 600, 38);
-            ctx.fillStyle = '#d4af37';
-            ctx.font = '26px "Cinzel", serif';
+            ctx.fillStyle = '#d4af37'; ctx.font = '26px "Cinzel", serif';
             ctx.fillText(`— ${versiculoActual.cita}`, canvas.width/2, 480);
-            ctx.fillStyle = '#5a4a3a';
-            ctx.font = '20px Arial';
+            ctx.fillStyle = '#5a4a3a'; ctx.font = '20px Arial';
             ctx.fillText('Arcángel App', canvas.width/2, 650);
             canvas.toBlob(blob => {
                 const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'versiculo-arcangel.png';
-                a.click();
+                const a = document.createElement('a'); a.href = url; a.download = 'versiculo-arcangel.png'; a.click();
                 URL.revokeObjectURL(url);
             });
         }
 
         function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
-            const words = text.split(' ');
-            let line = '';
-            let testLine = '';
-            let lineY = y;
+            const words = text.split(' '); let line = '', testLine = '', lineY = y;
             for (let n = 0; n < words.length; n++) {
                 testLine = line + words[n] + ' ';
-                const metrics = ctx.measureText(testLine);
-                if (metrics.width > maxWidth && n > 0) {
+                if (ctx.measureText(testLine).width > maxWidth && n > 0) {
                     ctx.fillText(line, x, lineY);
                     line = words[n] + ' ';
                     lineY += lineHeight;
-                } else {
-                    line = testLine;
-                }
+                } else line = testLine;
             }
             ctx.fillText(line, x, lineY);
         }
 
-        // ===== BOTÓN DE VOZ (DICTADO) =====
+        // ===== BOTÓN DE VOZ =====
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition = null;
         let estaGrabando = false;
@@ -632,10 +599,8 @@
             const botonHablar = document.getElementById('botonHablar');
             if (SpeechRecognition) {
                 recognition = new SpeechRecognition();
-                recognition.lang = 'es-MX';
-                recognition.interimResults = false;
-                recognition.continuous = false;
-                recognition.maxAlternatives = 1;
+                recognition.lang = 'es-MX'; recognition.interimResults = false;
+                recognition.continuous = false; recognition.maxAlternatives = 1;
                 recognition.onstart = () => {
                     estaGrabando = true;
                     botonHablar.style.background = 'rgba(200,50,50,0.7)';
