@@ -69,9 +69,7 @@
             margin-bottom:0.8rem;
             backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
         }
-        textarea::placeholder {
-            color: var(--placeholder-color);
-        }
+        textarea::placeholder { color: var(--placeholder-color); }
         .botonera { display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:center; margin-bottom:0.8rem; }
         button {
             background: var(--button-bg);
@@ -184,9 +182,17 @@
         .favorito-item .versiculo-cita {
             font-weight:bold; color:var(--resp-cita); margin-bottom:0.6rem;
         }
+        .acciones-favorito { display:flex; gap:0.4rem; margin-top:0.4rem; flex-wrap:wrap; }
+        .acciones-favorito button {
+            font-size:0.8rem; padding:0.3rem 0.7rem;
+            background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3);
+            color: var(--resp-text);
+            border-radius:20px;
+            cursor:pointer;
+        }
         .eliminar-fav {
             position:absolute; top:5px; right:10px; background:transparent;
-            border:none; color:#e0d3b8; font-size:1.2rem; cursor:pointer;
+            border:none; color:#e0d3b8; font-size:2rem; cursor:pointer; line-height:1;
         }
         .no-favoritos { font-style:italic; color:#cbbfa5; margin-top:1.5rem; }
 
@@ -200,7 +206,6 @@
 <body>
     <div class="modo-toggle" onclick="toggleModo()">🌙</div>
     <div class="app-container">
-        <!-- INICIO -->
         <div id="paginaInicio" class="pagina activa">
             <div class="panel">
                 <h1>Arcángel</h1>
@@ -237,7 +242,6 @@
             </div>
         </div>
 
-        <!-- CATEGORÍAS -->
         <div id="paginaCategorias" class="pagina">
             <div class="panel">
                 <h2 style="color:var(--dorado); margin-bottom:1rem;">Categorías</h2>
@@ -245,7 +249,6 @@
             </div>
         </div>
 
-        <!-- MODAL -->
         <div class="modal-overlay" id="modalCategoria">
             <div class="modal-contenido">
                 <button class="cerrar-modal" onclick="cerrarModal()">&times;</button>
@@ -264,7 +267,6 @@
             </div>
         </div>
 
-        <!-- FAVORITOS -->
         <div id="paginaFavoritos" class="pagina">
             <div class="panel">
                 <h2 style="color:var(--dorado); margin-bottom:1rem;">Mis Favoritos</h2>
@@ -274,7 +276,6 @@
         </div>
     </div>
 
-    <!-- NAVBAR -->
     <div class="navbar">
         <button id="navInicio" class="activo" onclick="cambiarPagina('inicio')">
             <span class="material-icons-outlined">home</span> <span>Inicio</span>
@@ -292,7 +293,6 @@
     <script src="bible.js"></script>
     <script src="categories.js"></script>
     <script>
-        // ===== DICCIONARIO DE ABREVIATURAS =====
         const abrevMap = {
             "génesis": "gn", "exodo": "ex", "levítico": "lv", "números": "nm", "deuteronomio": "dt",
             "josué": "jos", "jueces": "jue", "ruth": "rt", "1 samuel": "1sm", "2 samuel": "2sm",
@@ -309,13 +309,7 @@
             "santiago": "snt", "1 pedro": "1pe", "2 pedro": "2pe", "1 juan": "1jn", "2 juan": "2jn",
             "3 juan": "3jn", "judas": "jud", "apocalipsis": "apo"
         };
-
-        // ===== REEMPLAZO DE JEHOVÁ POR DIOS =====
-        function limpiarTexto(texto) {
-            return texto.replace(/Jehová|Jehova/g, 'Dios');
-        }
-
-        // ===== BÚSQUEDA DE VERSÍCULOS =====
+        function limpiarTexto(texto) { return texto.replace(/Jehová|Jehova/g, 'Dios'); }
         function obtenerTextoVersiculo(referencia) {
             const nombreLibro = referencia.libro.trim().toLowerCase().replace(/\s+/g, ' ');
             const abrev = abrevMap[nombreLibro];
@@ -328,7 +322,6 @@
             return limpiarTexto(libro.chapters[cap - 1][ver - 1]);
         }
 
-        // ===== NAVEGACIÓN =====
         function cambiarPagina(pagina) {
             document.querySelectorAll('.pagina').forEach(p => p.classList.remove('activa'));
             document.getElementById('pagina' + pagina.charAt(0).toUpperCase() + pagina.slice(1)).classList.add('activa');
@@ -338,14 +331,11 @@
             if (pagina === 'favoritos') cargarFavoritos();
         }
 
-        // ===== MODO CLARO/OSCURO =====
         function toggleModo() {
             document.body.classList.toggle('modo-claro');
-            const icon = document.querySelector('.modo-toggle');
-            icon.textContent = document.body.classList.contains('modo-claro') ? '☀️' : '🌙';
+            document.querySelector('.modo-toggle').textContent = document.body.classList.contains('modo-claro') ? '☀️' : '🌙';
         }
 
-        // ===== CATEGORÍAS =====
         function cargarCategorias() {
             const container = document.getElementById('categoriasContainer');
             container.innerHTML = '';
@@ -366,36 +356,27 @@
         }
         function cerrarModal() { document.getElementById('modalCategoria').classList.remove('activo'); }
 
-        // ===== SISTEMA ANTIRREPETICIÓN =====
         const usedReferences = new Map();
-
         function obtenerVersiculoUnico(categoria) {
             const catNombre = categoria.nombre;
-            if (!usedReferences.has(catNombre)) {
-                usedReferences.set(catNombre, new Set());
-            }
+            if (!usedReferences.has(catNombre)) usedReferences.set(catNombre, new Set());
             const usados = usedReferences.get(catNombre);
             const disponibles = categoria.referencias.filter(ref => {
                 const clave = `${ref.libro}-${ref.capitulo}-${ref.versiculo}`;
                 return !usados.has(clave);
             });
-            if (disponibles.length === 0) {
-                usados.clear();
-                return obtenerVersiculoUnico(categoria);
-            }
+            if (disponibles.length === 0) { usados.clear(); return obtenerVersiculoUnico(categoria); }
             const elegido = disponibles[Math.floor(Math.random() * disponibles.length)];
             usados.add(`${elegido.libro}-${elegido.capitulo}-${elegido.versiculo}`);
             return elegido;
         }
 
-        // ===== MOSTRAR RESULTADOS (ORDEN CORRECTO: categoría → frase empática → versículo → cita) =====
         function buscarVersiculo() {
             const sentimiento = document.getElementById('inputSentimiento').value.trim();
             if (!sentimiento) return;
             const categoria = detectarCategoria(sentimiento);
             mostrarResultadoInicio(categoria);
         }
-
         function versiculoAleatorio() {
             const categoria = categories[Math.floor(Math.random() * categories.length)];
             document.getElementById('inputSentimiento').value = '';
@@ -407,7 +388,6 @@
             const texto = obtenerTextoVersiculo(ref) || "El Señor es mi pastor, nada me falta.";
             const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
             const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
-
             document.getElementById('respuestaBox').style.display = 'block';
             document.getElementById('categoriaNombreInicio').textContent = categoria.nombre;
             document.getElementById('fraseEmpatica').textContent = frase;
@@ -421,7 +401,6 @@
             const texto = obtenerTextoVersiculo(ref) || "El Señor es mi pastor, nada me falta.";
             const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
             const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
-
             document.getElementById('categoriaNombreModal').textContent = categoria.nombre;
             document.getElementById('fraseEmpaticaModal').textContent = frase;
             document.getElementById('textoVersiculoModal').textContent = `“${texto}”`;
@@ -429,13 +408,10 @@
             versiculoActual = { texto, cita, categoria: categoria.nombre, frase };
         }
 
-        function nuevoVersiculoCategoria() {
-            if (categoriaActualModal) mostrarResultadoEnModal(categoriaActualModal);
-        }
+        function nuevoVersiculoCategoria() { if (categoriaActualModal) mostrarResultadoEnModal(categoriaActualModal); }
         function guardarFavoritoDesdeModal() { guardarFavorito(); }
         function compartirDesdeModal() { compartirImagen(); }
 
-        // ===== FAVORITOS =====
         let versiculoActual = null;
         function guardarFavorito() {
             if (!versiculoActual) return;
@@ -452,11 +428,7 @@
             const lista = document.getElementById('listaFavoritos');
             const noMsg = document.getElementById('noFavoritosMsg');
             let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
-            if (favoritos.length === 0) {
-                lista.innerHTML = '';
-                noMsg.style.display = 'block';
-                return;
-            }
+            if (favoritos.length === 0) { lista.innerHTML = ''; noMsg.style.display = 'block'; return; }
             noMsg.style.display = 'none';
             lista.innerHTML = favoritos.map((fav, index) => `
                 <div class="favorito-item">
@@ -465,8 +437,9 @@
                     <div class="frase-empatica">${fav.frase || ''}</div>
                     <div class="versiculo-texto">“${fav.texto}”</div>
                     <div class="versiculo-cita">— ${fav.cita}</div>
-                    <div class="acciones-versiculo">
+                    <div class="acciones-favorito">
                         <button onclick="speakFavorito('${fav.texto.replace(/'/g, "\\'")}', '${fav.cita.replace(/'/g, "\\'")}')"><span class="material-icons-outlined">volume_up</span> Escuchar</button>
+                        <button onclick="compartirFavorito('${fav.texto.replace(/'/g, "\\'")}', '${fav.cita.replace(/'/g, "\\'")}')"><span class="material-icons-outlined">share</span> Compartir</button>
                     </div>
                 </div>
             `).join('');
@@ -479,10 +452,14 @@
             cargarFavoritos();
         }
 
-        // ===== VOZ =====
-        function formatearCitaParaVoz(cita) {
-            return cita.replace(/(\d+):(\d+)/, 'capítulo $1, versículo $2');
+        function compartirFavorito(texto, cita) {
+            const temp = versiculoActual;
+            versiculoActual = { texto, cita, categoria: '', frase: '' };
+            compartirImagen();
+            versiculoActual = temp;
         }
+
+        function formatearCitaParaVoz(cita) { return cita.replace(/(\d+):(\d+)/, 'capítulo $1, versículo $2'); }
         function speakText(text) {
             if (!window.speechSynthesis) return alert('Tu navegador no soporta lectura en voz alta.');
             window.speechSynthesis.cancel();
@@ -490,19 +467,10 @@
             utterance.lang = 'es-MX'; utterance.rate = 0.9;
             window.speechSynthesis.speak(utterance);
         }
-        function speakVersiculo() {
-            if (!versiculoActual) return;
-            speakText(`${versiculoActual.texto}. ${formatearCitaParaVoz(versiculoActual.cita)}.`);
-        }
-        function speakVersiculoModal() {
-            if (!versiculoActual) return;
-            speakText(`${versiculoActual.texto}. ${formatearCitaParaVoz(versiculoActual.cita)}.`);
-        }
-        function speakFavorito(texto, cita) {
-            speakText(`${texto}. ${formatearCitaParaVoz(cita)}.`);
-        }
+        function speakVersiculo() { if (versiculoActual) speakText(`${versiculoActual.texto}. ${formatearCitaParaVoz(versiculoActual.cita)}.`); }
+        function speakVersiculoModal() { if (versiculoActual) speakText(`${versiculoActual.texto}. ${formatearCitaParaVoz(versiculoActual.cita)}.`); }
+        function speakFavorito(texto, cita) { speakText(`${texto}. ${formatearCitaParaVoz(cita)}.`); }
 
-        // ===== COMPARTIR IMAGEN =====
         function compartirImagen() {
             if (!versiculoActual) return;
             const canvas = document.getElementById('canvasCompartir');
@@ -537,7 +505,6 @@
             ctx.fillText(line, x, lineY);
         }
 
-        // ===== DICTADO POR VOZ =====
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition = null;
         let estaGrabando = false;
@@ -554,10 +521,7 @@
                 };
                 recognition.onresult = (event) => {
                     const texto = event.results[0][0].transcript.trim();
-                    if (texto) {
-                        document.getElementById('inputSentimiento').value = texto;
-                        buscarVersiculo();
-                    }
+                    if (texto) { document.getElementById('inputSentimiento').value = texto; buscarVersiculo(); }
                 };
                 recognition.onerror = (event) => {
                     restaurarBoton();
@@ -572,17 +536,8 @@
             }
         });
 
-        function iniciarDictado() {
-            if (recognition && !estaGrabando) {
-                try { recognition.start(); } catch(e) { restaurarBoton(); }
-            }
-        }
-        function detenerDictado() {
-            if (recognition && estaGrabando) {
-                try { recognition.stop(); } catch(e) {}
-            }
-            restaurarBoton();
-        }
+        function iniciarDictado() { if (recognition && !estaGrabando) { try { recognition.start(); } catch(e) { restaurarBoton(); } } }
+        function detenerDictado() { if (recognition && estaGrabando) { try { recognition.stop(); } catch(e) {} } restaurarBoton(); }
         function restaurarBoton() {
             estaGrabando = false;
             const botonHablar = document.getElementById('botonHablar');
