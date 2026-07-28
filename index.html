@@ -18,6 +18,7 @@
             --resp-text: #f5e9d8;
             --resp-cita: #d4af37;
             --text-secondary: #e0d3b8;
+            --placeholder-color: #cbbfa5;
         }
         body.modo-claro {
             --bg-body: #fdfaf3;
@@ -26,9 +27,10 @@
             --text-secondary: #5a4a3a;
             --button-bg: rgba(212, 175, 55, 0.3);
             --button-border: rgba(180, 130, 20, 0.6);
-            --resp-bg: rgba(20, 10, 5, 0.85);
-            --resp-text: #f5e9d8;
+            --resp-bg: rgba(255, 250, 240, 0.9);
+            --resp-text: #3e2c1f;
             --resp-cita: #d4af37;
+            --placeholder-color: #5a4a3a;
         }
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
@@ -67,7 +69,9 @@
             margin-bottom:0.8rem;
             backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
         }
-        textarea::placeholder { color: #cbbfa5; }
+        textarea::placeholder {
+            color: var(--placeholder-color);
+        }
         .botonera { display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:center; margin-bottom:0.8rem; }
         button {
             background: var(--button-bg);
@@ -202,7 +206,7 @@
                 <h1>Arcángel</h1>
                 <p class="subtitulo">Guía y Mensajero de la Palabra</p>
                 <p class="frase-corazon">¿Qué hay en tu corazón hoy?</p>
-                <textarea id="inputSentimiento" placeholder="Escribe cómo te sientes, tus preocupaciones o tus miedos..."></textarea>
+                <textarea id="inputSentimiento" placeholder="Cuéntame cómo te sientes, tus preocupaciones o tus miedos..."></textarea>
                 <div class="botonera">
                     <button class="microfono" id="botonHablar"
                             onmousedown="iniciarDictado()" onmouseup="detenerDictado()"
@@ -288,7 +292,7 @@
     <script src="bible.js"></script>
     <script src="categories.js"></script>
     <script>
-        // ===== DICCIONARIO DE ABREVIATURAS (necesario para obtenerTextoVersiculo) =====
+        // ===== DICCIONARIO DE ABREVIATURAS =====
         const abrevMap = {
             "génesis": "gn", "exodo": "ex", "levítico": "lv", "números": "nm", "deuteronomio": "dt",
             "josué": "jos", "jueces": "jue", "ruth": "rt", "1 samuel": "1sm", "2 samuel": "2sm",
@@ -311,7 +315,7 @@
             return texto.replace(/Jehová|Jehova/g, 'Dios');
         }
 
-        // ===== BÚSQUEDA DE VERSÍCULOS EN bibleData =====
+        // ===== BÚSQUEDA DE VERSÍCULOS =====
         function obtenerTextoVersiculo(referencia) {
             const nombreLibro = referencia.libro.trim().toLowerCase().replace(/\s+/g, ' ');
             const abrev = abrevMap[nombreLibro];
@@ -362,8 +366,8 @@
         }
         function cerrarModal() { document.getElementById('modalCategoria').classList.remove('activo'); }
 
-        // ===== SISTEMA ANTIRREPETICIÓN (POR CATEGORÍA) =====
-        const usedReferences = new Map(); // clave: nombre categoría, valor: Set de claves 'libro-cap-ver'
+        // ===== SISTEMA ANTIRREPETICIÓN =====
+        const usedReferences = new Map();
 
         function obtenerVersiculoUnico(categoria) {
             const catNombre = categoria.nombre;
@@ -376,7 +380,6 @@
                 return !usados.has(clave);
             });
             if (disponibles.length === 0) {
-                // Reiniciar si ya se usaron todos
                 usados.clear();
                 return obtenerVersiculoUnico(categoria);
             }
@@ -385,41 +388,47 @@
             return elegido;
         }
 
-        // ===== BÚSQUEDA Y MUESTRA =====
+        // ===== MOSTRAR RESULTADOS (ORDEN CORRECTO: categoría → frase empática → versículo → cita) =====
         function buscarVersiculo() {
             const sentimiento = document.getElementById('inputSentimiento').value.trim();
             if (!sentimiento) return;
             const categoria = detectarCategoria(sentimiento);
             mostrarResultadoInicio(categoria);
         }
+
         function versiculoAleatorio() {
             const categoria = categories[Math.floor(Math.random() * categories.length)];
             document.getElementById('inputSentimiento').value = '';
             mostrarResultadoInicio(categoria);
         }
+
         function mostrarResultadoInicio(categoria) {
             const ref = obtenerVersiculoUnico(categoria);
             const texto = obtenerTextoVersiculo(ref) || "El Señor es mi pastor, nada me falta.";
             const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
             const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
+
             document.getElementById('respuestaBox').style.display = 'block';
             document.getElementById('categoriaNombreInicio').textContent = categoria.nombre;
             document.getElementById('fraseEmpatica').textContent = frase;
             document.getElementById('textoVersiculo').textContent = `“${texto}”`;
             document.getElementById('citaVersiculo').textContent = `— ${cita}`;
-            versiculoActual = { texto, cita, categoria: categoria.nombre };
+            versiculoActual = { texto, cita, categoria: categoria.nombre, frase };
         }
+
         function mostrarResultadoEnModal(categoria) {
             const ref = obtenerVersiculoUnico(categoria);
             const texto = obtenerTextoVersiculo(ref) || "El Señor es mi pastor, nada me falta.";
             const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
             const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
+
             document.getElementById('categoriaNombreModal').textContent = categoria.nombre;
             document.getElementById('fraseEmpaticaModal').textContent = frase;
             document.getElementById('textoVersiculoModal').textContent = `“${texto}”`;
             document.getElementById('citaVersiculoModal').textContent = `— ${cita}`;
-            versiculoActual = { texto, cita, categoria: categoria.nombre };
+            versiculoActual = { texto, cita, categoria: categoria.nombre, frase };
         }
+
         function nuevoVersiculoCategoria() {
             if (categoriaActualModal) mostrarResultadoEnModal(categoriaActualModal);
         }
@@ -433,11 +442,12 @@
             let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
             const yaExiste = favoritos.some(f => f.texto === versiculoActual.texto && f.cita === versiculoActual.cita);
             if (!yaExiste) {
-                favoritos.unshift(versiculoActual);
+                favoritos.unshift({texto: versiculoActual.texto, cita: versiculoActual.cita, categoria: versiculoActual.categoria, frase: versiculoActual.frase || ''});
                 localStorage.setItem('arcangelFavs', JSON.stringify(favoritos));
                 alert('Versículo guardado en favoritos ⭐');
             } else alert('Este versículo ya está en favoritos.');
         }
+
         function cargarFavoritos() {
             const lista = document.getElementById('listaFavoritos');
             const noMsg = document.getElementById('noFavoritosMsg');
@@ -461,6 +471,7 @@
                 </div>
             `).join('');
         }
+
         function eliminarFavorito(index) {
             let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
             favoritos.splice(index, 1);
@@ -512,6 +523,7 @@
                 URL.revokeObjectURL(url);
             });
         }
+
         function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
             const words = text.split(' '); let line = '', testLine = '', lineY = y;
             for (let n = 0; n < words.length; n++) {
@@ -559,6 +571,7 @@
                 botonHablar.disabled = true;
             }
         });
+
         function iniciarDictado() {
             if (recognition && !estaGrabando) {
                 try { recognition.start(); } catch(e) { restaurarBoton(); }
