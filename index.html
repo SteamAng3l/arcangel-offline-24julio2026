@@ -17,6 +17,18 @@
             --resp-bg: rgba(20, 10, 5, 0.8);
             --resp-text: #f5e9d8;
             --resp-cita: #d4af37;
+            --text-secondary: #e0d3b8;
+        }
+        body.modo-claro {
+            --bg-body: #fdfaf3;
+            --bg-panel: rgba(255, 250, 240, 0.85);
+            --text-color: #3e2c1f;
+            --text-secondary: #5a4a3a;
+            --button-bg: rgba(212, 175, 55, 0.3);
+            --button-border: rgba(180, 130, 20, 0.6);
+            --resp-bg: rgba(20, 10, 5, 0.85);
+            --resp-text: #f5e9d8;
+            --resp-cita: #d4af37;
         }
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
@@ -29,6 +41,7 @@
             align-items: center;
             padding: 20px 10px 90px 10px;
             position: relative;
+            transition: background-color 0.3s, color 0.3s;
         }
         .app-container { width:100%; max-width:500px; margin:0 auto; }
         .panel {
@@ -41,9 +54,10 @@
             text-align: center;
             margin-bottom: 15px;
             border: 1px solid rgba(212,175,55,0.3);
+            transition: background 0.3s;
         }
         h1 { font-size:2.4rem; margin-bottom:0.2rem; color:var(--dorado); letter-spacing:3px; }
-        .subtitulo { font-size:1rem; color:#e0d3b8; margin-bottom:1.5rem; font-style:italic; }
+        .subtitulo { font-size:1rem; color:var(--text-secondary); margin-bottom:1.5rem; font-style:italic; }
         .frase-corazon { font-size:1.3rem; margin-bottom:1.2rem; font-weight:bold; }
         textarea {
             width:100%; height:80px; padding:0.8rem;
@@ -76,6 +90,9 @@
         .respuesta .categoria-nombre {
             font-size:0.85rem; color:var(--resp-cita); margin-bottom:0.3rem; font-weight:bold;
         }
+        .respuesta .frase-empatica {
+            font-style:italic; color:var(--text-secondary); margin-bottom:0.6rem;
+        }
         .respuesta .versiculo-texto {
             font-size:1.15rem; margin-bottom:0.4rem; line-height:1.6;
         }
@@ -105,8 +122,8 @@
             position: relative;
         }
         .modal-contenido .cerrar-modal {
-            position:absolute; top:10px; right:15px; background:transparent; border:none;
-            color:var(--dorado); font-size:1.5rem; cursor:pointer;
+            position:absolute; top:5px; right:10px; background:transparent; border:none;
+            color:var(--dorado); font-size:2.5rem; cursor:pointer; line-height:1;
         }
 
         .navbar {
@@ -153,6 +170,9 @@
         }
         .favorito-item .categoria-nombre {
             font-size:0.85rem; color:var(--resp-cita); margin-bottom:0.3rem; font-weight:bold;
+        }
+        .favorito-item .frase-empatica {
+            font-style:italic; color:var(--text-secondary); margin-bottom:0.6rem;
         }
         .favorito-item .versiculo-texto {
             font-size:1.15rem; margin-bottom:0.4rem; line-height:1.6;
@@ -201,6 +221,7 @@
                 </div>
                 <div id="respuestaBox" class="respuesta" style="display:none;">
                     <div class="categoria-nombre" id="categoriaNombreInicio"></div>
+                    <div class="frase-empatica" id="fraseEmpatica"></div>
                     <div class="versiculo-texto" id="textoVersiculo"></div>
                     <div class="versiculo-cita" id="citaVersiculo"></div>
                     <div class="acciones-versiculo">
@@ -226,6 +247,7 @@
                 <button class="cerrar-modal" onclick="cerrarModal()">&times;</button>
                 <div class="respuesta" id="respuestaModal">
                     <div class="categoria-nombre" id="categoriaNombreModal"></div>
+                    <div class="frase-empatica" id="fraseEmpaticaModal"></div>
                     <div class="versiculo-texto" id="textoVersiculoModal"></div>
                     <div class="versiculo-cita" id="citaVersiculoModal"></div>
                     <div class="acciones-versiculo">
@@ -263,8 +285,45 @@
 
     <canvas id="canvasCompartir" width="800" height="800"></canvas>
 
+    <script src="bible.js"></script>
     <script src="categories.js"></script>
     <script>
+        // ===== DICCIONARIO DE ABREVIATURAS (necesario para obtenerTextoVersiculo) =====
+        const abrevMap = {
+            "génesis": "gn", "exodo": "ex", "levítico": "lv", "números": "nm", "deuteronomio": "dt",
+            "josué": "jos", "jueces": "jue", "ruth": "rt", "1 samuel": "1sm", "2 samuel": "2sm",
+            "1 reyes": "1re", "2 reyes": "2re", "1 crónicas": "1cr", "2 crónicas": "2cr", "esdras": "esd",
+            "nehemías": "neh", "ester": "est", "job": "job", "salmos": "sal", "proverbios": "pro",
+            "eclesiastés": "ecl", "cantares": "cnt", "isaías": "isa", "jeremías": "jer", "lamentaciones": "lam",
+            "ezequiel": "eze", "daniel": "dan", "oseas": "ose", "joel": "joe", "amós": "amo", "obadías": "oba",
+            "jonás": "jon", "miqueas": "miq", "nahúm": "nah", "habacuc": "hab", "sofonías": "sof", "ageo": "age",
+            "zacarías": "zac", "malaquías": "mal",
+            "mateo": "mat", "marcos": "mar", "lucas": "luc", "juan": "jua", "hechos": "hch",
+            "romanos": "rom", "1 corintios": "1co", "2 corintios": "2co", "gálatas": "gal", "efesios": "efe",
+            "filipenses": "fil", "colosenses": "col", "1 tesalonicenses": "1ts", "2 tesalonicenses": "2ts",
+            "1 timoteo": "1ti", "2 timoteo": "2ti", "tito": "tit", "filemón": "flm", "hebreos": "heb",
+            "santiago": "snt", "1 pedro": "1pe", "2 pedro": "2pe", "1 juan": "1jn", "2 juan": "2jn",
+            "3 juan": "3jn", "judas": "jud", "apocalipsis": "apo"
+        };
+
+        // ===== REEMPLAZO DE JEHOVÁ POR DIOS =====
+        function limpiarTexto(texto) {
+            return texto.replace(/Jehová|Jehova/g, 'Dios');
+        }
+
+        // ===== BÚSQUEDA DE VERSÍCULOS EN bibleData =====
+        function obtenerTextoVersiculo(referencia) {
+            const nombreLibro = referencia.libro.trim().toLowerCase().replace(/\s+/g, ' ');
+            const abrev = abrevMap[nombreLibro];
+            if (!abrev) return null;
+            const libro = bibleData.find(b => b.abbrev === abrev);
+            if (!libro || !libro.chapters) return null;
+            const cap = parseInt(referencia.capitulo);
+            const ver = parseInt(referencia.versiculo);
+            if (!libro.chapters[cap - 1] || !libro.chapters[cap - 1][ver - 1]) return null;
+            return limpiarTexto(libro.chapters[cap - 1][ver - 1]);
+        }
+
         // ===== NAVEGACIÓN =====
         function cambiarPagina(pagina) {
             document.querySelectorAll('.pagina').forEach(p => p.classList.remove('activa'));
@@ -275,9 +334,11 @@
             if (pagina === 'favoritos') cargarFavoritos();
         }
 
+        // ===== MODO CLARO/OSCURO =====
         function toggleModo() {
             document.body.classList.toggle('modo-claro');
-            document.querySelector('.modo-toggle').textContent = document.body.classList.contains('modo-claro') ? '☀️' : '🌙';
+            const icon = document.querySelector('.modo-toggle');
+            icon.textContent = document.body.classList.contains('modo-claro') ? '☀️' : '🌙';
         }
 
         // ===== CATEGORÍAS =====
@@ -301,42 +362,64 @@
         }
         function cerrarModal() { document.getElementById('modalCategoria').classList.remove('activo'); }
 
-        // ===== SELECCIÓN DE VERSÍCULO (desde categories.js) =====
-        function obtenerVersiculoAleatorio(categoria) {
-            const arr = categoria.versiculos;
-            return arr[Math.floor(Math.random() * arr.length)];
+        // ===== SISTEMA ANTIRREPETICIÓN (POR CATEGORÍA) =====
+        const usedReferences = new Map(); // clave: nombre categoría, valor: Set de claves 'libro-cap-ver'
+
+        function obtenerVersiculoUnico(categoria) {
+            const catNombre = categoria.nombre;
+            if (!usedReferences.has(catNombre)) {
+                usedReferences.set(catNombre, new Set());
+            }
+            const usados = usedReferences.get(catNombre);
+            const disponibles = categoria.referencias.filter(ref => {
+                const clave = `${ref.libro}-${ref.capitulo}-${ref.versiculo}`;
+                return !usados.has(clave);
+            });
+            if (disponibles.length === 0) {
+                // Reiniciar si ya se usaron todos
+                usados.clear();
+                return obtenerVersiculoUnico(categoria);
+            }
+            const elegido = disponibles[Math.floor(Math.random() * disponibles.length)];
+            usados.add(`${elegido.libro}-${elegido.capitulo}-${elegido.versiculo}`);
+            return elegido;
         }
 
+        // ===== BÚSQUEDA Y MUESTRA =====
         function buscarVersiculo() {
             const sentimiento = document.getElementById('inputSentimiento').value.trim();
             if (!sentimiento) return;
             const categoria = detectarCategoria(sentimiento);
             mostrarResultadoInicio(categoria);
         }
-
         function versiculoAleatorio() {
             const categoria = categories[Math.floor(Math.random() * categories.length)];
             document.getElementById('inputSentimiento').value = '';
             mostrarResultadoInicio(categoria);
         }
-
         function mostrarResultadoInicio(categoria) {
-            const verso = obtenerVersiculoAleatorio(categoria);
+            const ref = obtenerVersiculoUnico(categoria);
+            const texto = obtenerTextoVersiculo(ref) || "El Señor es mi pastor, nada me falta.";
+            const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
+            const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
             document.getElementById('respuestaBox').style.display = 'block';
             document.getElementById('categoriaNombreInicio').textContent = categoria.nombre;
-            document.getElementById('textoVersiculo').textContent = `“${verso.texto}”`;
-            document.getElementById('citaVersiculo').textContent = `— ${verso.cita}`;
-            versiculoActual = { texto: verso.texto, cita: verso.cita, categoria: categoria.nombre };
+            document.getElementById('fraseEmpatica').textContent = frase;
+            document.getElementById('textoVersiculo').textContent = `“${texto}”`;
+            document.getElementById('citaVersiculo').textContent = `— ${cita}`;
+            versiculoActual = { texto, cita, categoria: categoria.nombre };
         }
-
         function mostrarResultadoEnModal(categoria) {
-            const verso = obtenerVersiculoAleatorio(categoria);
+            const ref = obtenerVersiculoUnico(categoria);
+            const texto = obtenerTextoVersiculo(ref) || "El Señor es mi pastor, nada me falta.";
+            const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
+            const frase = categoria.fraseEmpatica[Math.floor(Math.random() * categoria.fraseEmpatica.length)];
             document.getElementById('categoriaNombreModal').textContent = categoria.nombre;
-            document.getElementById('textoVersiculoModal').textContent = `“${verso.texto}”`;
-            document.getElementById('citaVersiculoModal').textContent = `— ${verso.cita}`;
-            versiculoActual = { texto: verso.texto, cita: verso.cita, categoria: categoria.nombre };
+            document.getElementById('fraseEmpaticaModal').textContent = frase;
+            document.getElementById('textoVersiculoModal').textContent = `“${texto}”`;
+            document.getElementById('citaVersiculoModal').textContent = `— ${cita}`;
+            versiculoActual = { texto, cita, categoria: categoria.nombre };
         }
-
         function nuevoVersiculoCategoria() {
             if (categoriaActualModal) mostrarResultadoEnModal(categoriaActualModal);
         }
@@ -355,7 +438,6 @@
                 alert('Versículo guardado en favoritos ⭐');
             } else alert('Este versículo ya está en favoritos.');
         }
-
         function cargarFavoritos() {
             const lista = document.getElementById('listaFavoritos');
             const noMsg = document.getElementById('noFavoritosMsg');
@@ -370,6 +452,7 @@
                 <div class="favorito-item">
                     <button class="eliminar-fav" onclick="eliminarFavorito(${index})">&times;</button>
                     <div class="categoria-nombre">${fav.categoria || ''}</div>
+                    <div class="frase-empatica">${fav.frase || ''}</div>
                     <div class="versiculo-texto">“${fav.texto}”</div>
                     <div class="versiculo-cita">— ${fav.cita}</div>
                     <div class="acciones-versiculo">
@@ -378,7 +461,6 @@
                 </div>
             `).join('');
         }
-
         function eliminarFavorito(index) {
             let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
             favoritos.splice(index, 1);
@@ -430,7 +512,6 @@
                 URL.revokeObjectURL(url);
             });
         }
-
         function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
             const words = text.split(' '); let line = '', testLine = '', lineY = y;
             for (let n = 0; n < words.length; n++) {
@@ -478,7 +559,6 @@
                 botonHablar.disabled = true;
             }
         });
-
         function iniciarDictado() {
             if (recognition && !estaGrabando) {
                 try { recognition.start(); } catch(e) { restaurarBoton(); }
