@@ -107,6 +107,11 @@
             background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.3);
             color: var(--resp-text);
         }
+        /* Corrección de bordes en modo claro */
+        body.modo-claro .acciones-versiculo button {
+            border-color: rgba(0,0,0,0.3);
+            color: #3e2c1f;
+        }
 
         .modal-overlay {
             position:fixed; top:0; left:0; width:100%; height:100%;
@@ -201,11 +206,24 @@
         }
 
         #canvasCompartir { display:none; }
+
+        /* Estilos para la sección social y de apoyo */
+        .social-bar {
+            text-align: center; margin-top: 15px; color: var(--text-secondary); font-size: 0.85rem;
+        }
+        .social-icons {
+            display: flex; justify-content: center; gap: 1.5rem; margin: 0.8rem 0;
+        }
+        .social-icons .material-icons-outlined {
+            font-size: 1.8rem; cursor: pointer; color: var(--text-secondary);
+        }
+        .social-icons .material-icons-outlined:hover { color: var(--dorado); }
     </style>
 </head>
 <body>
     <div class="modo-toggle" onclick="toggleModo()">🌙</div>
     <div class="app-container">
+        <!-- INICIO -->
         <div id="paginaInicio" class="pagina activa">
             <div class="panel">
                 <h1>Arcángel</h1>
@@ -240,8 +258,38 @@
                     </div>
                 </div>
             </div>
+
+            <!-- SECCIÓN VERSÍCULO DEL DÍA -->
+            <div class="panel" id="panelVersiculoDelDia" style="display: none;">
+                <h3 style="color: var(--dorado); margin-bottom: 1rem;">✨ Versículo del Día ✨</h3>
+                <div id="contenidoVersiculoDia">
+                    <div class="versiculo-texto" id="textoVersiculoDia"></div>
+                    <div class="versiculo-cita" id="citaVersiculoDia"></div>
+                    <div class="acciones-versiculo" style="justify-content: center;">
+                        <button onclick="speakVersiculoDia()"><span class="material-icons-outlined">volume_up</span> Escuchar</button>
+                        <button onclick="compartirImagenVersiculoDia()"><span class="material-icons-outlined">share</span> Compartir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BARRA SOCIAL Y APOYO -->
+            <div class="social-bar">
+                <p>Versículos de la Biblia Reina-Valera 1909 (RVR1909) · Dominio público</p>
+                <div class="social-icons">
+                    <span class="material-icons-outlined" title="Facebook">facebook</span>
+                    <span class="material-icons-outlined" title="Instagram">instagram</span>
+                    <span class="material-icons-outlined" title="YouTube">play_circle</span>
+                    <span class="material-icons-outlined" title="TikTok">music_note</span>
+                </div>
+                <p style="margin-top: 10px;">Apoyar este proyecto</p>
+                <button style="background: none; border: 1px solid var(--dorado); color: var(--dorado); padding: 0.3rem 1rem; border-radius: 20px; margin-top: 5px; cursor:pointer;">
+                    ❤️ Donar
+                </button>
+                <p style="margin-top: 15px;">Espacio reservado para anuncios (Google AdSense)</p>
+            </div>
         </div>
 
+        <!-- CATEGORÍAS -->
         <div id="paginaCategorias" class="pagina">
             <div class="panel">
                 <h2 style="color:var(--dorado); margin-bottom:1rem;">Categorías</h2>
@@ -249,6 +297,7 @@
             </div>
         </div>
 
+        <!-- MODAL -->
         <div class="modal-overlay" id="modalCategoria">
             <div class="modal-contenido">
                 <button class="cerrar-modal" onclick="cerrarModal()">&times;</button>
@@ -267,6 +316,7 @@
             </div>
         </div>
 
+        <!-- FAVORITOS -->
         <div id="paginaFavoritos" class="pagina">
             <div class="panel">
                 <h2 style="color:var(--dorado); margin-bottom:1rem;">Mis Favoritos</h2>
@@ -276,6 +326,7 @@
         </div>
     </div>
 
+    <!-- NAVBAR -->
     <div class="navbar">
         <button id="navInicio" class="activo" onclick="cambiarPagina('inicio')">
             <span class="material-icons-outlined">home</span> <span>Inicio</span>
@@ -293,6 +344,7 @@
     <script src="bible.js"></script>
     <script src="categories.js"></script>
     <script>
+        // ===== DICCIONARIO DE ABREVIATURAS =====
         const abrevMap = {
             "génesis": "gn", "exodo": "ex", "levítico": "lv", "números": "nm", "deuteronomio": "dt",
             "josué": "jos", "jueces": "jue", "ruth": "rt", "1 samuel": "1sm", "2 samuel": "2sm",
@@ -309,7 +361,11 @@
             "santiago": "snt", "1 pedro": "1pe", "2 pedro": "2pe", "1 juan": "1jn", "2 juan": "2jn",
             "3 juan": "3jn", "judas": "jud", "apocalipsis": "apo"
         };
-        function limpiarTexto(texto) { return texto.replace(/Jehová|Jehova/g, 'Dios'); }
+
+        function limpiarTexto(texto) {
+            return texto.replace(/Jehová|Jehova/g, 'Dios');
+        }
+
         function obtenerTextoVersiculo(referencia) {
             const nombreLibro = referencia.libro.trim().toLowerCase().replace(/\s+/g, ' ');
             const abrev = abrevMap[nombreLibro];
@@ -322,6 +378,7 @@
             return limpiarTexto(libro.chapters[cap - 1][ver - 1]);
         }
 
+        // ===== NAVEGACIÓN =====
         function cambiarPagina(pagina) {
             document.querySelectorAll('.pagina').forEach(p => p.classList.remove('activa'));
             document.getElementById('pagina' + pagina.charAt(0).toUpperCase() + pagina.slice(1)).classList.add('activa');
@@ -356,6 +413,7 @@
         }
         function cerrarModal() { document.getElementById('modalCategoria').classList.remove('activo'); }
 
+        // ===== ANTIRREPETICIÓN =====
         const usedReferences = new Map();
         function obtenerVersiculoUnico(categoria) {
             const catNombre = categoria.nombre;
@@ -412,6 +470,7 @@
         function guardarFavoritoDesdeModal() { guardarFavorito(); }
         function compartirDesdeModal() { compartirImagen(); }
 
+        // ===== FAVORITOS =====
         let versiculoActual = null;
         function guardarFavorito() {
             if (!versiculoActual) return;
@@ -459,6 +518,7 @@
             versiculoActual = temp;
         }
 
+        // ===== VOZ =====
         function formatearCitaParaVoz(cita) { return cita.replace(/(\d+):(\d+)/, 'capítulo $1, versículo $2'); }
         function speakText(text) {
             if (!window.speechSynthesis) return alert('Tu navegador no soporta lectura en voz alta.');
@@ -471,6 +531,7 @@
         function speakVersiculoModal() { if (versiculoActual) speakText(`${versiculoActual.texto}. ${formatearCitaParaVoz(versiculoActual.cita)}.`); }
         function speakFavorito(texto, cita) { speakText(`${texto}. ${formatearCitaParaVoz(cita)}.`); }
 
+        // ===== COMPARTIR IMAGEN MEJORADO =====
         function compartirImagen() {
             if (!versiculoActual) return;
             const canvas = document.getElementById('canvasCompartir');
@@ -487,7 +548,37 @@
             ctx.fillText('Arcángel App', canvas.width/2, 650);
             canvas.toBlob(blob => {
                 const url = URL.createObjectURL(blob);
-                const a = document.createElement('a'); a.href = url; a.download = 'versiculo-arcangel.png'; a.click();
+                const modal = document.createElement('div');
+                modal.style = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:400;';
+                modal.onclick = () => document.body.removeChild(modal);
+
+                const img = new Image();
+                img.src = url;
+                img.style = 'max-width:90%; max-height:70vh; border-radius:15px; margin-bottom:20px;';
+
+                const btnDescargar = document.createElement('button');
+                btnDescargar.textContent = 'Descargar Imagen';
+                btnDescargar.style = 'padding: 12px 25px; background: var(--dorado); border: none; border-radius: 30px; color: white; font-size: 1rem; cursor:pointer; margin: 5px;';
+                btnDescargar.onclick = (e) => {
+                    e.stopPropagation();
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'versiculo-arcangel.png';
+                    a.click();
+                };
+
+                const btnCerrar = document.createElement('button');
+                btnCerrar.textContent = 'Cerrar';
+                btnCerrar.style = 'padding: 10px 20px; background: transparent; border: 1px solid white; border-radius: 30px; color: white; font-size: 0.9rem; cursor:pointer; margin: 5px;';
+                btnCerrar.onclick = (e) => {
+                    e.stopPropagation();
+                    document.body.removeChild(modal);
+                };
+
+                modal.appendChild(img);
+                modal.appendChild(btnDescargar);
+                modal.appendChild(btnCerrar);
+                document.body.appendChild(modal);
                 URL.revokeObjectURL(url);
             });
         }
@@ -505,6 +596,7 @@
             ctx.fillText(line, x, lineY);
         }
 
+        // ===== DICTADO POR VOZ =====
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition = null;
         let estaGrabando = false;
@@ -534,6 +626,7 @@
                 botonHablar.title = 'Reconocimiento de voz no soportado';
                 botonHablar.disabled = true;
             }
+            mostrarVersiculoDelDia(); // Cargar versículo del día al iniciar
         });
 
         function iniciarDictado() { if (recognition && !estaGrabando) { try { recognition.start(); } catch(e) { restaurarBoton(); } } }
@@ -545,6 +638,46 @@
                 botonHablar.style.background = 'rgba(200,100,100,0.35)';
                 botonHablar.innerHTML = '<span class="material-icons-outlined">mic</span> Háblame';
             }
+        }
+
+        // ===== VERSÍCULO DEL DÍA =====
+        function obtenerVersiculoAleatorioGlobal() {
+            const cat = categories[Math.floor(Math.random() * categories.length)];
+            const ref = obtenerVersiculoUnico(cat);
+            const texto = obtenerTextoVersiculo(ref) || "El Señor es mi pastor, nada me falta.";
+            const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
+            return { texto, cita };
+        }
+
+        function mostrarVersiculoDelDia() {
+            const hoy = new Date().toLocaleDateString('es-MX');
+            const ultimoDia = localStorage.getItem('arcangelUltimoDia');
+            let versoDelDia = JSON.parse(localStorage.getItem('arcangelVersoDia'));
+
+            if (hoy !== ultimoDia || !versoDelDia) {
+                versoDelDia = obtenerVersiculoAleatorioGlobal();
+                localStorage.setItem('arcangelVersoDia', JSON.stringify(versoDelDia));
+                localStorage.setItem('arcangelUltimoDia', hoy);
+            }
+
+            document.getElementById('textoVersiculoDia').textContent = `“${versoDelDia.texto}”`;
+            document.getElementById('citaVersiculoDia').textContent = `— ${versoDelDia.cita}`;
+            document.getElementById('panelVersiculoDelDia').style.display = 'block';
+        }
+
+        function speakVersiculoDia() {
+            const texto = document.getElementById('textoVersiculoDia').textContent.replace(/[“”]/g, '');
+            const cita = document.getElementById('citaVersiculoDia').textContent;
+            speakText(`${texto}. ${formatearCitaParaVoz(cita)}.`);
+        }
+
+        function compartirImagenVersiculoDia() {
+            const texto = document.getElementById('textoVersiculoDia').textContent.replace(/[“”]/g, '');
+            const cita = document.getElementById('citaVersiculoDia').textContent;
+            const temp = versiculoActual;
+            versiculoActual = { texto, cita };
+            compartirImagen();
+            versiculoActual = temp;
         }
     </script>
 </body>
