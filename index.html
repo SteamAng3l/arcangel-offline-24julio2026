@@ -107,12 +107,68 @@
             background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.3);
             color: var(--resp-text);
         }
-        /* Corrección de bordes en modo claro */
         body.modo-claro .acciones-versiculo button {
             border-color: rgba(0,0,0,0.3);
             color: #3e2c1f;
         }
 
+        /* Toggle Switch (Versículo del Día) */
+        .switch-container {
+            display: flex; align-items: center; justify-content: space-between;
+            margin: 1rem 0; padding: 0.5rem 0;
+        }
+        .switch-label {
+            display: flex; align-items: center; gap: 0.5rem; cursor: pointer;
+        }
+        .switch {
+            position: relative; display: inline-block; width: 48px; height: 24px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc; transition: .4s; border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute; content: "";
+            height: 18px; width: 18px; left: 3px; bottom: 3px;
+            background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--dorado); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        .music-btn {
+            opacity: 0.5; cursor: not-allowed;
+        }
+
+        /* Redes sociales desplegable */
+        .redes-container {
+            margin: 1rem 0;
+        }
+        .redes-toggle {
+            width: 100%; justify-content: center;
+        }
+        .redes-links {
+            display: none; margin-top: 0.5rem; flex-wrap: wrap; gap: 1rem; justify-content: center;
+        }
+        .redes-links.active { display: flex; }
+        .redes-links a {
+            color: var(--text-secondary); text-decoration: none; font-size: 1.2rem;
+        }
+
+        /* Barra social inferior */
+        .social-bar {
+            text-align: center; margin-top: 30px; color: var(--text-secondary); font-size: 0.85rem;
+        }
+        .social-icons {
+            display: flex; justify-content: center; gap: 1.5rem; margin: 0.8rem 0;
+        }
+        .social-icons .material-icons-outlined {
+            font-size: 1.8rem; cursor: pointer; color: var(--text-secondary);
+        }
+        .social-icons .material-icons-outlined:hover { color: var(--dorado); }
+
+        /* Modal, navbar, etc. (ya existentes) */
         .modal-overlay {
             position:fixed; top:0; left:0; width:100%; height:100%;
             background:rgba(0,0,0,0.7); display:none;
@@ -206,18 +262,6 @@
         }
 
         #canvasCompartir { display:none; }
-
-        /* Estilos para la sección social y de apoyo */
-        .social-bar {
-            text-align: center; margin-top: 15px; color: var(--text-secondary); font-size: 0.85rem;
-        }
-        .social-icons {
-            display: flex; justify-content: center; gap: 1.5rem; margin: 0.8rem 0;
-        }
-        .social-icons .material-icons-outlined {
-            font-size: 1.8rem; cursor: pointer; color: var(--text-secondary);
-        }
-        .social-icons .material-icons-outlined:hover { color: var(--dorado); }
     </style>
 </head>
 <body>
@@ -257,32 +301,37 @@
                         <button onclick="compartirImagen()"><span class="material-icons-outlined">share</span> Compartir</button>
                     </div>
                 </div>
-            </div>
 
-            <!-- SECCIÓN VERSÍCULO DEL DÍA -->
-            <div class="panel" id="panelVersiculoDelDia" style="display: none;">
-                <h3 style="color: var(--dorado); margin-bottom: 1rem;">✨ Versículo del Día ✨</h3>
-                <div id="contenidoVersiculoDia">
-                    <div class="versiculo-texto" id="textoVersiculoDia"></div>
-                    <div class="versiculo-cita" id="citaVersiculoDia"></div>
-                    <div class="acciones-versiculo" style="justify-content: center;">
-                        <button onclick="speakVersiculoDia()"><span class="material-icons-outlined">volume_up</span> Escuchar</button>
-                        <button onclick="compartirImagenVersiculoDia()"><span class="material-icons-outlined">share</span> Compartir</button>
+                <!-- Switch Versículo del Día + Música -->
+                <div class="switch-container">
+                    <div class="switch-label">
+                        <label class="switch">
+                            <input type="checkbox" id="switchVersiculoDia" onchange="toggleNotificacion()">
+                            <span class="slider"></span>
+                        </label>
+                        <span>Versículo del Día</span>
+                    </div>
+                    <button class="music-btn" disabled title="Próximamente">🎵 Música</button>
+                </div>
+
+                <!-- Botón Redes Sociales -->
+                <div class="redes-container">
+                    <button class="redes-toggle" onclick="toggleRedes()">🌐 Redes Sociales</button>
+                    <div class="redes-links" id="redesLinks">
+                        <!-- Aquí irán los enlaces, ahora vacíos -->
+                        <a href="#" target="_blank" title="Facebook"><span class="material-icons-outlined">facebook</span></a>
+                        <a href="#" target="_blank" title="Instagram"><span class="material-icons-outlined">instagram</span></a>
+                        <a href="#" target="_blank" title="TikTok"><span class="material-icons-outlined">music_note</span></a>
+                        <a href="#" target="_blank" title="Tienda de Velas"><span class="material-icons-outlined">store</span></a>
                     </div>
                 </div>
             </div>
 
-            <!-- BARRA SOCIAL Y APOYO -->
+            <!-- Barra social inferior -->
             <div class="social-bar">
                 <p>Versículos de la Biblia Reina-Valera 1909 (RVR1909) · Dominio público</p>
-                <div class="social-icons">
-                    <span class="material-icons-outlined" title="Facebook">facebook</span>
-                    <span class="material-icons-outlined" title="Instagram">instagram</span>
-                    <span class="material-icons-outlined" title="YouTube">play_circle</span>
-                    <span class="material-icons-outlined" title="TikTok">music_note</span>
-                </div>
                 <p style="margin-top: 10px;">Apoyar este proyecto</p>
-                <button style="background: none; border: 1px solid var(--dorado); color: var(--dorado); padding: 0.3rem 1rem; border-radius: 20px; margin-top: 5px; cursor:pointer;">
+                <button style="background: none; border: 1px solid var(--dorado); color: var(--dorado); padding: 0.3rem 1rem; border-radius: 20px; margin-top: 5px; cursor:pointer;" onclick="window.open('#', '_blank')">
                     ❤️ Donar
                 </button>
                 <p style="margin-top: 15px;">Espacio reservado para anuncios (Google AdSense)</p>
@@ -531,7 +580,7 @@
         function speakVersiculoModal() { if (versiculoActual) speakText(`${versiculoActual.texto}. ${formatearCitaParaVoz(versiculoActual.cita)}.`); }
         function speakFavorito(texto, cita) { speakText(`${texto}. ${formatearCitaParaVoz(cita)}.`); }
 
-        // ===== COMPARTIR IMAGEN MEJORADO =====
+        // ===== COMPARTIR IMAGEN =====
         function compartirImagen() {
             if (!versiculoActual) return;
             const canvas = document.getElementById('canvasCompartir');
@@ -626,7 +675,12 @@
                 botonHablar.title = 'Reconocimiento de voz no soportado';
                 botonHablar.disabled = true;
             }
-            mostrarVersiculoDelDia(); // Cargar versículo del día al iniciar
+            // Cargar estado del switch de notificación
+            const switchNoti = document.getElementById('switchVersiculoDia');
+            if (localStorage.getItem('arcangelNotificacionActiva') === 'true') {
+                switchNoti.checked = true;
+                programarNotificacion();
+            }
         });
 
         function iniciarDictado() { if (recognition && !estaGrabando) { try { recognition.start(); } catch(e) { restaurarBoton(); } } }
@@ -640,44 +694,85 @@
             }
         }
 
-        // ===== VERSÍCULO DEL DÍA =====
-        function obtenerVersiculoAleatorioGlobal() {
-            const cat = categories[Math.floor(Math.random() * categories.length)];
-            const ref = obtenerVersiculoUnico(cat);
+        // ===== NOTIFICACIÓN DEL VERSÍCULO DEL DÍA =====
+        let notificacionInterval = null;
+
+        async function toggleNotificacion() {
+            const switchEl = document.getElementById('switchVersiculoDia');
+            if (switchEl.checked) {
+                if (Notification.permission === 'default') {
+                    const permiso = await Notification.requestPermission();
+                    if (permiso !== 'granted') {
+                        alert('Necesitas conceder permiso para recibir notificaciones.');
+                        switchEl.checked = false;
+                        return;
+                    }
+                }
+                localStorage.setItem('arcangelNotificacionActiva', 'true');
+                programarNotificacion();
+            } else {
+                localStorage.setItem('arcangelNotificacionActiva', 'false');
+                if (notificacionInterval) clearInterval(notificacionInterval);
+            }
+        }
+
+        function programarNotificacion() {
+            if (notificacionInterval) clearInterval(notificacionInterval);
+            // Revisar cada minuto si es la hora exacta (9:24 AM)
+            notificacionInterval = setInterval(() => {
+                const ahora = new Date();
+                const hora = ahora.getHours();
+                const minutos = ahora.getMinutes();
+                if (hora === 9 && minutos === 24) {
+                    const hoy = ahora.toLocaleDateString('es-MX');
+                    if (localStorage.getItem('arcangelUltimoDiaNoti') !== hoy) {
+                        enviarNotificacion();
+                        localStorage.setItem('arcangelUltimoDiaNoti', hoy);
+                    }
+                }
+            }, 60000); // cada minuto
+        }
+
+        function obtenerVersiculoAleatorioUnico() {
+            // Lógica para no repetir los últimos 50 versículos
+            const usados = JSON.parse(localStorage.getItem('arcangelVersosUsadosNoti') || '[]');
+            const todasRefs = [];
+            categories.forEach(cat => {
+                cat.referencias.forEach(ref => todasRefs.push(ref));
+            });
+            const disponibles = todasRefs.filter(ref => {
+                const clave = `${ref.libro}-${ref.capitulo}-${ref.versiculo}`;
+                return !usados.includes(clave);
+            });
+            if (disponibles.length === 0) {
+                // Reiniciar historial si se acaban
+                localStorage.setItem('arcangelVersosUsadosNoti', '[]');
+                return obtenerVersiculoAleatorioUnico();
+            }
+            const elegido = disponibles[Math.floor(Math.random() * disponibles.length)];
+            const claveElegida = `${elegido.libro}-${elegido.capitulo}-${elegido.versiculo}`;
+            usados.push(claveElegida);
+            if (usados.length > 50) usados.shift();
+            localStorage.setItem('arcangelVersosUsadosNoti', JSON.stringify(usados));
+            return elegido;
+        }
+
+        function enviarNotificacion() {
+            const ref = obtenerVersiculoAleatorioUnico();
             const texto = obtenerTextoVersiculo(ref) || "El Señor es mi pastor, nada me falta.";
             const cita = `${ref.libro} ${ref.capitulo}:${ref.versiculo}`;
-            return { texto, cita };
-        }
-
-        function mostrarVersiculoDelDia() {
-            const hoy = new Date().toLocaleDateString('es-MX');
-            const ultimoDia = localStorage.getItem('arcangelUltimoDia');
-            let versoDelDia = JSON.parse(localStorage.getItem('arcangelVersoDia'));
-
-            if (hoy !== ultimoDia || !versoDelDia) {
-                versoDelDia = obtenerVersiculoAleatorioGlobal();
-                localStorage.setItem('arcangelVersoDia', JSON.stringify(versoDelDia));
-                localStorage.setItem('arcangelUltimoDia', hoy);
+            if (Notification.permission === 'granted') {
+                new Notification('✨ Versículo del Día', {
+                    body: `${texto} — ${cita}`,
+                    icon: 'https://steamang3l.github.io/arcangel-offline-24julio2026/assets/icono.png' // ajusta la ruta si tienes un icono
+                });
             }
-
-            document.getElementById('textoVersiculoDia').textContent = `“${versoDelDia.texto}”`;
-            document.getElementById('citaVersiculoDia').textContent = `— ${versoDelDia.cita}`;
-            document.getElementById('panelVersiculoDelDia').style.display = 'block';
         }
 
-        function speakVersiculoDia() {
-            const texto = document.getElementById('textoVersiculoDia').textContent.replace(/[“”]/g, '');
-            const cita = document.getElementById('citaVersiculoDia').textContent;
-            speakText(`${texto}. ${formatearCitaParaVoz(cita)}.`);
-        }
-
-        function compartirImagenVersiculoDia() {
-            const texto = document.getElementById('textoVersiculoDia').textContent.replace(/[“”]/g, '');
-            const cita = document.getElementById('citaVersiculoDia').textContent;
-            const temp = versiculoActual;
-            versiculoActual = { texto, cita };
-            compartirImagen();
-            versiculoActual = temp;
+        // ===== REDES SOCIALES =====
+        function toggleRedes() {
+            const links = document.getElementById('redesLinks');
+            links.classList.toggle('active');
         }
     </script>
 </body>
