@@ -4,274 +4,713 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arcángel – Guía y Mensajero de la Palabra</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Tipografías premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
     <style>
+        /* ===== VARIABLES MODO OSCURO (PREDETERMINADO) ===== */
         :root {
-            --dorado: #d4af37;
-            --bg-panel: rgba(46, 26, 43, 0.7);
-            --text-color: #f5e9d8;
-            --bg-body: #1a0f0f;
-            --button-bg: rgba(212, 175, 55, 0.2);
-            --button-border: rgba(212, 175, 55, 0.6);
-            --resp-bg: rgba(20, 10, 5, 0.8);
-            --resp-text: #f5e9d8;
-            --resp-cita: #d4af37;
-            --text-secondary: #e0d3b8;
-            --placeholder-color: #cbbfa5;
+            --bg-body: #0F1117;
+            --bg-panel: rgba(26, 29, 38, 0.75);
+            --bg-panel-solid: #1A1D26;
+            --bg-resp: rgba(22, 25, 33, 0.9);
+            --text-color: #F1F3F7;
+            --text-secondary: #9BA3B0;
+            --text-muted: #6B7280;
+            --dorado: #D4AF37;
+            --dorado-suave: rgba(212, 175, 55, 0.15);
+            --border-sutil: rgba(255, 255, 255, 0.08);
+            --border-dorado: rgba(212, 175, 55, 0.4);
+            --button-bg: rgba(255, 255, 255, 0.04);
+            --button-hover: rgba(212, 175, 55, 0.15);
+            --sombra-suave: 0 8px 32px rgba(0, 0, 0, 0.45);
+            --sombra-mini: 0 2px 12px rgba(0, 0, 0, 0.3);
+            --placeholder-color: #6B7280;
         }
+
+        /* ===== VARIABLES MODO CLARO ===== */
         body.modo-claro {
-            --bg-body: #fdfaf3;
-            --bg-panel: rgba(255, 250, 240, 0.85);
-            --text-color: #3e2c1f;
-            --text-secondary: #5a4a3a;
-            --button-bg: rgba(212, 175, 55, 0.3);
-            --button-border: rgba(180, 130, 20, 0.6);
-            --resp-bg: rgba(255, 250, 240, 0.9);
-            --resp-text: #3e2c1f;
-            --resp-cita: #d4af37;
-            --placeholder-color: #5a4a3a;
+            --bg-body: #F8F9FA;
+            --bg-panel: rgba(255, 255, 255, 0.85);
+            --bg-panel-solid: #FFFFFF;
+            --bg-resp: #FFFFFF;
+            --text-color: #212529;
+            --text-secondary: #6C757D;
+            --text-muted: #ADB5BD;
+            --dorado: #B8941F;
+            --dorado-suave: rgba(212, 175, 55, 0.12);
+            --border-sutil: #E9ECEF;
+            --border-dorado: rgba(184, 148, 31, 0.4);
+            --button-bg: #FFFFFF;
+            --button-hover: rgba(212, 175, 55, 0.15);
+            --sombra-suave: 0 4px 30px rgba(0, 0, 0, 0.06);
+            --sombra-mini: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --placeholder-color: #ADB5BD;
         }
-        * { margin:0; padding:0; box-sizing:border-box; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Cinzel', 'Times New Roman', serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-body);
             min-height: 100vh;
             color: var(--text-color);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 10px 90px 10px;
+            padding: 24px 14px 100px 14px;
             position: relative;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.5;
         }
-        .app-container { width:100%; max-width:500px; margin:0 auto; }
+
+        .app-container { width: 100%; max-width: 520px; margin: 0 auto; }
+
+        /* ===== TARJETAS / PANELES ===== */
         .panel {
             background: var(--bg-panel);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 1.8rem 1.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 2rem 1.6rem;
+            box-shadow: var(--sombra-suave);
             text-align: center;
-            margin-bottom: 15px;
-            border: 1px solid rgba(212,175,55,0.3);
-            transition: background 0.3s;
+            margin-bottom: 18px;
+            border: 1px solid var(--border-sutil);
+            transition: background 0.4s ease, border 0.4s ease, box-shadow 0.4s ease;
         }
-        h1 { font-size:2.4rem; margin-bottom:0.2rem; color:var(--dorado); letter-spacing:3px; }
-        .subtitulo { font-size:1rem; color:var(--text-secondary); margin-bottom:1.5rem; font-style:italic; }
-        .frase-corazon { font-size:1.3rem; margin-bottom:1.2rem; font-weight:bold; }
+
+        /* ===== TÍTULOS ===== */
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: var(--dorado);
+            letter-spacing: 4px;
+            line-height: 1.1;
+        }
+
+        .subtitulo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-style: italic;
+            letter-spacing: 0.5px;
+        }
+
+        .frase-corazon {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* ===== TEXTAREA ===== */
         textarea {
-            width:100%; height:80px; padding:0.8rem;
-            border:1px solid rgba(212,175,55,0.5); border-radius:12px;
-            background: rgba(255,255,255,0.1); color:var(--text-color);
-            font-family:inherit; font-size:1rem; resize:none; outline:none;
-            margin-bottom:0.8rem;
-            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+            width: 100%;
+            height: 90px;
+            padding: 1rem 1.1rem;
+            border: 1px solid var(--border-sutil);
+            border-radius: 14px;
+            background: var(--button-bg);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            resize: none;
+            outline: none;
+            margin-bottom: 1rem;
+            transition: border 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+            line-height: 1.5;
         }
-        textarea::placeholder { color: var(--placeholder-color); }
-        .botonera { display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:center; margin-bottom:0.8rem; }
+
+        textarea:focus {
+            border-color: var(--border-dorado);
+            box-shadow: 0 0 0 3px var(--dorado-suave);
+        }
+
+        textarea::placeholder { color: var(--placeholder-color); font-weight: 300; }
+
+        /* ===== BOTONES ===== */
+        .botonera {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
         button {
             background: var(--button-bg);
-            border:1px solid var(--button-border);
+            border: 1px solid var(--border-sutil);
             color: var(--text-color);
-            padding:0.6rem 1.2rem; border-radius:30px;
-            font-family:inherit; font-size:0.95rem; cursor:pointer;
-            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-            transition: background 0.3s, transform 0.2s;
-            display:inline-flex; align-items:center; gap:0.4rem;
-        }
-        button:hover { background: rgba(212,175,55,0.4); transform:scale(1.02); }
-        button.microfono { background: rgba(200,100,100,0.35); border-color: rgba(200,100,100,0.7); }
-        .respuesta {
-            background: var(--resp-bg);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-radius:15px; padding:1.2rem; margin-top:1rem; text-align:left;
-            color: var(--resp-text);
-        }
-        .respuesta .categoria-nombre {
-            font-size:0.85rem; color:var(--resp-cita); margin-bottom:0.3rem; font-weight:bold;
-        }
-        .respuesta .frase-empatica {
-            font-style:italic; color:var(--text-secondary); margin-bottom:0.6rem;
-        }
-        .respuesta .versiculo-texto {
-            font-size:1.15rem; margin-bottom:0.4rem; line-height:1.6;
-        }
-        .respuesta .versiculo-cita {
-            font-weight:bold; color:var(--resp-cita); margin-bottom:0.6rem;
-        }
-        .acciones-versiculo { display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:0.5rem; }
-        .acciones-versiculo button {
-            font-size:0.9rem; padding:0.4rem 1rem;
-            background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.3);
-            color: var(--resp-text);
-        }
-        body.modo-claro .acciones-versiculo button {
-            border-color: rgba(0,0,0,0.3);
-            color: #3e2c1f;
+            padding: 0.75rem 1.3rem;
+            border-radius: 30px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            letter-spacing: 0.2px;
         }
 
-        /* Toggle Switch (Versículo del Día) */
+        button:hover {
+            background: var(--button-hover);
+            border-color: var(--border-dorado);
+            transform: translateY(-2px);
+            box-shadow: var(--sombra-mini);
+        }
+
+        button:active { transform: translateY(0); }
+
+        button.microfono {
+            background: var(--dorado-suave);
+            border-color: var(--border-dorado);
+            color: var(--dorado);
+        }
+
+        button .material-icons-outlined { font-size: 1.15rem; }
+
+        /* ===== RESPUESTA DEL VERSÍCULO ===== */
+        .respuesta {
+            background: var(--bg-resp);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 18px;
+            padding: 1.6rem;
+            margin-top: 1.2rem;
+            text-align: left;
+            color: var(--text-color);
+            border: 1px solid var(--border-sutil);
+            box-shadow: var(--sombra-mini);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .respuesta .categoria-nombre {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--dorado);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .respuesta .frase-empatica {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .respuesta .versiculo-texto {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.6rem;
+            line-height: 1.65;
+            color: var(--text-color);
+        }
+
+        .respuesta .versiculo-cita {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dorado);
+            margin-bottom: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .acciones-versiculo {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-sutil);
+        }
+
+        .acciones-versiculo button {
+            font-size: 0.83rem;
+            padding: 0.5rem 0.95rem;
+            background: transparent;
+            border: 1px solid var(--border-sutil);
+            color: var(--text-secondary);
+        }
+
+        .acciones-versiculo button:hover {
+            color: var(--dorado);
+            border-color: var(--border-dorado);
+            background: var(--dorado-suave);
+        }
+
+        /* ===== SWITCH VERSÍCULO DEL DÍA ===== */
         .switch-container {
-            display: flex; align-items: center; justify-content: space-between;
-            margin: 1rem 0; padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 1.2rem 0 0.5rem 0;
+            padding: 0.8rem 0;
+            border-top: 1px solid var(--border-sutil);
         }
+
         .switch-label {
-            display: flex; align-items: center; gap: 0.5rem; cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-color);
         }
+
         .switch {
-            position: relative; display: inline-block; width: 48px; height: 24px;
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 26px;
+            flex-shrink: 0;
         }
+
         .switch input { opacity: 0; width: 0; height: 0; }
+
         .slider {
-            position: absolute; cursor: pointer;
+            position: absolute;
+            cursor: pointer;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ccc; transition: .4s; border-radius: 24px;
+            background-color: var(--border-sutil);
+            transition: .4s ease;
+            border-radius: 26px;
+            border: 1px solid var(--border-sutil);
         }
+
         .slider:before {
-            position: absolute; content: "";
-            height: 18px; width: 18px; left: 3px; bottom: 3px;
-            background-color: white; transition: .4s; border-radius: 50%;
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: var(--text-muted);
+            transition: .4s ease;
+            border-radius: 50%;
         }
-        input:checked + .slider { background-color: var(--dorado); }
-        input:checked + .slider:before { transform: translateX(24px); }
+
+        input:checked + .slider { background-color: var(--dorado); border-color: var(--dorado); }
+        input:checked + .slider:before { transform: translateX(22px); background-color: #fff; }
 
         .music-btn {
-            opacity: 0.5; cursor: not-allowed;
+            background: transparent;
+            border: 1px solid var(--border-sutil);
+            color: var(--text-muted);
+            padding: 0.5rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            cursor: not-allowed;
+            opacity: 0.6;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
         }
 
-        /* Redes sociales desplegable */
-        .redes-container {
-            margin: 1rem 0;
-        }
+        /* ===== REDES SOCIALES ===== */
+        .redes-container { margin: 1rem 0 0 0; }
+
         .redes-toggle {
-            width: 100%; justify-content: center;
+            width: 100%;
+            justify-content: center;
+            background: transparent;
+            border: 1px solid var(--border-sutil);
+            color: var(--text-secondary);
+            padding: 0.8rem;
+            font-size: 0.9rem;
         }
+
+        .redes-toggle:hover {
+            color: var(--dorado);
+            border-color: var(--border-dorado);
+            background: var(--dorado-suave);
+        }
+
         .redes-links {
-            display: none; margin-top: 0.5rem; flex-wrap: wrap; gap: 1rem; justify-content: center;
+            display: none;
+            margin-top: 0.8rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            padding: 1rem 0;
+            animation: fadeInUp 0.4s ease;
         }
+
         .redes-links.active { display: flex; }
+
         .redes-links a {
-            color: var(--text-secondary); text-decoration: none; font-size: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--button-bg);
+            border: 1px solid var(--border-sutil);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
 
-        /* Donar justo debajo de Redes Sociales */
-        .donar-container {
-            margin-top: 1rem;
+        .redes-links a:hover {
+            color: var(--dorado);
+            border-color: var(--border-dorado);
+            background: var(--dorado-suave);
+            transform: translateY(-3px);
         }
 
-        /* Barra social inferior */
+        .redes-links a .material-icons-outlined { font-size: 1.4rem; }
+
+        /* ===== BARRA SOCIAL INFERIOR ===== */
         .social-bar {
-            text-align: center; margin-top: 30px; color: var(--text-secondary); font-size: 0.85rem;
+            text-align: center;
+            margin-top: 24px;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            line-height: 1.7;
         }
 
-        /* Modal, navbar, etc. (ya existentes) */
+        .social-bar p { margin: 0.3rem 0; }
+
+        .btn-donar {
+            background: transparent;
+            border: 1px solid var(--border-dorado);
+            color: var(--dorado);
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 0.6rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-donar:hover {
+            background: var(--dorado-suave);
+            transform: translateY(-2px);
+        }
+
+        /* ===== MODAL ===== */
         .modal-overlay {
-            position:fixed; top:0; left:0; width:100%; height:100%;
-            background:rgba(0,0,0,0.7); display:none;
-            justify-content:center; align-items:center; z-index:300;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 300;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
         }
-        .modal-overlay.activo { display:flex; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .modal-overlay.activo { display: flex; }
+
         .modal-contenido {
-            background: var(--bg-panel);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border-radius:20px; padding:1.5rem;
-            max-width:90%; width:400px;
-            border:1px solid var(--dorado);
-            text-align:left;
+            background: var(--bg-panel-solid);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 22px;
+            padding: 1.8rem 1.6rem;
+            max-width: 100%;
+            width: 420px;
+            border: 1px solid var(--border-sutil);
+            text-align: left;
             position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 0.4s ease;
+            max-height: 85vh;
+            overflow-y: auto;
         }
+
         .modal-contenido .cerrar-modal {
-            position:absolute; top:5px; right:10px; background:transparent; border:none;
-            color:var(--dorado); font-size:2.5rem; cursor:pointer; line-height:1;
+            position: absolute;
+            top: 8px;
+            right: 14px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            transition: color 0.3s ease;
         }
 
+        .modal-contenido .cerrar-modal:hover { color: var(--dorado); }
+
+        /* ===== NAVBAR ===== */
         .navbar {
-            position:fixed; bottom:0; left:0; width:100%;
-            background:rgba(30,10,20,0.85); backdrop-filter:blur(15px);
-            -webkit-backdrop-filter:blur(15px);
-            display:flex; justify-content:space-around; align-items:center;
-            padding:0.7rem 0; border-top:1px solid rgba(212,175,55,0.5); z-index:100;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 17, 23, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-top: 1px solid var(--border-sutil);
+            z-index: 100;
+            transition: background 0.4s ease;
         }
+
+        body.modo-claro .navbar {
+            background: rgba(255, 255, 255, 0.92);
+        }
+
         .navbar button {
-            background:transparent; border:none; color:#cbbfa5;
-            font-size:0.9rem; flex-direction:column; gap:0.2rem;
-            padding:0.3rem 0.8rem; border-radius:12px;
-            display:flex; align-items:center;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            flex-direction: column;
+            gap: 0.15rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
         }
-        .navbar button.activo { color:var(--dorado); background:rgba(212,175,55,0.2); }
-        .navbar button .material-icons-outlined { font-size:1.4rem; }
 
-        .pagina { display:none; }
-        .pagina.activa { display:block; }
+        .navbar button.activo {
+            color: var(--dorado);
+            background: var(--dorado-suave);
+        }
 
+        .navbar button .material-icons-outlined { font-size: 1.4rem; }
+
+        /* ===== PÁGINAS ===== */
+        .pagina { display: none; }
+        .pagina.activa { display: block; }
+
+        /* ===== CATEGORÍAS ===== */
         .categorias-grid {
-            display:grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap:0.5rem;
-            justify-items: stretch;
-            margin-top:1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+            gap: 0.7rem;
+            margin-top: 1.2rem;
         }
+
         .categoria-btn {
-            background:var(--button-bg); border:1px solid var(--button-border);
-            color:var(--text-color); padding:0.5rem; border-radius:15px;
-            font-size:0.85rem; cursor:pointer; transition:background 0.3s;
-            text-align:center;
+            background: var(--button-bg);
+            border: 1px solid var(--border-sutil);
+            color: var(--text-color);
+            padding: 0.85rem 0.7rem;
+            border-radius: 14px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.83rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            line-height: 1.35;
         }
-        .categoria-btn:hover { background:rgba(212,175,55,0.35); }
 
+        .categoria-btn:hover {
+            background: var(--dorado-suave);
+            border-color: var(--border-dorado);
+            color: var(--dorado);
+            transform: translateY(-2px);
+            box-shadow: var(--sombra-mini);
+        }
+
+        /* ===== FAVORITOS ===== */
         .favorito-item {
-            background: var(--resp-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius:12px;
-            padding:0.8rem; margin-bottom:0.6rem; text-align:left; position:relative;
-            color: var(--resp-text);
+            background: var(--bg-resp);
+            border-radius: 16px;
+            padding: 1.1rem 1.2rem;
+            margin-bottom: 0.8rem;
+            text-align: left;
+            position: relative;
+            color: var(--text-color);
+            border: 1px solid var(--border-sutil);
+            transition: all 0.3s ease;
         }
+
+        .favorito-item:hover {
+            border-color: var(--border-dorado);
+            box-shadow: var(--sombra-mini);
+        }
+
         .favorito-item .categoria-nombre {
-            font-size:0.85rem; color:var(--resp-cita); margin-bottom:0.3rem; font-weight:bold;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--dorado);
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
         }
+
         .favorito-item .frase-empatica {
-            font-style:italic; color:var(--text-secondary); margin-bottom:0.6rem;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.7rem;
         }
+
         .favorito-item .versiculo-texto {
-            font-size:1.15rem; margin-bottom:0.4rem; line-height:1.6;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
+            line-height: 1.6;
         }
+
         .favorito-item .versiculo-cita {
-            font-weight:bold; color:var(--resp-cita); margin-bottom:0.6rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--dorado);
+            margin-bottom: 0.8rem;
         }
-        .acciones-favorito { display:flex; gap:0.4rem; margin-top:0.4rem; flex-wrap:wrap; }
+
+        .acciones-favorito {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.6rem;
+            flex-wrap: wrap;
+            padding-top: 0.8rem;
+            border-top: 1px solid var(--border-sutil);
+        }
+
         .acciones-favorito button {
-            font-size:0.8rem; padding:0.3rem 0.7rem;
-            background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3);
-            color: var(--resp-text);
-            border-radius:20px;
-            cursor:pointer;
+            font-size: 0.78rem;
+            padding: 0.4rem 0.85rem;
+            background: transparent;
+            border: 1px solid var(--border-sutil);
+            color: var(--text-secondary);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
+
+        .acciones-favorito button:hover {
+            color: var(--dorado);
+            border-color: var(--border-dorado);
+            background: var(--dorado-suave);
+        }
+
         .eliminar-fav {
-            position:absolute; top:5px; right:10px; background:transparent;
-            border:none; color:#e0d3b8; font-size:2rem; cursor:pointer; line-height:1;
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.6rem;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.3s ease;
         }
-        .no-favoritos { font-style:italic; color:#cbbfa5; margin-top:1.5rem; }
 
+        .eliminar-fav:hover { color: #E74C3C; }
+
+        .no-favoritos {
+            font-style: italic;
+            color: var(--text-muted);
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* ===== TOGGLE MODO CLARO/OSCURO ===== */
         .modo-toggle {
-            position:fixed; top:15px; right:20px; font-size:1.5rem; cursor:pointer; z-index:200;
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            z-index: 200;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--bg-panel);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--border-sutil);
+            transition: all 0.3s ease;
+            user-select: none;
         }
 
-        #canvasCompartir { display:none; }
+        .modo-toggle:hover {
+            border-color: var(--border-dorado);
+            transform: scale(1.08);
+        }
+
+        #canvasCompartir { display: none; }
+
+        /* ===== SCROLLBAR PERSONALIZADA ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-sutil);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: var(--border-dorado); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 400px) {
+            h1 { font-size: 2.1rem; letter-spacing: 3px; }
+            .panel { padding: 1.6rem 1.2rem; }
+            .botonera { gap: 0.4rem; }
+            button { padding: 0.65rem 1rem; font-size: 0.85rem; }
+            .respuesta { padding: 1.3rem; }
+            .respuesta .versiculo-texto { font-size: 1.1rem; }
+        }
     </style>
 </head>
 <body>
     <div class="modo-toggle" onclick="toggleModo()">🌙</div>
+
     <div class="app-container">
-        <!-- INICIO -->
+        <!-- ===== PÁGINA INICIO ===== -->
         <div id="paginaInicio" class="pagina activa">
             <div class="panel">
                 <h1>Arcángel</h1>
                 <p class="subtitulo">Guía y Mensajero de la Palabra</p>
                 <p class="frase-corazon">¿Qué hay en tu corazón hoy?</p>
+
                 <textarea id="inputSentimiento" placeholder="Cuéntame cómo te sientes, tus preocupaciones o tus miedos..."></textarea>
+
                 <div class="botonera">
                     <button class="microfono" id="botonHablar"
                             onmousedown="iniciarDictado()" onmouseup="detenerDictado()"
@@ -282,12 +721,13 @@
                         <span class="material-icons-outlined">search</span> Buscar versículo
                     </button>
                     <button onclick="versiculoAleatorio()">
-                        <svg width="1.4em" height="1.4em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;">
                             <path d="M12 4v12M6 9h12"/>
                         </svg>
                         Versículo aleatorio
                     </button>
                 </div>
+
                 <div id="respuestaBox" class="respuesta" style="display:none;">
                     <div class="categoria-nombre" id="categoriaNombreInicio"></div>
                     <div class="frase-empatica" id="fraseEmpatica"></div>
@@ -300,7 +740,7 @@
                     </div>
                 </div>
 
-                <!-- Switch Versículo del Día + Música -->
+                <!-- Switch Versículo del Día -->
                 <div class="switch-container">
                     <div class="switch-label">
                         <label class="switch">
@@ -309,45 +749,45 @@
                         </label>
                         <span>Versículo del Día</span>
                     </div>
-                    <button class="music-btn" disabled title="Próximamente">🎵 Música</button>
-                </div>
-
-                <!-- Botón Redes Sociales -->
-                <div class="redes-container">
-                    <button class="redes-toggle" onclick="toggleRedes()">🌐 Redes Sociales</button>
-                    <div class="redes-links" id="redesLinks">
-                        <!-- Aquí irán los enlaces, ahora vacíos -->
-                        <a href="#" target="_blank" title="Facebook"><span class="material-icons-outlined">facebook</span></a>
-                        <a href="#" target="_blank" title="Instagram"><span class="material-icons-outlined">instagram</span></a>
-                        <a href="#" target="_blank" title="TikTok"><span class="material-icons-outlined">music_note</span></a>
-                        <a href="#" target="_blank" title="Tienda de Velas"><span class="material-icons-outlined">store</span></a>
-                    </div>
-                </div>
-
-                <!-- Botón Donar (debajo de Redes Sociales) -->
-                <div class="donar-container">
-                    <button style="background: none; border: 1px solid var(--dorado); color: var(--dorado); padding: 0.3rem 1rem; border-radius: 20px; cursor:pointer;" onclick="window.open('#', '_blank')">
-                        ❤️ Donar
+                    <button class="music-btn" disabled title="Próximamente">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">music_note</span> Música
                     </button>
+                </div>
+
+                <!-- Redes Sociales -->
+                <div class="redes-container">
+                    <button class="redes-toggle" onclick="toggleRedes()">
+                        <span class="material-icons-outlined" style="font-size: 1.1rem;">public</span> Redes Sociales
+                    </button>
+                    <div class="redes-links" id="redesLinks">
+                        <a href="#" target="_blank" title="Facebook"><span class="material-icons-outlined">facebook</span></a>
+                        <a href="#" target="_blank" title="Instagram"><span class="material-icons-outlined">photo_camera</span></a>
+                        <a href="#" target="_blank" title="TikTok"><span class="material-icons-outlined">music_video</span></a>
+                        <a href="#" target="_blank" title="Tienda de Velas"><span class="material-icons-outlined">storefront</span></a>
+                    </div>
                 </div>
             </div>
 
-            <!-- Barra social inferior -->
+            <!-- Barra inferior -->
             <div class="social-bar">
                 <p>Versículos de la Biblia Reina-Valera 1909 (RVR1909) · Dominio público</p>
-                <p style="margin-top: 15px;">Espacio reservado para anuncios (Google AdSense)</p>
+                <button class="btn-donar" onclick="window.open('#', '_blank')">
+                    <span class="material-icons-outlined" style="font-size: 1rem; vertical-align: middle;">favorite</span> Apoyar este proyecto
+                </button>
+                <p style="margin-top: 14px; opacity: 0.6;">Espacio reservado para anuncios</p>
             </div>
         </div>
 
-        <!-- CATEGORÍAS -->
+        <!-- ===== PÁGINA CATEGORÍAS ===== -->
         <div id="paginaCategorias" class="pagina">
             <div class="panel">
-                <h2 style="color:var(--dorado); margin-bottom:1rem;">Categorías</h2>
+                <h2 style="font-family: 'Cinzel', serif; color: var(--dorado); margin-bottom: 0.5rem; font-size: 1.6rem; letter-spacing: 2px;">Categorías</h2>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;">Encuentra consuelo para cada momento</p>
                 <div class="categorias-grid" id="categoriasContainer"></div>
             </div>
         </div>
 
-        <!-- MODAL -->
+        <!-- ===== MODAL CATEGORÍA ===== -->
         <div class="modal-overlay" id="modalCategoria">
             <div class="modal-contenido">
                 <button class="cerrar-modal" onclick="cerrarModal()">&times;</button>
@@ -366,17 +806,18 @@
             </div>
         </div>
 
-        <!-- FAVORITOS -->
+        <!-- ===== PÁGINA FAVORITOS ===== -->
         <div id="paginaFavoritos" class="pagina">
             <div class="panel">
-                <h2 style="color:var(--dorado); margin-bottom:1rem;">Mis Favoritos</h2>
+                <h2 style="font-family: 'Cinzel', serif; color: var(--dorado); margin-bottom: 0.5rem; font-size: 1.6rem; letter-spacing: 2px;">Mis Favoritos</h2>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">Los versículos que guardaste</p>
                 <div id="listaFavoritos"></div>
                 <div class="no-favoritos" id="noFavoritosMsg">No tienes versículos guardados aún.</div>
             </div>
         </div>
     </div>
 
-    <!-- NAVBAR -->
+    <!-- ===== NAVBAR ===== -->
     <div class="navbar">
         <button id="navInicio" class="activo" onclick="cambiarPagina('inicio')">
             <span class="material-icons-outlined">home</span> <span>Inicio</span>
@@ -438,11 +879,24 @@
             if (pagina === 'favoritos') cargarFavoritos();
         }
 
+        // ===== MODO CLARO/OSCURO =====
         function toggleModo() {
             document.body.classList.toggle('modo-claro');
-            document.querySelector('.modo-toggle').textContent = document.body.classList.contains('modo-claro') ? '☀️' : '🌙';
+            const icon = document.querySelector('.modo-toggle');
+            icon.textContent = document.body.classList.contains('modo-claro') ? '☀️' : '🌙';
+            localStorage.setItem('arcangelModoClaro', document.body.classList.contains('modo-claro'));
         }
 
+        // Cargar modo guardado (oscuro por defecto)
+        window.addEventListener('DOMContentLoaded', () => {
+            const modoClaroGuardado = localStorage.getItem('arcangelModoClaro');
+            if (modoClaroGuardado === 'true') {
+                document.body.classList.add('modo-claro');
+                document.querySelector('.modo-toggle').textContent = '☀️';
+            }
+        });
+
+        // ===== CATEGORÍAS =====
         function cargarCategorias() {
             const container = document.getElementById('categoriasContainer');
             container.innerHTML = '';
@@ -547,8 +1001,8 @@
                     <div class="versiculo-texto">“${fav.texto}”</div>
                     <div class="versiculo-cita">— ${fav.cita}</div>
                     <div class="acciones-favorito">
-                        <button onclick="speakFavorito('${fav.texto.replace(/'/g, "\\'")}', '${fav.cita.replace(/'/g, "\\'")}')"><span class="material-icons-outlined">volume_up</span> Escuchar</button>
-                        <button onclick="compartirFavorito('${fav.texto.replace(/'/g, "\\'")}', '${fav.cita.replace(/'/g, "\\'")}')"><span class="material-icons-outlined">share</span> Compartir</button>
+                        <button onclick="speakFavorito('${fav.texto.replace(/'/g, "\\'")}', '${fav.cita.replace(/'/g, "\\'")}')"><span class="material-icons-outlined" style="font-size: 0.95rem; vertical-align: middle;">volume_up</span> Escuchar</button>
+                        <button onclick="compartirFavorito('${fav.texto.replace(/'/g, "\\'")}', '${fav.cita.replace(/'/g, "\\'")}')"><span class="material-icons-outlined" style="font-size: 0.95rem; vertical-align: middle;">share</span> Compartir</button>
                     </div>
                 </div>
             `).join('');
@@ -586,29 +1040,29 @@
             if (!versiculoActual) return;
             const canvas = document.getElementById('canvasCompartir');
             const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#fdfaf3'; ctx.fillRect(0,0,canvas.width,canvas.height);
-            ctx.strokeStyle = '#d4af37'; ctx.lineWidth = 20;
+            ctx.fillStyle = '#FDFAF3'; ctx.fillRect(0,0,canvas.width,canvas.height);
+            ctx.strokeStyle = '#D4AF37'; ctx.lineWidth = 20;
             ctx.strokeRect(10,10,canvas.width-20,canvas.height-20);
-            ctx.fillStyle = '#3e2c1f';
-            ctx.font = 'bold 30px "Cinzel", serif'; ctx.textAlign = 'center';
-            wrapText(ctx, `“${versiculoActual.texto}”`, canvas.width/2, 250, 600, 38);
-            ctx.fillStyle = '#d4af37'; ctx.font = '26px "Cinzel", serif';
+            ctx.fillStyle = '#3E2C1F';
+            ctx.font = 'bold 30px "Playfair Display", serif'; ctx.textAlign = 'center';
+            wrapText(ctx, `“${versiculoActual.texto}”`, canvas.width/2, 250, 600, 42);
+            ctx.fillStyle = '#B8941F'; ctx.font = '600 24px "Inter", sans-serif';
             ctx.fillText(`— ${versiculoActual.cita}`, canvas.width/2, 480);
-            ctx.fillStyle = '#5a4a3a'; ctx.font = '20px Arial';
+            ctx.fillStyle = '#9BA3B0'; ctx.font = '300 18px "Inter", sans-serif';
             ctx.fillText('Arcángel App', canvas.width/2, 650);
             canvas.toBlob(blob => {
                 const url = URL.createObjectURL(blob);
                 const modal = document.createElement('div');
-                modal.style = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:400;';
+                modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,17,23,0.92); backdrop-filter:blur(10px); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:500; padding:20px;';
                 modal.onclick = () => document.body.removeChild(modal);
-
                 const img = new Image();
                 img.src = url;
-                img.style = 'max-width:90%; max-height:70vh; border-radius:15px; margin-bottom:20px;';
-
+                img.style.cssText = 'max-width:90%; max-height:70vh; border-radius:16px; margin-bottom:20px; box-shadow:0 20px 60px rgba(0,0,0,0.6);';
                 const btnDescargar = document.createElement('button');
                 btnDescargar.textContent = 'Descargar Imagen';
-                btnDescargar.style = 'padding: 12px 25px; background: var(--dorado); border: none; border-radius: 30px; color: white; font-size: 1rem; cursor:pointer; margin: 5px;';
+                btnDescargar.style.cssText = 'padding:14px 32px; background:#D4AF37; border:none; border-radius:30px; color:#0F1117; font-family:Inter,sans-serif; font-size:1rem; font-weight:600; cursor:pointer; margin:6px; transition:transform 0.2s;';
+                btnDescargar.onmouseover = () => btnDescargar.style.transform = 'translateY(-2px)';
+                btnDescargar.onmouseout = () => btnDescargar.style.transform = 'translateY(0)';
                 btnDescargar.onclick = (e) => {
                     e.stopPropagation();
                     const a = document.createElement('a');
@@ -616,15 +1070,13 @@
                     a.download = 'versiculo-arcangel.png';
                     a.click();
                 };
-
                 const btnCerrar = document.createElement('button');
                 btnCerrar.textContent = 'Cerrar';
-                btnCerrar.style = 'padding: 10px 20px; background: transparent; border: 1px solid white; border-radius: 30px; color: white; font-size: 0.9rem; cursor:pointer; margin: 5px;';
+                btnCerrar.style.cssText = 'padding:12px 28px; background:transparent; border:1px solid #9BA3B0; border-radius:30px; color:#F1F3F7; font-family:Inter,sans-serif; font-size:0.9rem; cursor:pointer; margin:6px;';
                 btnCerrar.onclick = (e) => {
                     e.stopPropagation();
                     document.body.removeChild(modal);
                 };
-
                 modal.appendChild(img);
                 modal.appendChild(btnDescargar);
                 modal.appendChild(btnCerrar);
@@ -658,7 +1110,7 @@
                 recognition.continuous = false; recognition.maxAlternatives = 1;
                 recognition.onstart = () => {
                     estaGrabando = true;
-                    botonHablar.style.background = 'rgba(200,50,50,0.7)';
+                    botonHablar.style.background = 'rgba(212,175,55,0.3)';
                     botonHablar.innerHTML = '<span class="material-icons-outlined">mic</span> Escuchando...';
                 };
                 recognition.onresult = (event) => {
@@ -690,14 +1142,13 @@
             estaGrabando = false;
             const botonHablar = document.getElementById('botonHablar');
             if (botonHablar) {
-                botonHablar.style.background = 'rgba(200,100,100,0.35)';
+                botonHablar.style.background = 'var(--dorado-suave)';
                 botonHablar.innerHTML = '<span class="material-icons-outlined">mic</span> Háblame';
             }
         }
 
-        // ===== NOTIFICACIÓN DEL VERSÍCULO DEL DÍA =====
+        // ===== NOTIFICACIÓN VERSÍCULO DEL DÍA =====
         let notificacionInterval = null;
-
         async function toggleNotificacion() {
             const switchEl = document.getElementById('switchVersiculoDia');
             if (switchEl.checked) {
@@ -719,7 +1170,6 @@
 
         function programarNotificacion() {
             if (notificacionInterval) clearInterval(notificacionInterval);
-            // Revisar cada minuto si es la hora exacta (9:24 AM)
             notificacionInterval = setInterval(() => {
                 const ahora = new Date();
                 const hora = ahora.getHours();
@@ -731,11 +1181,10 @@
                         localStorage.setItem('arcangelUltimoDiaNoti', hoy);
                     }
                 }
-            }, 60000); // cada minuto
+            }, 60000);
         }
 
         function obtenerVersiculoAleatorioUnico() {
-            // Lógica para no repetir los últimos 50 versículos
             const usados = JSON.parse(localStorage.getItem('arcangelVersosUsadosNoti') || '[]');
             const todasRefs = [];
             categories.forEach(cat => {
@@ -746,7 +1195,6 @@
                 return !usados.includes(clave);
             });
             if (disponibles.length === 0) {
-                // Reiniciar historial si se acaban
                 localStorage.setItem('arcangelVersosUsadosNoti', '[]');
                 return obtenerVersiculoAleatorioUnico();
             }
@@ -765,7 +1213,7 @@
             if (Notification.permission === 'granted') {
                 new Notification('✨ Versículo del Día', {
                     body: `${texto} — ${cita}`,
-                    icon: 'https://steamang3l.github.io/arcangel-offline-24julio2026/assets/icono.png' // ajusta la ruta si tienes un icono
+                    icon: 'https://steamang3l.github.io/arcangel-offline-24julio2026/assets/icono.png'
                 });
             }
         }
