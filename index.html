@@ -887,7 +887,6 @@
             localStorage.setItem('arcangelModoClaro', document.body.classList.contains('modo-claro'));
         }
 
-        // Cargar modo guardado (oscuro por defecto)
         window.addEventListener('DOMContentLoaded', () => {
             const modoClaroGuardado = localStorage.getItem('arcangelModoClaro');
             if (modoClaroGuardado === 'true') {
@@ -1035,54 +1034,120 @@
         function speakVersiculoModal() { if (versiculoActual) speakText(`${versiculoActual.texto}. ${formatearCitaParaVoz(versiculoActual.cita)}.`); }
         function speakFavorito(texto, cita) { speakText(`${texto}. ${formatearCitaParaVoz(cita)}.`); }
 
-        // ===== COMPARTIR IMAGEN =====
-        function compartirImagen() {
+        // ===== COMPARTIR AVANZADO (MENÚ NATIVO) =====
+        async function compartirImagen() {
             if (!versiculoActual) return;
+
+            // 1. Generar la imagen en el canvas
             const canvas = document.getElementById('canvasCompartir');
             const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#FDFAF3'; ctx.fillRect(0,0,canvas.width,canvas.height);
+            ctx.fillStyle = '#FDFAF3'; ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.strokeStyle = '#D4AF37'; ctx.lineWidth = 20;
-            ctx.strokeRect(10,10,canvas.width-20,canvas.height-20);
+            ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
             ctx.fillStyle = '#3E2C1F';
             ctx.font = 'bold 30px "Playfair Display", serif'; ctx.textAlign = 'center';
-            wrapText(ctx, `“${versiculoActual.texto}”`, canvas.width/2, 250, 600, 42);
+            wrapText(ctx, `“${versiculoActual.texto}”`, canvas.width / 2, 250, 600, 42);
             ctx.fillStyle = '#B8941F'; ctx.font = '600 24px "Inter", sans-serif';
-            ctx.fillText(`— ${versiculoActual.cita}`, canvas.width/2, 480);
+            ctx.fillText(`— ${versiculoActual.cita}`, canvas.width / 2, 480);
             ctx.fillStyle = '#9BA3B0'; ctx.font = '300 18px "Inter", sans-serif';
-            ctx.fillText('Arcángel App', canvas.width/2, 650);
-            canvas.toBlob(blob => {
-                const url = URL.createObjectURL(blob);
-                const modal = document.createElement('div');
-                modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,17,23,0.92); backdrop-filter:blur(10px); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:500; padding:20px;';
-                modal.onclick = () => document.body.removeChild(modal);
-                const img = new Image();
-                img.src = url;
-                img.style.cssText = 'max-width:90%; max-height:70vh; border-radius:16px; margin-bottom:20px; box-shadow:0 20px 60px rgba(0,0,0,0.6);';
-                const btnDescargar = document.createElement('button');
-                btnDescargar.textContent = 'Descargar Imagen';
-                btnDescargar.style.cssText = 'padding:14px 32px; background:#D4AF37; border:none; border-radius:30px; color:#0F1117; font-family:Inter,sans-serif; font-size:1rem; font-weight:600; cursor:pointer; margin:6px; transition:transform 0.2s;';
-                btnDescargar.onmouseover = () => btnDescargar.style.transform = 'translateY(-2px)';
-                btnDescargar.onmouseout = () => btnDescargar.style.transform = 'translateY(0)';
-                btnDescargar.onclick = (e) => {
-                    e.stopPropagation();
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'versiculo-arcangel.png';
-                    a.click();
+            ctx.fillText('Arcángel App', canvas.width / 2, 650);
+
+            // 2. Convertir a Blob y luego a File
+            canvas.toBlob(async (blob) => {
+                const file = new File([blob], 'versiculo-arcangel.png', { type: 'image/png' });
+
+                // 3. Texto que acompaña la imagen
+                const textoCompartir = `Te comparto este versículo que me dio paz 🙏\n\nDescarga Arcángel, la app católica que te acompaña en cada momento:\nhttps://steamang3l.github.io/arcangel-offline-24julio2026/\n\nSíguenos en redes sociales para más contenido de fe.\n\n"${versiculoActual.texto}" — ${versiculoActual.cita}`;
+
+                // 4. Datos para compartir
+                const shareData = {
+                    files: [file],
+                    title: 'Arcángel – Versículo del día',
+                    text: textoCompartir
                 };
-                const btnCerrar = document.createElement('button');
-                btnCerrar.textContent = 'Cerrar';
-                btnCerrar.style.cssText = 'padding:12px 28px; background:transparent; border:1px solid #9BA3B0; border-radius:30px; color:#F1F3F7; font-family:Inter,sans-serif; font-size:0.9rem; cursor:pointer; margin:6px;';
-                btnCerrar.onclick = (e) => {
-                    e.stopPropagation();
-                    document.body.removeChild(modal);
-                };
-                modal.appendChild(img);
-                modal.appendChild(btnDescargar);
-                modal.appendChild(btnCerrar);
-                document.body.appendChild(modal);
-                URL.revokeObjectURL(url);
-            });
+
+                // 5. Intentar compartir con archivo (móvil)
+                if (navigator.canShare && navigator.canShare(shareData)) {
+                    try {
+                        await navigator.share(shareData);
+                        return;
+                    } catch (err) {
+                        if (err.name === 'AbortError') return;
+                        console.warn('Error al compartir, usando fallback:', err);
+                    }
+                }
+
+                // 6. Fallback: si solo soporta texto (sin archivo)
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: 'Arcángel – Versículo del día',
+                            text: textoCompartir,
+                            url: 'https://steamang3l.github.io/arcangel-offline-24julio2026/'
+                        });
+                        return;
+                    } catch (err) {
+                        if (err.name === 'AbortError') return;
+                    }
+                }
+
+                // 7. Último fallback: modal con descarga y WhatsApp (PC antigua)
+                mostrarModalFallback(blob, textoCompartir);
+            }, 'image/png');
+        }
+
+        function mostrarModalFallback(blob, textoCompartir) {
+            const url = URL.createObjectURL(blob);
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,17,23,0.92); backdrop-filter:blur(10px); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:500; padding:20px;';
+            modal.onclick = () => document.body.removeChild(modal);
+
+            const img = new Image();
+            img.src = url;
+            img.style.cssText = 'max-width:90%; max-height:55vh; border-radius:16px; margin-bottom:20px; box-shadow:0 20px 60px rgba(0,0,0,0.6);';
+
+            const btnDescargar = document.createElement('button');
+            btnDescargar.innerHTML = '⬇️ Descargar imagen';
+            btnDescargar.style.cssText = 'padding:14px 32px; background:#D4AF37; border:none; border-radius:30px; color:#0F1117; font-family:Inter,sans-serif; font-size:1rem; font-weight:600; cursor:pointer; margin:6px;';
+            btnDescargar.onclick = (e) => {
+                e.stopPropagation();
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'versiculo-arcangel.png';
+                a.click();
+            };
+
+            const btnWhatsApp = document.createElement('button');
+            btnWhatsApp.innerHTML = '💬 Compartir por WhatsApp';
+            btnWhatsApp.style.cssText = 'padding:14px 32px; background:transparent; border:1px solid #25D366; border-radius:30px; color:#25D366; font-family:Inter,sans-serif; font-size:1rem; font-weight:600; cursor:pointer; margin:6px;';
+            btnWhatsApp.onclick = (e) => {
+                e.stopPropagation();
+                window.open(`https://wa.me/?text=${encodeURIComponent(textoCompartir)}`, '_blank');
+            };
+
+            const btnCorreo = document.createElement('button');
+            btnCorreo.innerHTML = '✉️ Compartir por Correo';
+            btnCorreo.style.cssText = 'padding:14px 32px; background:transparent; border:1px solid #9BA3B0; border-radius:30px; color:#F1F3F7; font-family:Inter,sans-serif; font-size:1rem; font-weight:600; cursor:pointer; margin:6px;';
+            btnCorreo.onclick = (e) => {
+                e.stopPropagation();
+                window.location.href = `mailto:?subject=${encodeURIComponent('Arcángel – Versículo del día')}&body=${encodeURIComponent(textoCompartir)}`;
+            };
+
+            const btnCerrar = document.createElement('button');
+            btnCerrar.textContent = 'Cerrar';
+            btnCerrar.style.cssText = 'padding:12px 28px; background:transparent; border:1px solid #9BA3B0; border-radius:30px; color:#F1F3F7; font-family:Inter,sans-serif; font-size:0.9rem; cursor:pointer; margin:6px;';
+            btnCerrar.onclick = (e) => {
+                e.stopPropagation();
+                document.body.removeChild(modal);
+            };
+
+            modal.appendChild(img);
+            modal.appendChild(btnDescargar);
+            modal.appendChild(btnWhatsApp);
+            modal.appendChild(btnCorreo);
+            modal.appendChild(btnCerrar);
+            document.body.appendChild(modal);
+            URL.revokeObjectURL(url);
         }
 
         function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
@@ -1128,7 +1193,6 @@
                 botonHablar.title = 'Reconocimiento de voz no soportado';
                 botonHablar.disabled = true;
             }
-            // Cargar estado del switch de notificación
             const switchNoti = document.getElementById('switchVersiculoDia');
             if (localStorage.getItem('arcangelNotificacionActiva') === 'true') {
                 switchNoti.checked = true;
