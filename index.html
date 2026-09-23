@@ -295,23 +295,29 @@
             color: var(--dorado);
             border-color: var(--border-dorado);
         }
+        .btn-donar {
+            background: transparent;
+            border: 1px solid var(--border-dorado);
+            color: var(--dorado);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 1rem;
+            width: 100%;
+            cursor: pointer;
+            justify-content: center;
+        }
+        .btn-donar:hover {
+            background: var(--dorado-suave);
+            transform: translateY(-2px);
+        }
         .social-bar {
             text-align: center;
             margin-top: 24px;
             color: var(--text-muted);
             font-size: 0.78rem;
             line-height: 1.7;
-        }
-        .btn-donar {
-            background: transparent;
-            border: 1px solid var(--border-dorado);
-            color: var(--dorado);
-            padding: 0.6rem 1.5rem;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-top: 0.6rem;
-            cursor: pointer;
         }
         .modal-overlay {
             position: fixed; top: 0; left: 0;
@@ -664,13 +670,15 @@
                         <a href="#" target="_blank"><span class="material-icons-outlined">storefront</span></a>
                     </div>
                 </div>
+
+                <!-- BOTÓN DONAR (ahora dentro del panel) -->
+                <button class="btn-donar" onclick="window.open('#', '_blank')">
+                    <span class="material-icons-outlined" style="font-size: 1.05rem; vertical-align: middle;">favorite</span> Apoyar este proyecto
+                </button>
             </div>
 
             <div class="social-bar">
                 <p>Versículos de la Biblia Reina-Valera 1909 (RVR1909) · Dominio público</p>
-                <button class="btn-donar" onclick="window.open('#', '_blank')">
-                    <span class="material-icons-outlined" style="font-size: 1rem; vertical-align: middle;">favorite</span> Apoyar este proyecto
-                </button>
                 <p style="margin-top: 14px; opacity: 0.6;">Espacio reservado para anuncios</p>
             </div>
         </div>
@@ -984,6 +992,21 @@
             } catch (e) {}
         }
 
+        function calcularLineas(ctx, texto, maxWidth) {
+            const palabras = texto.split(' ');
+            let linea = '';
+            const lineas = [];
+            for (let n = 0; n < palabras.length; n++) {
+                const testLinea = linea + palabras[n] + ' ';
+                if (ctx.measureText(testLinea).width > maxWidth && n > 0) {
+                    lineas.push(linea.trim());
+                    linea = palabras[n] + ' ';
+                } else { linea = testLinea; }
+            }
+            lineas.push(linea.trim());
+            return lineas;
+        }
+
         function dibujarTextoCentrado(ctx, texto, x, yCentro, maxWidth, lineHeight) {
             const palabras = texto.split(' ');
             let linea = '';
@@ -998,6 +1021,27 @@
             lineas.push(linea.trim());
             const alturaTotal = lineas.length * lineHeight;
             let y = yCentro - alturaTotal / 2 + lineHeight / 2;
+            lineas.forEach(l => { ctx.fillText(l, x, y); y += lineHeight; });
+        }
+
+        function dibujarTextoAutoAjustado(ctx, texto, x, yInicio, yFin, maxWidth, fontSizeInicial, fontFamily) {
+            const alturaDisponible = yFin - yInicio;
+            let fontSize = fontSizeInicial;
+            let lineas = [];
+            let lineHeight = 0;
+
+            while (fontSize >= 16) {
+                ctx.font = `italic 400 ${fontSize}px ${fontFamily}`;
+                lineas = calcularLineas(ctx, texto, maxWidth);
+                lineHeight = fontSize * 1.35;
+                const alturaTotal = lineas.length * lineHeight;
+                if (alturaTotal <= alturaDisponible) break;
+                fontSize -= 2;
+            }
+
+            const alturaTotal = lineas.length * lineHeight;
+            let y = yInicio + (alturaDisponible - alturaTotal) / 2 + lineHeight * 0.75;
+            ctx.textAlign = 'center';
             lineas.forEach(l => { ctx.fillText(l, x, y); y += lineHeight; });
         }
 
@@ -1072,29 +1116,37 @@
             ctx.fillText('Guía espiritual de la Palabra', W / 2, 215);
 
             ctx.fillStyle = 'rgba(139, 111, 46, 0.6)'; ctx.font = '30px serif';
-            ctx.fillText('✝', W / 2, 270);
+            ctx.fillText('✝', W / 2, 265);
 
             const { titulo, subtitulo } = separarNombre(oracionActual.nombre);
             ctx.fillStyle = '#5C4118';
             if (subtitulo) {
                 ctx.font = '600 52px Cinzel, serif';
-                dibujarTextoCentrado(ctx, titulo, W / 2, 340, W - 200, 58);
+                dibujarTextoCentrado(ctx, titulo, W / 2, 335, W - 200, 58);
                 ctx.font = '400 40px Cinzel, serif';
-                dibujarTextoCentrado(ctx, subtitulo, W / 2, 410, W - 200, 46);
+                dibujarTextoCentrado(ctx, subtitulo, W / 2, 405, W - 200, 46);
             } else {
                 ctx.font = '600 52px Cinzel, serif';
-                dibujarTextoCentrado(ctx, titulo, W / 2, 370, W - 200, 58);
+                dibujarTextoCentrado(ctx, titulo, W / 2, 365, W - 200, 58);
             }
 
             if (oracionActual.santo) {
                 ctx.fillStyle = '#7A6548';
                 ctx.font = 'italic 400 26px "Playfair Display", serif';
-                ctx.fillText(oracionActual.santo, W / 2, 470);
+                ctx.fillText(oracionActual.santo, W / 2, 460);
             }
 
             ctx.fillStyle = '#2C1F14';
-            ctx.font = 'italic 400 36px "Playfair Display", serif';
-            dibujarTextoCentrado(ctx, limpiarTexto(oracionActual.texto), W / 2, 680, W - 200, 50);
+            dibujarTextoAutoAjustado(
+                ctx,
+                limpiarTexto(oracionActual.texto),
+                W / 2,
+                500,
+                930,
+                W - 220,
+                38,
+                '"Playfair Display", serif'
+            );
 
             ctx.fillStyle = '#7A6548'; ctx.font = '400 22px Inter, sans-serif';
             ctx.fillText('Descubre tu oración en Arcángel', W / 2, 955);
@@ -1106,7 +1158,7 @@
 
         async function compartirBlob(blob, filename) {
             const file = new File([blob], filename, { type: 'image/png' });
-            const textoCompartir = `Te comparto esto que me dio paz 🙏\n\nDescarga Arcángel:\nhttps://steamang3l.github.io/arcangel-offline-24julio2026/`;
+            const textoCompartir = `Hoy quiero compartirte esta oración que me dio paz. 🙏✨\n\nSi buscas consuelo o compañía espiritual, descarga Arcángel — tu guía en la Palabra:\nhttps://steamang3l.github.io/arcangel-offline-24julio2026/\n\nQue Dios te bendiga. 🕊️`;
 
             const shareData = { files: [file], title: 'Arcángel', text: textoCompartir };
             if (navigator.canShare && navigator.canShare(shareData)) {
