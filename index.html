@@ -421,31 +421,37 @@
             color: var(--text-color);
             padding: 0.9rem 1.1rem;
             border-radius: 14px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: left;
             width: 100%;
-            display: block;
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
         }
         .oracion-item-btn:hover {
             background: var(--dorado-suave);
             border-color: var(--border-dorado);
-            color: var(--dorado);
-        }
-        .oracion-item-cat {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.25rem;
         }
         .oracion-item-nombre {
             font-family: 'Cinzel', serif;
             font-size: 1rem;
+            font-weight: 600;
             color: var(--text-color);
+        }
+        .oracion-item-subtitulo {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .oracion-item-cat {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: right;
+            margin-top: 0.3rem;
         }
         .no-resultados {
             text-align: center;
@@ -862,10 +868,10 @@
             document.getElementById('inputSentimiento').value = '';
             mostrarResultadoInicio(categoria);
         }
+        let categoriaActualInicio = null;
         function nuevoVersiculoInicio() {
             if (categoriaActualInicio) mostrarResultadoInicio(categoriaActualInicio);
         }
-        let categoriaActualInicio = null;
 
         function mostrarResultadoInicio(categoria) {
             categoriaActualInicio = categoria;
@@ -1120,24 +1126,19 @@
         // ===== ORACIONES =====
         let oracionActual = null;
         let oracionCategoriaActual = null;
-        const oracionesUsadas = new Map();
 
         function cargarOraciones() {
             const lista = document.getElementById('listaOraciones');
             lista.innerHTML = '';
-            // Mostrar todas las oraciones disponibles
-            const todas = [];
             oraciones.forEach(orac => {
-                todas.push(orac);
-            });
-            todas.forEach((orac, index) => {
                 const { titulo, subtitulo } = separarNombre(orac.nombre);
                 const btn = document.createElement('button');
                 btn.className = 'oracion-item-btn';
                 btn.onclick = () => mostrarOracion(orac, null);
                 btn.innerHTML = `
+                    <div class="oracion-item-nombre">${titulo}</div>
+                    ${subtitulo ? `<div class="oracion-item-subtitulo">${subtitulo}</div>` : ''}
                     <div class="oracion-item-cat">${(orac.categorias && orac.categorias[0]) || 'Oración'}</div>
-                    <div class="oracion-item-nombre">${titulo}${subtitulo ? ' — ' + subtitulo : ''}</div>
                 `;
                 lista.appendChild(btn);
             });
@@ -1148,6 +1149,8 @@
             const lista = document.getElementById('listaOraciones');
             const noRes = document.getElementById('noOraciones');
             lista.innerHTML = '';
+
+            if (!query) { cargarOraciones(); return; }
 
             const resultados = oraciones.filter(orac => {
                 const { titulo, subtitulo } = separarNombre(orac.nombre);
@@ -1166,8 +1169,9 @@
                 btn.className = 'oracion-item-btn';
                 btn.onclick = () => mostrarOracion(orac, null);
                 btn.innerHTML = `
+                    <div class="oracion-item-nombre">${titulo}</div>
+                    ${subtitulo ? `<div class="oracion-item-subtitulo">${subtitulo}</div>` : ''}
                     <div class="oracion-item-cat">${(orac.categorias && orac.categorias[0]) || 'Oración'}</div>
-                    <div class="oracion-item-nombre">${titulo}${subtitulo ? ' — ' + subtitulo : ''}</div>
                 `;
                 lista.appendChild(btn);
             });
@@ -1203,11 +1207,12 @@
         }
 
         function otraOracion() {
-            if (!oracionCategoriaActual) return;
-            const disponibles = oraciones.filter(orac => (orac.categorias || []).includes(oracionCategoriaActual) && orac !== oracionActual);
+            const cat = oracionCategoriaActual || (oracionActual && oracionActual.categorias && oracionActual.categorias[0]);
+            if (!cat) { alert('No hay más oraciones disponibles.'); return; }
+            const disponibles = oraciones.filter(orac => (orac.categorias || []).includes(cat) && orac !== oracionActual);
             if (disponibles.length === 0) { alert('No hay más oraciones en esta categoría.'); return; }
             const siguiente = disponibles[Math.floor(Math.random() * disponibles.length)];
-            mostrarOracion(siguiente, oracionCategoriaActual);
+            mostrarOracion(siguiente, cat);
         }
 
         function abrirOracionDesdeVersiculo() {
