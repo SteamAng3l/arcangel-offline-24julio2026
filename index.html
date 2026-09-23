@@ -425,9 +425,7 @@
             transition: all 0.3s ease;
             text-align: left;
             width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 0.15rem;
+            display: block;
         }
         .oracion-item-btn:hover {
             background: var(--dorado-suave);
@@ -438,12 +436,16 @@
             font-size: 1rem;
             font-weight: 600;
             color: var(--text-color);
+            text-align: left;
+            margin-bottom: 0.15rem;
         }
         .oracion-item-subtitulo {
             font-family: 'Playfair Display', serif;
             font-style: italic;
             font-size: 0.85rem;
             color: var(--text-secondary);
+            text-align: left;
+            margin-bottom: 0.3rem;
         }
         .oracion-item-cat {
             font-size: 0.7rem;
@@ -451,7 +453,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             text-align: right;
-            margin-top: 0.3rem;
         }
         .no-resultados {
             text-align: center;
