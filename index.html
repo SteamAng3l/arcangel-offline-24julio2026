@@ -788,7 +788,16 @@
             "3 juan": "3jn", "judas": "jud", "apocalipsis": "apo"
         };
 
-        function limpiarTexto(texto) { return texto.replace(/Jehová|Jehova/g, 'Dios'); }
+        function limpiarTexto(texto) {
+            return texto
+                .replace(/Jehová|Jehova/g, 'Dios')
+                .replace(/Israelitas/g, 'Hijos de la Tierra del Señor')
+                .replace(/israelitas/g, 'hijos de la Tierra del Señor')
+                .replace(/Israelita/g, 'Hijo de la Tierra del Señor')
+                .replace(/israelita/g, 'hijo de la Tierra del Señor')
+                .replace(/Israel/g, 'La Tierra del Señor')
+                .replace(/israel/g, 'la Tierra del Señor');
+        }
 
         function obtenerTextoVersiculo(referencia) {
             const nombreLibro = referencia.libro.trim().toLowerCase().replace(/\s+/g, ' ');
@@ -1085,7 +1094,7 @@
 
             ctx.fillStyle = '#2C1F14';
             ctx.font = 'italic 400 36px "Playfair Display", serif';
-            dibujarTextoCentrado(ctx, oracionActual.texto, W / 2, 680, W - 200, 50);
+            dibujarTextoCentrado(ctx, limpiarTexto(oracionActual.texto), W / 2, 680, W - 200, 50);
 
             ctx.fillStyle = '#7A6548'; ctx.font = '400 22px Inter, sans-serif';
             ctx.fillText('Descubre tu oración en Arcángel', W / 2, 955);
@@ -1185,7 +1194,7 @@
             document.getElementById('oracionNombreModal').textContent = titulo;
             document.getElementById('oracionSubtituloModal').textContent = subtitulo || '';
             document.getElementById('oracionSantoModal').textContent = orac.santo ? 'Atribuida a ' + orac.santo : '';
-            document.getElementById('oracionCuerpoModal').textContent = orac.texto;
+            document.getElementById('oracionCuerpoModal').textContent = limpiarTexto(orac.texto);
             document.getElementById('modalOracion').classList.add('activo');
         }
 
@@ -1193,7 +1202,7 @@
 
         function speakOracion() {
             if (!oracionActual) return;
-            speakText(oracionActual.texto);
+            speakText(limpiarTexto(oracionActual.texto));
         }
 
         function guardarOracionFavorito() {
