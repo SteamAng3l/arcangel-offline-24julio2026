@@ -46,7 +46,7 @@
             --placeholder-color: #ADB5BD;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; font-size: 18px; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-body);
@@ -394,6 +394,19 @@
             border-bottom: 1px solid var(--border-sutil);
             margin-bottom: 1rem;
         }
+        .oracion-guia {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-top: 0.8rem;
+            margin-bottom: 1rem;
+            padding: 0.6rem 0.8rem;
+            background: var(--dorado-suave);
+            border-radius: 12px;
+            border: 1px solid var(--border-dorado);
+        }
         .acciones-oracion {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -466,6 +479,129 @@
             font-style: italic;
             margin-top: 1.5rem;
             font-size: 0.9rem;
+        }
+
+        /* ===== ACCESOS RÁPIDOS (Momentos / Guiadas) ===== */
+        .accesos-rapidos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.7rem;
+            margin-bottom: 1.2rem;
+        }
+        .acceso-card {
+            background: var(--button-bg);
+            border: 1px solid var(--border-dorado);
+            border-radius: 16px;
+            padding: 1.1rem 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+            position: relative;
+            line-height: 1.2;
+        }
+        .acceso-card:hover {
+            background: var(--dorado-suave);
+            border-color: var(--dorado);
+            transform: translateY(-2px);
+        }
+        .acceso-card svg {
+            color: var(--dorado);
+            flex-shrink: 0;
+        }
+        .acceso-titulo {
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--dorado);
+        }
+        .acceso-subtitulo {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        .badge-proximamente {
+            position: absolute;
+            top: -8px;
+            right: -4px;
+            background: var(--dorado);
+            color: #0F1117;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== BOTÓN VOLVER ===== */
+        .btn-volver {
+            background: transparent;
+            border: 1px solid var(--border-dorado);
+            color: var(--dorado);
+            padding: 0.9rem 1.4rem;
+            border-radius: 30px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            width: 100%;
+            margin-bottom: 1.4rem;
+            cursor: pointer;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-volver:hover {
+            background: var(--dorado-suave);
+        }
+        .btn-volver .material-icons-outlined {
+            font-size: 1.5rem;
+        }
+
+        /* ===== LISTA DE MOMENTOS ESPECIALES ===== */
+        .momentos-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-top: 1rem;
+            text-align: left;
+        }
+        .momento-item-btn {
+            background: var(--button-bg);
+            border: 1px solid var(--border-sutil);
+            color: var(--text-color);
+            padding: 1rem 1.1rem;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+        }
+        .momento-item-btn:hover {
+            background: var(--dorado-suave);
+            border-color: var(--border-dorado);
+        }
+        .momento-item-btn svg {
+            color: var(--dorado);
+            flex-shrink: 0;
+        }
+        .momento-item-info { flex: 1; }
+        .momento-item-titulo {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.2rem;
+        }
+        .momento-item-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.3;
         }
 
         .navbar {
@@ -597,6 +733,7 @@
             .oracion-nombre { font-size: 1.3rem; }
             .oracion-subtitulo { font-size: 1rem; }
             .oracion-cuerpo { font-size: 1rem; }
+            .acceso-titulo { font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -671,7 +808,6 @@
                     </div>
                 </div>
 
-                <!-- BOTÓN DONAR (ahora dentro del panel) -->
                 <button class="btn-donar" onclick="window.open('#', '_blank')">
                     <span class="material-icons-outlined" style="font-size: 1.05rem; vertical-align: middle;">favorite</span> Apoyar este proyecto
                 </button>
@@ -696,9 +832,59 @@
             <div class="panel">
                 <h2 style="font-family: 'Cinzel', serif; color: var(--dorado); margin-bottom: 0.5rem; font-size: 1.6rem;">Oraciones</h2>
                 <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">Busca por sentimiento, nombre o santo</p>
+
+                <div class="accesos-rapidos">
+                    <button class="acceso-card" onclick="abrirMomentos()">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 4v12M6 9h12"/>
+                        </svg>
+                        <div class="acceso-titulo">Momentos Especiales</div>
+                        <div class="acceso-subtitulo">Velorio, boda, bautizo y más</div>
+                    </button>
+                    <button class="acceso-card" onclick="abrirGuiadas()">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 4v12M6 9h12"/>
+                        </svg>
+                        <div class="acceso-titulo">Oraciones Guiadas</div>
+                        <div class="acceso-subtitulo">Rosario, Coronilla y más</div>
+                        <div class="badge-proximamente">Pronto</div>
+                    </button>
+                </div>
+
                 <input type="text" id="buscarOracion" placeholder="Busca por nombre, santo o sentimiento..." oninput="filtrarOraciones()">
                 <div class="oraciones-lista" id="listaOraciones"></div>
                 <div class="no-resultados" id="noOraciones" style="display:none;">No se encontraron oraciones.</div>
+            </div>
+        </div>
+
+        <!-- MOMENTOS ESPECIALES -->
+        <div id="paginaMomentos" class="pagina">
+            <div class="panel">
+                <button class="btn-volver" onclick="volverAOraciones()">
+                    <span class="material-icons-outlined">arrow_back</span> Volver a Oraciones
+                </button>
+                <h2 style="font-family: 'Cinzel', serif; color: var(--dorado); margin-bottom: 0.5rem; font-size: 1.6rem;">Oraciones para Momentos Especiales</h2>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Elige la ocasión que necesitas acompañar</p>
+                <div class="momentos-lista" id="listaMomentos"></div>
+            </div>
+        </div>
+
+        <!-- ORACIONES GUIADAS (placeholder) -->
+        <div id="paginaGuiadas" class="pagina">
+            <div class="panel">
+                <button class="btn-volver" onclick="volverAOraciones()">
+                    <span class="material-icons-outlined">arrow_back</span> Volver a Oraciones
+                </button>
+                <h2 style="font-family: 'Cinzel', serif; color: var(--dorado); margin-bottom: 0.5rem; font-size: 1.6rem;">Oraciones Guiadas</h2>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">Rosario, Coronilla y más</p>
+                <div style="text-align:center; padding: 2rem 0;">
+                    <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--dorado); opacity: 0.7;">
+                        <path d="M12 4v12M6 9h12"/>
+                    </svg>
+                    <p style="font-family:'Playfair Display',serif; font-style:italic; color:var(--text-secondary); margin-top:1.2rem; font-size:1.05rem; line-height:1.5;">
+                        Muy pronto podrás rezar el Rosario y la Coronilla<br>paso a paso, aquí mismo.
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -754,6 +940,29 @@
                 </div>
             </div>
         </div>
+
+        <!-- MODAL EVENTO (Momentos Especiales) -->
+        <div class="modal-overlay" id="modalEvento">
+            <div class="modal-contenido">
+                <button class="cerrar-modal" onclick="cerrarModalEvento()">&times;</button>
+                <div class="oracion-cruz">
+                    <svg width="1.6em" height="1.6em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;">
+                        <path d="M12 4v12M6 9h12"/>
+                    </svg>
+                </div>
+                <div class="oracion-nombre" id="eventoNombreModal"></div>
+                <div class="oracion-subtitulo" id="eventoSubtituloModal"></div>
+                <div class="oracion-santo" id="eventoDescModal"></div>
+                <div class="oracion-cuerpo" id="eventoCuerpoModal"></div>
+                <div class="oracion-guia" id="eventoGuiaModal"></div>
+                <div class="acciones-oracion">
+                    <button onclick="speakEvento()"><span class="material-icons-outlined">volume_up</span> Escuchar</button>
+                    <button onclick="otroEvento()"><span class="material-icons-outlined">refresh</span> Otra oración</button>
+                    <button onclick="guardarEventoFavorito()"><span class="material-icons-outlined">star</span> Guardar</button>
+                    <button onclick="compartirEvento()"><span class="material-icons-outlined">share</span> Compartir</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- NAVBAR -->
@@ -778,6 +987,7 @@
     <script src="bible.js"></script>
     <script src="categories.js"></script>
     <script src="oraciones.js"></script>
+    <script src="oraciones_eventos.js"></script>
     <script>
         const abrevMap = {
             "génesis": "gn", "exodo": "ex", "levítico": "lv", "números": "nm", "deuteronomio": "dt",
@@ -1290,6 +1500,139 @@
         }
 
         function abrirOracionDesdeModal() { abrirOracionDesdeVersiculo(); }
+
+        // ===== MOMENTOS ESPECIALES =====
+        function abrirMomentos() {
+            document.querySelectorAll('.pagina').forEach(p => p.classList.remove('activa'));
+            document.getElementById('paginaMomentos').classList.add('activa');
+            document.querySelectorAll('.navbar button').forEach(b => b.classList.remove('activo'));
+            document.getElementById('navOraciones').classList.add('activo');
+            cargarMomentos();
+        }
+
+        function abrirGuiadas() {
+            document.querySelectorAll('.pagina').forEach(p => p.classList.remove('activa'));
+            document.getElementById('paginaGuiadas').classList.add('activa');
+            document.querySelectorAll('.navbar button').forEach(b => b.classList.remove('activo'));
+            document.getElementById('navOraciones').classList.add('activo');
+        }
+
+        function volverAOraciones() {
+            cambiarPagina('oraciones');
+        }
+
+        function cargarMomentos() {
+            const lista = document.getElementById('listaMomentos');
+            lista.innerHTML = '';
+            oracionesEventos.forEach(ev => {
+                const btn = document.createElement('button');
+                btn.className = 'momento-item-btn';
+                btn.onclick = () => mostrarEvento(ev);
+                btn.innerHTML = `
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 4v12M6 9h12"/>
+                    </svg>
+                    <div class="momento-item-info">
+                        <div class="momento-item-titulo">${ev.ocasion}</div>
+                        <div class="momento-item-desc">${ev.descripcion}</div>
+                    </div>
+                `;
+                lista.appendChild(btn);
+            });
+        }
+
+        let eventoActual = null;
+
+        function mostrarEvento(ev) {
+            eventoActual = ev;
+            document.getElementById('eventoNombreModal').textContent = ev.titulo;
+            document.getElementById('eventoSubtituloModal').textContent = ev.ocasion;
+            document.getElementById('eventoDescModal').textContent = ev.descripcion;
+            document.getElementById('eventoCuerpoModal').textContent = ev.texto;
+            document.getElementById('eventoGuiaModal').textContent = ev.guia || '';
+            document.getElementById('modalEvento').classList.add('activo');
+        }
+
+        function cerrarModalEvento() {
+            document.getElementById('modalEvento').classList.remove('activo');
+        }
+
+        function speakEvento() {
+            if (!eventoActual) return;
+            speakText(eventoActual.texto);
+        }
+
+        function otroEvento() {
+            if (!eventoActual) return;
+            const disponibles = oracionesEventos.filter(ev => ev.id !== eventoActual.id);
+            if (disponibles.length === 0) return;
+            const siguiente = disponibles[Math.floor(Math.random() * disponibles.length)];
+            mostrarEvento(siguiente);
+        }
+
+        function guardarEventoFavorito() {
+            if (!eventoActual) return;
+            let favoritos = JSON.parse(localStorage.getItem('arcangelFavsEventos') || '[]');
+            const yaExiste = favoritos.some(f => f.id === eventoActual.id);
+            if (!yaExiste) {
+                favoritos.unshift({ id: eventoActual.id, titulo: eventoActual.titulo, ocasion: eventoActual.ocasion, texto: eventoActual.texto, guia: eventoActual.guia || '', tipo: 'evento' });
+                localStorage.setItem('arcangelFavsEventos', JSON.stringify(favoritos));
+                alert('Oración guardada en favoritos ⭐');
+            } else alert('Esta oración ya está en favoritos.');
+        }
+
+        async function compartirEvento() {
+            if (!eventoActual) return;
+            await cargarFuentes();
+            const canvas = document.getElementById('canvasCompartir');
+            const ctx = canvas.getContext('2d');
+            const W = canvas.width, H = canvas.height;
+
+            const fondo = document.getElementById('fondoPergamino');
+            if (fondo.complete && fondo.naturalWidth > 0) {
+                const offsetY = (fondo.naturalHeight - fondo.naturalWidth) / 2;
+                ctx.drawImage(fondo, 0, offsetY, fondo.naturalWidth, fondo.naturalWidth, 0, 0, W, H);
+            } else { ctx.fillStyle = '#EBD7B3'; ctx.fillRect(0, 0, W, H); }
+
+            ctx.fillStyle = 'rgba(255, 250, 240, 0.3)';
+            ctx.fillRect(0, 0, W, H);
+            ctx.strokeStyle = '#8B6F2E'; ctx.lineWidth = 4;
+            ctx.strokeRect(36, 36, W - 72, H - 72);
+            ctx.textAlign = 'center';
+
+            ctx.fillStyle = '#5C4118'; ctx.font = '700 70px Cinzel, serif';
+            ctx.fillText('Arcángel', W / 2, 170);
+            ctx.fillStyle = '#7A6548'; ctx.font = 'italic 400 26px "Playfair Display", serif';
+            ctx.fillText('Guía espiritual de la Palabra', W / 2, 215);
+
+            ctx.fillStyle = 'rgba(139, 111, 46, 0.6)'; ctx.font = '30px serif';
+            ctx.fillText('✝', W / 2, 265);
+
+            ctx.fillStyle = '#5C4118'; ctx.font = '600 46px Cinzel, serif';
+            dibujarTextoCentrado(ctx, eventoActual.ocasion, W / 2, 340, W - 200, 52);
+
+            ctx.fillStyle = '#7A6548'; ctx.font = 'italic 400 26px "Playfair Display", serif';
+            ctx.fillText(eventoActual.descripcion, W / 2, 410);
+
+            ctx.fillStyle = '#2C1F14';
+            dibujarTextoAutoAjustado(
+                ctx,
+                eventoActual.texto,
+                W / 2,
+                460,
+                930,
+                W - 220,
+                34,
+                '"Playfair Display", serif'
+            );
+
+            ctx.fillStyle = '#7A6548'; ctx.font = '400 22px Inter, sans-serif';
+            ctx.fillText('Descubre esta oración en Arcángel', W / 2, 955);
+            ctx.fillStyle = 'rgba(139, 111, 46, 0.9)'; ctx.font = '500 18px Inter, sans-serif';
+            ctx.fillText('steamang3l.github.io/arcangel-offline-24julio2026', W / 2, 990);
+
+            canvas.toBlob(async (blob) => { compartirBlob(blob, 'oracion-evento-arcangel.png'); }, 'image/png');
+        }
 
         // ===== DICTADO =====
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
