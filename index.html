@@ -185,11 +185,13 @@
             width: 100%;
             max-width: 800px;
             height: 100vh;
+            height: 100dvh; /* Importante para móviles con barra de direcciones */
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             padding: 20px;
             position: relative;
+            box-sizing: border-box;
         }
         .guia-header {
             display: flex;
@@ -197,104 +199,45 @@
             align-items: center;
             padding-bottom: 15px;
             border-bottom: 1px solid var(--border-sutil);
+            flex-shrink: 0;
         }
         .guia-cerrar {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1rem;
-            font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            background: transparent; border: none; color: var(--text-secondary); font-size: 1rem; font-family: 'Inter', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 5px;
         }
         .guia-cerrar:hover { color: var(--dorado); }
-        .guia-titulo-header {
-            font-family: 'Cinzel', serif;
-            color: var(--dorado);
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
+        .guia-titulo-header { font-family: 'Cinzel', serif; color: var(--dorado); font-size: 1.1rem; font-weight: 600; }
         
         .guia-contenido {
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            overflow-y: auto; /* Scroll aquí si el texto es muy largo */
             text-align: center;
-            padding: 20px 0;
+            width: 100%;
+            padding: 10px 0;
         }
-        .guia-paso-numero {
-            font-family: 'Inter', sans-serif;
-            color: var(--dorado);
-            font-size: 1.1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
+        .guia-paso-wrapper {
+            margin: auto 0; /* Centra verticalmente si es corto, alinea arriba si es largo */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
         }
-        .guia-titulo-paso {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            color: var(--text-color);
-            margin-bottom: 25px;
-            line-height: 1.2;
-        }
-        .guia-texto {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            line-height: 1.6;
-            color: var(--text-color);
-            max-width: 700px;
-            margin: 0 auto;
-            white-space: pre-wrap;
-        }
+        .guia-paso-numero { font-family: 'Inter', sans-serif; color: var(--dorado); font-size: 1.1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .guia-titulo-paso { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--text-color); margin-bottom: 25px; line-height: 1.2; }
+        .guia-texto { font-family: 'Playfair Display', serif; font-size: 1.5rem; line-height: 1.6; color: var(--text-color); max-width: 700px; margin: 0 auto; white-space: pre-wrap; }
         
         .guia-footer {
-            padding-top: 20px;
+            padding-top: 15px;
             display: flex;
             gap: 15px;
+            flex-shrink: 0; /* Evita que los botones se oculten */
+            padding-bottom: max(20px, env(safe-area-inset-bottom)); /* Soporte para iPhone */
+            background: rgba(10, 12, 16, 0.98); /* Fondo sólido para que el texto no se vea debajo */
         }
-        .btn-guia-play {
-            background: var(--button-bg);
-            border: 2px solid var(--border-dorado);
-            color: var(--dorado);
-            padding: 1rem 1.5rem;
-            border-radius: 30px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            width: 70px;
-            height: 70px;
-            flex-shrink: 0;
-        }
-        .btn-guia-play.activo {
-            background: var(--dorado);
-            color: #0F1117;
-        }
-        .btn-guia-next {
-            background: var(--dorado);
-            border: none;
-            color: #0F1117;
-            padding: 1rem 1.5rem;
-            border-radius: 30px;
-            font-size: 1.3rem;
-            font-weight: 700;
-            cursor: pointer;
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-            transition: all 0.3s ease;
-        }
+        .btn-guia-play { background: var(--button-bg); border: 2px solid var(--border-dorado); color: var(--dorado); padding: 1rem 1.5rem; border-radius: 30px; font-size: 1.2rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; width: 70px; height: 70px; flex-shrink: 0; }
+        .btn-guia-play.activo { background: var(--dorado); color: #0F1117; }
+        .btn-guia-next { background: var(--dorado); border: none; color: #0F1117; padding: 1rem 1.5rem; border-radius: 30px; font-size: 1.3rem; font-weight: 700; cursor: pointer; flex: 1; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); transition: all 0.3s ease; }
         .btn-guia-next:active { transform: scale(0.98); }
         .btn-guia-next:hover { background: #fce788; }
         
@@ -323,7 +266,7 @@
         #canvasCompartir { display: none; }
         
         @media (max-width: 600px) {
-            .guia-texto { font-size: 1.4rem; }
+            .guia-texto { font-size: 1.3rem; }
             .guia-titulo-paso { font-size: 1.6rem; }
         }
         @media (max-width: 400px) {
@@ -334,7 +277,7 @@
             .oracion-subtitulo { font-size: 1rem; }
             .oracion-cuerpo { font-size: 1rem; }
             .acceso-titulo { font-size: 0.75rem; }
-            .guia-texto { font-size: 1.3rem; }
+            .guia-texto { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -550,9 +493,11 @@
                 </div>
                 
                 <div class="guia-contenido">
-                    <div class="guia-paso-numero" id="guiaPasoNumero">Paso 1</div>
-                    <div class="guia-titulo-paso" id="guiaPasoTitulo">Título</div>
-                    <div class="guia-texto" id="guiaPasoTexto">Texto de la oración...</div>
+                    <div class="guia-paso-wrapper">
+                        <div class="guia-paso-numero" id="guiaPasoNumero">Paso 1</div>
+                        <div class="guia-titulo-paso" id="guiaPasoTitulo">Título</div>
+                        <div class="guia-texto" id="guiaPasoTexto">Texto de la oración...</div>
+                    </div>
                 </div>
 
                 <div class="guia-footer">
@@ -998,50 +943,46 @@
             guiaActual = oracionesGuiadas.find(g => g.id === id);
             if (!guiaActual) return;
             
-            // Generar array plano de pasos
             pasosGuia = [];
-            const hoy = new Date().getDay(); // 0=Domingo, 1=Lunes...
+            const hoy = new Date().getDay(); 
             
-            guiaActual.pasos.forEach(paso => {
+            function procesarPaso(paso) {
                 if (paso.tipo === "misterios") {
-                    // Lógica para elegir el misterio del día
-                    let tipoMisterio = "gozosos"; // Por defecto
-                    if (hoy === 1 || hoy === 6) tipoMisterio = "gozosos"; // Lunes, Sábado
-                    else if (hoy === 2 || hoy === 5) tipoMisterio = "dolorosos"; // Martes, Viernes
-                    else if (hoy === 3 || hoy === 0) tipoMisterio = "gloriosos"; // Miércoles, Domingo
-                    else if (hoy === 4) tipoMisterio = "luminosos"; // Jueves
+                    let tipoMisterio = "gozosos"; 
+                    if (hoy === 1 || hoy === 6) tipoMisterio = "gozosos"; 
+                    else if (hoy === 2 || hoy === 5) tipoMisterio = "dolorosos"; 
+                    else if (hoy === 3 || hoy === 0) tipoMisterio = "gloriosos"; 
+                    else if (hoy === 4) tipoMisterio = "luminosos"; 
                     
                     if (paso.dia === tipoMisterio) {
-                        pasosGuia.push(...paso.pasos);
+                        paso.pasos.forEach(p => procesarPaso(p));
                     }
                 } else if (paso.tipo === "decena_coronilla") {
-                    // Generar la coronilla (5 vueltas)
                     for(let i=1; i<=5; i++) {
-                        pasosGuia.push({ tipo: "texto", titulo: `Decena ${i} (Cuenta Grande)`, texto: textosGuia.coronilla_grande });
+                        pasosGuia.push({ tipo: "texto", titulo: `Decena ${i}`, texto: textosGuia.coronilla_grande });
                         for(let j=1; j<=10; j++) {
-                            pasosGuia.push({ tipo: "texto", titulo: `Decena ${i} - Cuenta Pequeña (${j} de 10)`, texto: textosGuia.coronilla_pequena });
+                            pasosGuia.push({ tipo: "texto", titulo: `Decena ${i}, ${j}`, texto: textosGuia.coronilla_pequena });
                         }
                     }
-                    // Final de la coronilla
                     pasosGuia.push({ tipo: "texto", titulo: "Oración Final (3 veces)", texto: textosGuia.coronilla_final + "\n\n" + textosGuia.coronilla_final + "\n\n" + textosGuia.coronilla_final });
-                } else {
-                    // Si es un tipo base (padre_nuestro, repeticion, gloria)
-                    if (paso.tipo === "padre_nuestro") {
-                        pasosGuia.push({ tipo: "texto", titulo: "Padre Nuestro", texto: textosGuia.padre_nuestro });
-                    } else if (paso.tipo === "gloria") {
-                        pasosGuia.push({ tipo: "texto", titulo: "Gloria", texto: textosGuia.gloria });
-                    } else if (paso.tipo === "repeticion") {
-                        const veces = paso.veces || 1;
-                        for(let i=1; i<=veces; i++) {
-                            let titulo = paso.titulo;
-                            if (veces > 1) titulo += ` (${i} de ${veces})`;
-                            pasosGuia.push({ tipo: "texto", titulo: titulo, texto: textosGuia.ave_maria });
-                        }
-                    } else {
-                        pasosGuia.push(paso);
+                } else if (paso.tipo === "padre_nuestro") {
+                    pasosGuia.push({ tipo: "texto", titulo: "Padre Nuestro", texto: textosGuia.padre_nuestro });
+                } else if (paso.tipo === "gloria") {
+                    pasosGuia.push({ tipo: "texto", titulo: "Gloria", texto: textosGuia.gloria });
+                } else if (paso.tipo === "repeticion") {
+                    const veces = paso.veces || 1;
+                    for(let i=1; i<=veces; i++) {
+                        let titulo = paso.titulo;
+                        if (veces > 1) titulo += ` (${i} de ${veces})`;
+                        let textoAMostrar = paso.texto || textosGuia.ave_maria;
+                        pasosGuia.push({ tipo: "texto", titulo: titulo, texto: textoAMostrar });
                     }
+                } else {
+                    pasosGuia.push(paso);
                 }
-            });
+            }
+
+            guiaActual.pasos.forEach(paso => procesarPaso(paso));
 
             pasoActualIndex = 0;
             document.getElementById('guiaHeaderNombre').textContent = guiaActual.nombre;
@@ -1057,7 +998,6 @@
             document.getElementById('guiaPasoTitulo').textContent = paso.titulo || "";
             document.getElementById('guiaPasoTexto').textContent = paso.texto || "";
             
-            // Si está en autoplay, leer automáticamente
             if (autoPlayActivo) {
                 leerPasoYAvanzar();
             }
@@ -1105,7 +1045,6 @@
             
             speechUtterance.onend = () => {
                 if(autoPlayActivo) {
-                    // Esperar 3 segundos en silencio antes de avanzar
                     timerAutoPlay = setTimeout(() => {
                         if(autoPlayActivo) avanzarGuia();
                     }, 3000);
