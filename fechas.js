@@ -17,7 +17,7 @@ const fechasEspeciales = [
   { mes: 12, dia: 12, idOracion: "novena_guadalupe", titulo: "Virgen de Guadalupe" },
   { mes: 12, dia: 16, idOracion: "posadas", titulo: "Inicio de Posadas" },
   { mes: 12, dia: 24, idOracion: "nochebuena", titulo: "Nochebuena" },
-  { mes: 11, dia: 13, idOracion: "navidad", titulo: "Navidad (Prueba)" }
+  { mes: 11, dia: 13, idOracion: "navidad", titulo: "Navidad (Prueba)" },
   { mes: 12, dia: 31, idOracion: "anoviejo", titulo: "Año Viejo" },
 
   // ===== FECHAS MÓVILES (Calculadas en base a la Pascua) =====
