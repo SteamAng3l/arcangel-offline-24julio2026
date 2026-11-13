@@ -1,5 +1,5 @@
 // oraciones_guiadas.js – Arcángel App
-// Oraciones para rezar paso a paso (Rosario, Coronilla y Fechas Especiales)
+// Oraciones para rezar paso a paso (Ordenadas lógicamente y por fechas)
 
 function generarMisterios(misterios) {
   let pasos = [];
@@ -13,6 +13,9 @@ function generarMisterios(misterios) {
 }
 
 const oracionesGuiadas = [
+  // ==========================================
+  // GRUPO 1: ORACIONES DE USO FRECUENTE (DIARIAS)
+  // ==========================================
   {
     id: "rosario",
     nombre: "Santo Rosario",
@@ -75,21 +78,64 @@ const oracionesGuiadas = [
     ]
   },
   {
-    id: "posadas",
-    nombre: "Posadas Navideñas",
-    descripcion: "Pedir posada y preparar el nacimiento.",
+    id: "rosario_aurora",
+    nombre: "Rosario de Aurora",
+    descripcion: "Para rezar al amanecer.",
     pasos: [
-      { tipo: "texto", titulo: "En el exterior", texto: "En el nombre del cielo, os pido posada, pues no puede andar mi esposa amada." },
-      { tipo: "texto", titulo: "En el interior", texto: "Aquí no es mesón, sigan adelante, yo no puedo abrir, no sea algún tunante." },
-      { tipo: "texto", titulo: "En el exterior", texto: "No seas inhumano, tennos caridad, que el Dios de los cielos te lo premiará." },
-      { tipo: "texto", titulo: "En el interior", texto: "Ya se pueden ir y no molestar, porque si me enfado os voy a apalear." },
-      { tipo: "texto", titulo: "En el exterior", texto: "Venimos rendidos desde Nazaret, yo soy carpintero de nombre José." },
-      { tipo: "texto", titulo: "En el interior", texto: "No me importa el nombre, déjenme dormir, pues que ya les digo que no hemos de abrir." },
-      { tipo: "texto", titulo: "En el exterior", texto: "Posada te pide, amado casero, por sólo una noche la Reina del Cielo." },
-      { tipo: "texto", titulo: "En el interior", texto: "Pues si es una reina quien lo solicita, ¿cómo es que de noche anda tan solita?" },
-      { tipo: "texto", titulo: "En el exterior", texto: "Mi esposa es María, es Reina del Cielo, y madre va a ser del Divino Verbo." },
-      { tipo: "texto", titulo: "En el interior", texto: "¿Eres tú José? ¿Tu esposa es María? Entren, peregrinos, no los conocía." },
-      { tipo: "texto", titulo: "Entrada y Bienvenida", texto: "Entren, Santos Peregrinos, reciban este rincón, que aunque es pobre la morada, os la doy de corazón. Amén." }
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración al amanecer", texto: "Señor, al comenzar este nuevo día, te ofrezco mi vida. Que la Virgen María me tome de la mano y me enseñe a caminar como tú quieres. Amén." },
+      { tipo: "texto", titulo: "Primer Misterio", texto: "Meditamos en el nacimiento de Jesús, la luz que ilumina el mundo." },
+      { tipo: "padre_nuestro" },
+      { tipo: "repeticion", titulo: "Ave María", veces: 10 },
+      { tipo: "gloria" },
+      { tipo: "texto", titulo: "Oración Final", texto: "Gracias, Virgen de la Aurora, por escuchar nuestras plegarias matutinas. Acompáñanos hoy en todos nuestros trabajos. Amén." }
+    ]
+  },
+  {
+    id: "consagracion_virgen",
+    nombre: "Consagración a la Virgen",
+    descripcion: "Entrega tu vida a María.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Acto de Consagración", texto: "¡Oh Señora mía, oh Madre mía! Yo me ofrezco enteramente a ti. Y en prueba de mi filial afecto, te consagro en este día mis ojos, mis oídos, mi lengua, mi corazón... En una palabra, todo mi ser. Ya que soy todo tuyo, oh Madre de Dios, guárdame y defiéndeme como propiedad tuya. Amén." },
+      { tipo: "padre_nuestro" },
+      { tipo: "repeticion", titulo: "Ave María", veces: 3 }
+    ]
+  },
+  {
+    id: "bendicion_ninos",
+    nombre: "Bendición de los Niños",
+    descripcion: "Para bendecir a los más pequeños.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración", texto: "Señor Jesús, tú que dijiste 'Dejen que los niños vengan a mí', bendice a estos pequeños. Que el ángel de la guarda los cuide siempre, que crezcan sanos y fuertes, y que el amor de su familia los acompañe. Amén." },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
+    ]
+  },
+
+  // ==========================================
+  // GRUPO 2: FECHAS ESPECIALES (ENERO A DICIEMBRE)
+  // ==========================================
+  {
+    id: "reyes",
+    nombre: "Día de Reyes",
+    descripcion: "Para el 6 de enero.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración", texto: "Señor, como los Magos de Oriente, también nosotros queremos ponernos en camino para buscarte. Ellos siguieron la estrella y llegaron a Belén para adorarte y ofrecerte sus dones." },
+      { tipo: "texto", titulo: "Petición", texto: "Ayúdanos a ser generosos como ellos, a compartir nuestros bienes con los necesitados, y a ofrecerte lo mejor de nosotros. Que nuestra vida sea un regalo para los demás. Amén." },
+      { tipo: "padre_nuestro" }
+    ]
+  },
+  {
+    id: "candelaria",
+    nombre: "Día de la Candelaria",
+    descripcion: "Para el 2 de febrero.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración", texto: "Virgen María, Madre de Dios y Madre nuestra, hoy recordamos cuando llevaste a Jesús al templo y lo presentaste al Señor. Te pedimos que nos ayudes a presentar también nuestra vida a Dios." },
+      { tipo: "texto", titulo: "Petición", texto: "Bendice nuestros hogares, nuestras familias y nuestros trabajos. Que la luz de Cristo, que hoy se presenta al mundo, ilumine nuestros caminos y nos guíe siempre hacia el bien. Amén." },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
     ]
   },
   {
@@ -129,6 +175,148 @@ const oracionesGuiadas = [
       { tipo: "texto", titulo: "6. 'Todo está cumplido'", texto: "'Todo está cumplido'. (Juan 19, 30)" },
       { tipo: "texto", titulo: "7. 'Padre, en tus manos...'", texto: "'Padre, en tus manos encomiendo mi espíritu'. (Lucas 23, 46)" },
       { tipo: "texto", titulo: "Oración Final", texto: "Señor Jesús, que tus siete palabras resuenen en nuestro corazón y nos ayuden a vivir con fe y esperanza. Amén." }
+    ]
+  },
+  {
+    id: "pentecostes",
+    nombre: "Pentecostés",
+    descripcion: "Para pedir los dones del Espíritu Santo.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Ven, Espíritu Santo", texto: "Ven, Espíritu Santo, llena los corazones de tus fieles y enciende en ellos el fuego de tu amor. Amén." },
+      { tipo: "texto", titulo: "Petición de Dones", texto: "Espíritu de sabiduría y entendimiento, Espíritu de consejo y fortaleza, Espíritu de ciencia y piedad, Espíritu de temor de Dios: ven y renueva la faz de la tierra. Amén." },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
+    ]
+  },
+  {
+    id: "dia_madres",
+    nombre: "Día de las Madres",
+    descripcion: "Para bendecir a mamá.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Bendición", texto: "Dios todopoderoso, te damos gracias por el don maravilloso de nuestra madre. Bendice su vida, su salud y su hogar. Que la Virgen María, la Madre más amorosa, la cuide y la proteja siempre. Amén." },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 },
+      { tipo: "texto", titulo: "Oración", texto: "Gracias, Señor, por las manos que nos cuidaron, por las palabras que nos consolaron y por el amor incondicional de nuestra madre. Amén." }
+    ]
+  },
+  {
+    id: "dia_padre",
+    nombre: "Día del Padre",
+    descripcion: "Para bendecir a papá.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Bendición", texto: "Señor, que eres el Padre de todos, bendice a nuestro papá. Dale salud, fortaleza y sabiduría para guiar a nuestra familia. Que San José, el padre adoptivo de Jesús, sea su modelo y protector. Amén." },
+      { tipo: "padre_nuestro" },
+      { tipo: "texto", titulo: "Oración", texto: "Gracias, Señor, por el esfuerzo y el trabajo de nuestro padre. Recompensa su entrega y hazlo feliz en este día. Amén." }
+    ]
+  },
+  {
+    id: "carmen",
+    nombre: "Nuestra Señora del Carmen",
+    descripcion: "Para el 16 de julio.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración", texto: "Virgen del Carmen, Reina y Madre de los que esperan en ti, hoy te pedimos que nos cubras con tu manto. Tú que prometiste la salvación a quienes portan tu escapulario, protégenos de todo peligro y guíanos siempre por el camino del bien." },
+      { tipo: "texto", titulo: "Petición", texto: "Ayúdanos a vivir con fe y esperanza, a confiar en tu intercesión y a ser fieles a tu Hijo Jesús. Que tu presencia nos consuele en las dificultades y nos anime a seguir adelante. Amén." },
+      { tipo: "repeticion", titulo: "Ave María", veces: 3 }
+    ]
+  },
+  {
+    id: "asuncion",
+    nombre: "Asunción de la Virgen",
+    descripcion: "Para el 15 de agosto.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración", texto: "Virgen María, hoy celebramos que fuiste llevada en cuerpo y alma a la gloria del cielo. Ruega por nosotros, que caminamos aún en esta tierra, para que un día podamos contemplarte cara a cara en el paraíso. Amén." },
+      { tipo: "padre_nuestro" },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
+    ]
+  },
+  {
+    id: "abuelo",
+    nombre: "Día del Abuelo",
+    descripcion: "Para el 28 de agosto.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Acción de Gracias", texto: "Dios nuestro, te damos gracias por el don de los abuelos. Ellos son fuente de sabiduría, de amor y de experiencia. Gracias por sus consejos, por su paciencia y por su ejemplo de fe." },
+      { tipo: "texto", titulo: "Bendición", texto: "Bendice, Señor, a nuestros abuelos. Dales salud, fortaleza y alegría. Que se sientan amados por nosotros, y que la Virgen María los acompañe y cuide en todo momento." },
+      { tipo: "padre_nuestro" }
+    ]
+  },
+  {
+    id: "san_miguel",
+    nombre: "San Miguel Arcángel",
+    descripcion: "Para el 29 de septiembre.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración", texto: "San Miguel Arcángel, defiéndenos en la batalla. Sé nuestro amparo contra la perversidad y asechanzas del demonio. Reprímale Dios, pedimos suplicantes, y tú, Príncipe de la Milicia Celestial, arroja al infierno con el divino poder a Satanás y a los otros espíritus malignos que vagan por el mundo para la perdición de las almas. Amén." },
+      { tipo: "texto", titulo: "Oración por la Protección", texto: "Glorioso San Miguel, Príncipe de las milicias celestiales, protégenos en el camino y ayúdanos a ser fieles a Dios hasta el final. Amén." }
+    ]
+  },
+  {
+    id: "santa_teresa",
+    nombre: "Día de Santa Teresa",
+    descripcion: "Para el 15 de octubre.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración (Nada te turbe)", texto: "Nada te turbe, nada te espante, todo se pasa, Dios no se muda, la paciencia todo lo alcanza; quien a Dios tiene nada le falta: sólo Dios basta." },
+      { tipo: "texto", titulo: "Petición", texto: "Santa Teresa de Jesús, maestra de oración, enséñanos a buscar a Dios en el silencio de nuestro corazón y a confiar en su providencia. Que nada nos turbe y que solo Dios sea nuestra fortaleza. Amén." },
+      { tipo: "padre_nuestro" },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
+    ]
+  },
+  {
+    id: "todos_santos",
+    nombre: "Solemnidad de Todos los Santos",
+    descripcion: "Para el 1 de noviembre.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración", texto: "Señor, hoy celebramos la fiesta de todos los santos. Ellos son nuestros modelos de vida, de fe y de amor a ti. Algunos fueron mártires, otros humildes servidores, pero todos vivieron buscando tu voluntad." },
+      { tipo: "texto", titulo: "Petición", texto: "Ayúdanos a seguir su ejemplo, a ser santos en lo cotidiano, amando a los demás y viviendo con coherencia nuestra fe. Que un día podamos unirnos a ellos en el cielo. Amén." },
+      { tipo: "padre_nuestro" }
+    ]
+  },
+  {
+    id: "fieles_difuntos",
+    nombre: "Fieles Difuntos",
+    descripcion: "Para el 2 de noviembre.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración por los Difuntos", texto: "Señor de la vida y de la muerte, hoy recordamos a nuestros hermanos que han partido. Te pedimos que los recibas en tu reino, y que les des el descanso eterno. Que brille para ellos la luz perpetua." },
+      { tipo: "texto", titulo: "Consuelo para los que quedamos", texto: "Consuela también a quienes lloramos su ausencia. Danos la esperanza de la resurrección, y fortalece nuestra fe para que vivamos en el amor y la entrega, esperando el día del reencuentro. Amén." },
+      { tipo: "padre_nuestro" },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
+    ]
+  },
+  {
+    id: "novena_guadalupe",
+    nombre: "Novena a la Virgen de Guadalupe",
+    descripcion: "Del 3 al 11 de diciembre.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Acto de Contrición", texto: "Señor mío Jesucristo, por ser tú tan bueno, me pesa de todo corazón haberte ofendido. Propongo firmemente no pecar más. Amén." },
+      { tipo: "texto", titulo: "Oración a la Virgen", texto: "¡Oh Virgen Inmaculada, Madre del verdadero Dios y Madre de la Iglesia! Tú, que desde este lugar manifiestas tu clemencia y tu compasión a todos los que buscan tu protección..." },
+      { tipo: "repeticion", titulo: "Ave María", veces: 3 },
+      { tipo: "texto", titulo: "Petición", texto: "Virgen de Guadalupe, Morenita, escucha nuestra súplica y concédenos la gracia que hoy te pedimos de todo corazón. (Hacer la petición en silencio)." },
+      { tipo: "texto", titulo: "Oración Final", texto: "No se turbe tu corazón, no temas. ¿No estoy yo aquí, que soy tu Madre? Amén." }
+    ]
+  },
+  {
+    id: "posadas",
+    nombre: "Posadas Navideñas",
+    descripcion: "Pedir posada y preparar el nacimiento.",
+    pasos: [
+      { tipo: "texto", titulo: "En el exterior", texto: "En el nombre del cielo, os pido posada, pues no puede andar mi esposa amada." },
+      { tipo: "texto", titulo: "En el interior", texto: "Aquí no es mesón, sigan adelante, yo no puedo abrir, no sea algún tunante." },
+      { tipo: "texto", titulo: "En el exterior", texto: "No seas inhumano, tennos caridad, que el Dios de los cielos te lo premiará." },
+      { tipo: "texto", titulo: "En el interior", texto: "Ya se pueden ir y no molestar, porque si me enfado os voy a apalear." },
+      { tipo: "texto", titulo: "En el exterior", texto: "Venimos rendidos desde Nazaret, yo soy carpintero de nombre José." },
+      { tipo: "texto", titulo: "En el interior", texto: "No me importa el nombre, déjenme dormir, pues que ya les digo que no hemos de abrir." },
+      { tipo: "texto", titulo: "En el exterior", texto: "Posada te pide, amado casero, por sólo una noche la Reina del Cielo." },
+      { tipo: "texto", titulo: "En el interior", texto: "Pues si es una reina quien lo solicita, ¿cómo es que de noche anda tan solita?" },
+      { tipo: "texto", titulo: "En el exterior", texto: "Mi esposa es María, es Reina del Cielo, y madre va a ser del Divino Verbo." },
+      { tipo: "texto", titulo: "En el interior", texto: "¿Eres tú José? ¿Tu esposa es María? Entren, peregrinos, no los conocía." },
+      { tipo: "texto", titulo: "Entrada y Bienvenida", texto: "Entren, Santos Peregrinos, reciban este rincón, que aunque es pobre la morada, os la doy de corazón. Amén." }
     ]
   },
   {
@@ -174,187 +362,6 @@ const oracionesGuiadas = [
       { tipo: "texto", titulo: "Oración de Año Nuevo", texto: "Señor, hoy comenzamos un nuevo año. Te pedimos que camines con nosotros. Que cada día de este año sea una oportunidad para acercarnos más a ti. Bendice nuestros planes, nuestro trabajo, nuestras familias y nuestras decisiones." },
       { tipo: "texto", titulo: "Petición", texto: "Que este año no lo dejemos pasar sin buscarte, sin agradecerte y sin servirte en los demás. Que María, nuestra Madre, nos acompañe y nos guíe. Amén." },
       { tipo: "repeticion", titulo: "Ave María", veces: 1 }
-    ]
-  },
-  {
-    id: "reyes",
-    nombre: "Día de Reyes",
-    descripcion: "Para el 6 de enero.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Oración", texto: "Señor, como los Magos de Oriente, también nosotros queremos ponernos en camino para buscarte. Ellos siguieron la estrella y llegaron a Belén para adorarte y ofrecerte sus dones." },
-      { tipo: "texto", titulo: "Petición", texto: "Ayúdanos a ser generosos como ellos, a compartir nuestros bienes con los necesitados, y a ofrecerte lo mejor de nosotros. Que nuestra vida sea un regalo para los demás. Amén." },
-      { tipo: "padre_nuestro" }
-    ]
-  },
-  {
-    id: "candelaria",
-    nombre: "Día de la Candelaria",
-    descripcion: "Para el 2 de febrero.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Oración", texto: "Virgen María, Madre de Dios y Madre nuestra, hoy recordamos cuando llevaste a Jesús al templo y lo presentaste al Señor. Te pedimos que nos ayudes a presentar también nuestra vida a Dios." },
-      { tipo: "texto", titulo: "Petición", texto: "Bendice nuestros hogares, nuestras familias y nuestros trabajos. Que la luz de Cristo, que hoy se presenta al mundo, ilumine nuestros caminos y nos guíe siempre hacia el bien. Amén." },
-      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
-    ]
-  },
-  {
-    id: "abuelo",
-    nombre: "Día del Abuelo",
-    descripcion: "Para el 28 de agosto.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Acción de Gracias", texto: "Dios nuestro, te damos gracias por el don de los abuelos. Ellos son fuente de sabiduría, de amor y de experiencia. Gracias por sus consejos, por su paciencia y por su ejemplo de fe." },
-      { tipo: "texto", titulo: "Bendición", texto: "Bendice, Señor, a nuestros abuelos. Dales salud, fortaleza y alegría. Que se sientan amados por nosotros, y que la Virgen María los acompañe y cuide en todo momento." },
-      { tipo: "padre_nuestro" }
-    ]
-  },
-  {
-    id: "carmen",
-    nombre: "Nuestra Señora del Carmen",
-    descripcion: "Para el 16 de julio.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Oración", texto: "Virgen del Carmen, Reina y Madre de los que esperan en ti, hoy te pedimos que nos cubras con tu manto. Tú que prometiste la salvación a quienes portan tu escapulario, protégenos de todo peligro y guíanos siempre por el camino del bien." },
-      { tipo: "texto", titulo: "Petición", texto: "Ayúdanos a vivir con fe y esperanza, a confiar en tu intercesión y a ser fieles a tu Hijo Jesús. Que tu presencia nos consuele en las dificultades y nos anime a seguir adelante. Amén." },
-      { tipo: "repeticion", titulo: "Ave María", veces: 3 }
-    ]
-  },
-  {
-    id: "todos_santos",
-    nombre: "Solemnidad de Todos los Santos",
-    descripcion: "Para el 1 de noviembre.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Oración", texto: "Señor, hoy celebramos la fiesta de todos los santos. Ellos son nuestros modelos de vida, de fe y de amor a ti. Algunos fueron mártires, otros humildes servidores, pero todos vivieron buscando tu voluntad." },
-      { tipo: "texto", titulo: "Petición", texto: "Ayúdanos a seguir su ejemplo, a ser santos en lo cotidiano, amando a los demás y viviendo con coherencia nuestra fe. Que un día podamos unirnos a ellos en el cielo. Amén." },
-      { tipo: "padre_nuestro" }
-    ]
-  },
-  {
-    id: "fieles_difuntos",
-    nombre: "Fieles Difuntos",
-    descripcion: "Para el 2 de noviembre.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Oración por los Difuntos", texto: "Señor de la vida y de la muerte, hoy recordamos a nuestros hermanos que han partido. Te pedimos que los recibas en tu reino, y que les des el descanso eterno. Que brille para ellos la luz perpetua." },
-      { tipo: "texto", titulo: "Consuelo para los que quedamos", texto: "Consuela también a quienes lloramos su ausencia. Danos la esperanza de la resurrección, y fortalece nuestra fe para que vivamos en el amor y la entrega, esperando el día del reencuentro. Amén." },
-      { tipo: "padre_nuestro" },
-      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
-    ]
-  },
-  {
-    id: "santa_teresa",
-    nombre: "Día de Santa Teresa",
-    descripcion: "Para el 15 de octubre.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Oración (Nada te turbe)", texto: "Nada te turbe, nada te espante, todo se pasa, Dios no se muda, la paciencia todo lo alcanza; quien a Dios tiene nada le falta: sólo Dios basta." },
-      { tipo: "texto", titulo: "Petición", texto: "Santa Teresa de Jesús, maestra de oración, enséñanos a buscar a Dios en el silencio de nuestro corazón y a confiar en su providencia. Que nada nos turbe y que solo Dios sea nuestra fortaleza. Amén." },
-      { tipo: "padre_nuestro" },
-      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
-    ]
-  },
-  {
-    id: "novena_guadalupe",
-    nombre: "Novena a la Virgen de Guadalupe",
-    descripcion: "Del 3 al 11 de diciembre.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Acto de Contrición", texto: "Señor mío Jesucristo, por ser tú tan bueno, me pesa de todo corazón haberte ofendido. Propongo firmemente no pecar más. Amén." },
-      { tipo: "texto", titulo: "Oración a la Virgen", texto: "¡Oh Virgen Inmaculada, Madre del verdadero Dios y Madre de la Iglesia! Tú, que desde este lugar manifiestas tu clemencia y tu compasión a todos los que buscan tu protección..." },
-      { tipo: "repeticion", titulo: "Ave María", veces: 3 },
-      { tipo: "texto", titulo: "Petición", texto: "Virgen de Guadalupe, Morenita, escucha nuestra súplica y concédenos la gracia que hoy te pedimos de todo corazón. (Hacer la petición en silencio)." },
-      { tipo: "texto", titulo: "Oración Final", texto: "No se turbe tu corazón, no temas. ¿No estoy yo aquí, que soy tu Madre? Amén." }
-    ]
-  },
-  {
-    id: "san_miguel",
-    nombre: "San Miguel Arcángel",
-    descripcion: "Para el 29 de septiembre.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Oración", texto: "San Miguel Arcángel, defiéndenos en la batalla. Sé nuestro amparo contra la perversidad y asechanzas del demonio. Reprímale Dios, pedimos suplicantes, y tú, Príncipe de la Milicia Celestial, arroja al infierno con el divino poder a Satanás y a los otros espíritus malignos que vagan por el mundo para la perdición de las almas. Amén." },
-      { tipo: "texto", titulo: "Oración por la Protección", texto: "Glorioso San Miguel, Príncipe de las milicias celestiales, protégenos en el camino y ayúdanos a ser fieles a Dios hasta el final. Amén." }
-    ]
-  },
-  {
-    id: "dia_madres",
-    nombre: "Día de las Madres",
-    descripcion: "Para bendecir a mamá.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Bendición", texto: "Dios todopoderoso, te damos gracias por el don maravilloso de nuestra madre. Bendice su vida, su salud y su hogar. Que la Virgen María, la Madre más amorosa, la cuide y la proteja siempre. Amén." },
-      { tipo: "repeticion", titulo: "Ave María", veces: 1 },
-      { tipo: "texto", titulo: "Oración", texto: "Gracias, Señor, por las manos que nos cuidaron, por las palabras que nos consolaron y por el amor incondicional de nuestra madre. Amén." }
-    ]
-  },
-  {
-    id: "dia_padre",
-    nombre: "Día del Padre",
-    descripcion: "Para bendecir a papá.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Bendición", texto: "Señor, que eres el Padre de todos, bendice a nuestro papá. Dale salud, fortaleza y sabiduría para guiar a nuestra familia. Que San José, el padre adoptivo de Jesús, sea su modelo y protector. Amén." },
-      { tipo: "padre_nuestro" },
-      { tipo: "texto", titulo: "Oración", texto: "Gracias, Señor, por el esfuerzo y el trabajo de nuestro padre. Recompensa su entrega y hazlo feliz en este día. Amén." }
-    ]
-  },
-  {
-    id: "pentecostes",
-    nombre: "Pentecostés",
-    descripcion: "Para pedir los dones del Espíritu Santo.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Ven, Espíritu Santo", texto: "Ven, Espíritu Santo, llena los corazones de tus fieles y enciende en ellos el fuego de tu amor. Amén." },
-      { tipo: "texto", titulo: "Petición de Dones", texto: "Espíritu de sabiduría y entendimiento, Espíritu de consejo y fortaleza, Espíritu de ciencia y piedad, Espíritu de temor de Dios: ven y renueva la faz de la tierra. Amén." },
-      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
-    ]
-  },
-  {
-    id: "asuncion",
-    nombre: "Asunción de la Virgen",
-    descripcion: "Para el 15 de agosto.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Oración", texto: "Virgen María, hoy celebramos que fuiste llevada en cuerpo y alma a la gloria del cielo. Ruega por nosotros, que caminamos aún en esta tierra, para que un día podamos contemplarte cara a cara en el paraíso. Amén." },
-      { tipo: "padre_nuestro" },
-      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
-    ]
-  },
-  {
-    id: "rosario_aurora",
-    nombre: "Rosario de Aurora",
-    descripcion: "Para rezar al amanecer.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Oración al amanecer", texto: "Señor, al comenzar este nuevo día, te ofrezco mi vida. Que la Virgen María me tome de la mano y me enseñe a caminar como tú quieres. Amén." },
-      { tipo: "texto", titulo: "Primer Misterio", texto: "Meditamos en el nacimiento de Jesús, la luz que ilumina el mundo." },
-      { tipo: "padre_nuestro" },
-      { tipo: "repeticion", titulo: "Ave María", veces: 10 },
-      { tipo: "gloria" },
-      { tipo: "texto", titulo: "Oración Final", texto: "Gracias, Virgen de la Aurora, por escuchar nuestras plegarias matutinas. Acompáñanos hoy en todos nuestros trabajos. Amén." }
-    ]
-  },
-  {
-    id: "bendicion_ninos",
-    nombre: "Bendición de los Niños",
-    descripcion: "Para bendecir a los más pequeños.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Oración", texto: "Señor Jesús, tú que dijiste 'Dejen que los niños vengan a mí', bendice a estos pequeños. Que el ángel de la guarda los cuide siempre, que crezcan sanos y fuertes, y que el amor de su familia los acompañe. Amén." },
-      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
-    ]
-  },
-  {
-    id: "consagracion_virgen",
-    nombre: "Consagración a la Virgen",
-    descripcion: "Entrega tu vida a María.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Acto de Consagración", texto: "¡Oh Señora mía, oh Madre mía! Yo me ofrezco enteramente a ti. Y en prueba de mi filial afecto, te consagro en este día mis ojos, mis oídos, mi lengua, mi corazón... En una palabra, todo mi ser. Ya que soy todo tuyo, oh Madre de Dios, guárdame y defiéndeme como propiedad tuya. Amén." },
-      { tipo: "padre_nuestro" },
-      { tipo: "repeticion", titulo: "Ave María", veces: 3 }
     ]
   }
 ];
