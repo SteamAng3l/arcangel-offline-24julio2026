@@ -244,6 +244,18 @@ const oracionesGuiadas = [
     ]
   },
   {
+    id: "santa_teresa",
+    nombre: "Día de Santa Teresa",
+    descripcion: "Para el 15 de octubre.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración (Nada te turbe)", texto: "Nada te turbe, nada te espante, todo se pasa, Dios no se muda, la paciencia todo lo alcanza; quien a Dios tiene nada le falta: sólo Dios basta." },
+      { tipo: "texto", titulo: "Petición", texto: "Santa Teresa de Jesús, maestra de oración, enséñanos a buscar a Dios en el silencio de nuestro corazón y a confiar en su providencia. Que nada nos turbe y que solo Dios sea nuestra fortaleza. Amén." },
+      { tipo: "padre_nuestro" },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
+    ]
+  },
+  {
     id: "novena_guadalupe",
     nombre: "Novena a la Virgen de Guadalupe",
     descripcion: "Del 3 al 11 de diciembre.",
