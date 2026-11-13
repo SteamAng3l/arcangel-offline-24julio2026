@@ -630,7 +630,39 @@
         function cargarCategorias() {
             const container = document.getElementById('categoriasContainer');
             container.innerHTML = '';
-            categories.forEach(cat => {
+            
+            // Orden personalizado de las categorías
+            const ordenDeseado = [
+                "Paz Interior",
+                "Fe / Confianza en Dios",
+                "Familia / Hogar",
+                "Amistad",
+                "Gratitud / Acción de gracias",
+                "Alegría / Felicidad",
+                "Fortaleza / Valentía",
+                "Protección / Refugio",
+                "Salud física y espiritual",
+                "Oración / Vida espiritual",
+                "Miedo / Ansiedad",
+                "Tristeza / Pena",
+                "Estrés / Agobio",
+                "Soledad",
+                "Desesperanza / Desánimo",
+                "Cansancio / Fatiga",
+                "Enfermedad / Dolor",
+                "Duelo / Pérdida"
+            ];
+
+            // Reordenamos el array de categorías sin modificar el archivo original
+            const categoriasOrdenadas = [...categories].sort((a, b) => {
+                let indexA = ordenDeseado.indexOf(a.nombre);
+                let indexB = ordenDeseado.indexOf(b.nombre);
+                if (indexA === -1) indexA = 999; // Si no está en la lista, se va al final
+                if (indexB === -1) indexB = 999;
+                return indexA - indexB;
+            });
+
+            categoriasOrdenadas.forEach(cat => {
                 const btn = document.createElement('button');
                 btn.className = 'categoria-btn';
                 btn.textContent = cat.nombre;
