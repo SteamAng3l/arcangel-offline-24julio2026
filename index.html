@@ -174,6 +174,27 @@
         .momento-item-titulo { font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 600; color: var(--text-color); margin-bottom: 0.2rem; }
         .momento-item-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.3; }
 
+        /* ===== BANNER DE FECHA ESPECIAL ===== */
+        #bannerFechaEspecial {
+            display: none;
+            background: linear-gradient(145deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.05));
+            border: 1px solid var(--dorado);
+            border-radius: 16px;
+            padding: 1.2rem;
+            margin-bottom: 18px;
+            text-align: center;
+            animation: fadeInDown 0.6s ease;
+        }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+        .banner-titulo { font-family: 'Cinzel', serif; color: var(--dorado); font-size: 1.3rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .banner-texto { font-size: 0.9rem; color: var(--text-color); margin-bottom: 1rem; }
+        .banner-btn {
+            background: var(--dorado); border: none; color: #0F1117; font-weight: 700; 
+            padding: 0.7rem 1.5rem; border-radius: 30px; width: 100%; font-size: 1rem; 
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+        }
+        .banner-btn:hover { background: #fce788; transform: translateY(-2px); }
+
         /* ===== MODO GUÍA (PANTALLA COMPLETA) ===== */
         #modalGuia {
             background: rgba(10, 12, 16, 0.98);
@@ -185,7 +206,7 @@
             width: 100%;
             max-width: 800px;
             height: 100vh;
-            height: 100dvh; /* Importante para móviles con barra de direcciones */
+            height: 100dvh;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -211,13 +232,13 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow-y: auto; /* Scroll aquí si el texto es muy largo */
+            overflow-y: auto;
             text-align: center;
             width: 100%;
             padding: 10px 0;
         }
         .guia-paso-wrapper {
-            margin: auto 0; /* Centra verticalmente si es corto, alinea arriba si es largo */
+            margin: auto 0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -231,9 +252,9 @@
             padding-top: 15px;
             display: flex;
             gap: 15px;
-            flex-shrink: 0; /* Evita que los botones se oculten */
-            padding-bottom: max(20px, env(safe-area-inset-bottom)); /* Soporte para iPhone */
-            background: rgba(10, 12, 16, 0.98); /* Fondo sólido para que el texto no se vea debajo */
+            flex-shrink: 0;
+            padding-bottom: max(20px, env(safe-area-inset-bottom));
+            background: rgba(10, 12, 16, 0.98);
         }
         .btn-guia-play { background: var(--button-bg); border: 2px solid var(--border-dorado); color: var(--dorado); padding: 1rem 1.5rem; border-radius: 30px; font-size: 1.2rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; width: 70px; height: 70px; flex-shrink: 0; }
         .btn-guia-play.activo { background: var(--dorado); color: #0F1117; }
@@ -287,6 +308,16 @@
     <div class="app-container">
         <!-- INICIO -->
         <div id="paginaInicio" class="pagina activa">
+            
+            <!-- BANNER DE FECHA ESPECIAL -->
+            <div id="bannerFechaEspecial">
+                <div class="banner-titulo" id="bannerTitulo">¡Hoy es un día especial!</div>
+                <div class="banner-texto" id="bannerTexto">Celebramos esta fecha con una oración especial.</div>
+                <button class="banner-btn" onclick="abrirGuiaDesdeBanner()">
+                    <span class="material-icons-outlined">auto_awesome</span> Rezar ahora
+                </button>
+            </div>
+
             <div class="panel">
                 <h1>Arcángel</h1>
                 <p class="subtitulo">Guía y Mensajero de la Palabra</p>
@@ -536,10 +567,13 @@
     <script src="oraciones.js"></script>
     <script src="oraciones_eventos.js"></script>
     <script src="oraciones_guiadas.js"></script>
+    <script src="fechas.js"></script>
     <script>
         const abrevMap = {
             "génesis": "gn", "exodo": "ex", "levítico": "lv", "números": "nm", "deuteronomio": "dt", "josué": "jos", "jueces": "jue", "ruth": "rt", "1 samuel": "1sm", "2 samuel": "2sm", "1 reyes": "1re", "2 reyes": "2re", "1 crónicas": "1cr", "2 crónicas": "2cr", "esdras": "esd", "nehemías": "neh", "ester": "est", "job": "job", "salmos": "sal", "proverbios": "pro", "eclesiastés": "ecl", "cantares": "cnt", "isaías": "isa", "jeremías": "jer", "lamentaciones": "lam", "ezequiel": "eze", "daniel": "dan", "oseas": "ose", "joel": "joe", "amós": "amo", "obadías": "oba", "jonás": "jon", "miqueas": "miq", "nahúm": "nah", "habacuc": "hab", "sofonías": "sof", "ageo": "age", "zacarías": "zac", "malaquías": "mal", "mateo": "mat", "marcos": "mar", "lucas": "luc", "juan": "jua", "hechos": "hch", "romanos": "rom", "1 corintios": "1co", "2 corintios": "2co", "gálatas": "gal", "efesios": "efe", "filipenses": "fil", "colosenses": "col", "1 tesalonicenses": "1ts", "2 tesalonicenses": "2ts", "1 timoteo": "1ti", "2 timoteo": "2ti", "tito": "tit", "filemón": "flm", "hebreos": "heb", "santiago": "snt", "1 pedro": "1pe", "2 pedro": "2pe", "1 juan": "1jn", "2 juan": "2jn", "3 juan": "3jn", "judas": "jud", "apocalipsis": "apo"
         };
+
+        let fechaEspecialHoy = null;
 
         function limpiarTexto(texto) { return texto.replace(/Jehová|Jehova/g, 'Dios').replace(/Israelitas/g, 'Hijos de la Tierra del Señor').replace(/israelitas/g, 'hijos de la Tierra del Señor').replace(/Israelita/g, 'Hijo de la Tierra del Señor').replace(/israelita/g, 'hijo de la Tierra del Señor').replace(/Israel/g, 'La Tierra del Señor').replace(/israel/g, 'la Tierra del Señor'); }
 
@@ -576,7 +610,21 @@
                 document.body.classList.add('modo-claro');
                 document.querySelector('.modo-toggle').textContent = '☀️';
             }
+            
+            // Revisar si hoy es una fecha especial
+            fechaEspecialHoy = obtenerFechaEspecialHoy();
+            if (fechaEspecialHoy) {
+                document.getElementById('bannerFechaEspecial').style.display = 'block';
+                document.getElementById('bannerTitulo').textContent = `¡Hoy es ${fechaEspecialHoy.titulo}!`;
+                document.getElementById('bannerTexto').textContent = `Celebramos esta fecha especial. Te invitamos a rezar la oración de hoy.`;
+            }
         });
+
+        function abrirGuiaDesdeBanner() {
+            if (fechaEspecialHoy) {
+                iniciarGuia(fechaEspecialHoy.idOracion);
+            }
+        }
 
         // ===== CATEGORÍAS Y VERSÍCULOS =====
         function cargarCategorias() {
