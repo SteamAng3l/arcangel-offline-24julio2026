@@ -1,11 +1,10 @@
 // oraciones_guiadas.js – Arcángel App
-// Oraciones para rezar paso a paso (Rosario y Coronilla)
+// Oraciones para rezar paso a paso (Rosario, Coronilla y Fechas Especiales)
 
 // Función auxiliar para generar los misterios del Rosario con sus meditaciones
 function generarMisterios(misterios) {
   let pasos = [];
   misterios.forEach((m, index) => {
-    // Agregamos el título del misterio junto con su meditación bíblica
     pasos.push({ tipo: "titulo", titulo: `Misterio ${index + 1}: ${m.titulo}`, texto: m.meditacion });
     pasos.push({ tipo: "padre_nuestro" });
     pasos.push({ tipo: "repeticion", titulo: "Ave María", veces: 10 });
@@ -21,111 +20,47 @@ const oracionesGuiadas = [
     descripcion: "Misterios del día paso a paso.",
     pasos: [
       { tipo: "texto", titulo: "Señal de la Cruz", texto: "Por la señal de la Santa Cruz, de nuestros enemigos, líbranos, Señor, Dios nuestro. En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Credo", texto: "Creo en Dios, Padre Todopoderoso, Creador del cielo y de la tierra. Creo en Jesucristo, su único Hijo, Nuestro Señor, que fue concebido por obra y gracia del Espíritu Santo, nació de santa María Virgen, padeció bajo el poder de Poncio Pilato, fue crucificado, muerto y sepultado, descendió a los infiernos, al tercer día resucitó de entre los muertos, subió a los cielos y está sentado a la derecha de Dios, Padre Todopoderoso. Desde allí ha de venir a juzgar a vivos y muertos. Creo en el Espíritu Santo, la santa Iglesia Católica, la comunión de los santos, el perdón de los pecados, la resurrección de la carne y la vida eterna. Amén." },
+      { tipo: "texto", titulo: "Credo", texto: "Creo en Dios, Padre Todopoderoso, Creador del cielo y de la tierra. Creo en Jesucristo, su único Hijo, Nuestro Señor..." },
       { tipo: "padre_nuestro" },
       { tipo: "repeticion", titulo: "Ave María (por la Fe)", veces: 1 },
       { tipo: "repeticion", titulo: "Ave María (por la Esperanza)", veces: 1 },
       { tipo: "repeticion", titulo: "Ave María (por la Caridad)", veces: 1 },
       { tipo: "gloria" },
       
-      // ===== MISTERIOS GOZOSOS (Lunes y Sábado) =====
       { tipo: "misterios", dia: "gozosos", pasos: generarMisterios([
-        { 
-          titulo: "La Anunciación del Ángel a María", 
-          meditacion: "El ángel Gabriel se apareció a María y le anunció que sería la Madre del Salvador. María respondió con fe: 'He aquí la esclava del Señor; hágase en mí según tu palabra'." 
-        },
-        { 
-          titulo: "La Visitación de María a su prima Isabel", 
-          meditacion: "María visitó a su prima Isabel, quien al escucharla exclamó: '¡Bendita tú entre las mujeres y bendito el fruto de tu vientre!'. María respondió con el Magnificat." 
-        },
-        { 
-          titulo: "El Nacimiento del Niño Jesús", 
-          meditacion: "María dio a luz a su hijo primogénito, lo envolvió en pañales y lo acostó en un pesebre, porque no había lugar para ellos en el mesón. Los ángeles cantaban: '¡Gloria a Dios en el cielo!'." 
-        },
-        { 
-          titulo: "La Presentación del Niño Jesús en el Templo", 
-          meditacion: "María y José llevaron al Niño Jesús al templo. El anciano Simeón lo tomó en sus brazos y dijo: 'Ahora, Señor, puedes dejar que tu siervo muera en paz, porque mis ojos han visto tu salvación'." 
-        },
-        { 
-          titulo: "El Hallazgo del Niño Jesús en el Templo", 
-          meditacion: "Después de tres días, María y José encontraron a Jesús en el templo. Él les dijo: '¿Por qué me buscaban? ¿No sabían que yo debo ocuparme de los asuntos de mi Padre?'." 
-        }
+        { titulo: "La Anunciación del Ángel a María", meditacion: "El ángel Gabriel se apareció a María y le anunció que sería la Madre del Salvador. María respondió con fe: 'He aquí la esclava del Señor; hágase en mí según tu palabra'." },
+        { titulo: "La Visitación de María a su prima Isabel", meditacion: "María visitó a su prima Isabel, quien al escucharla exclamó: '¡Bendita tú entre las mujeres y bendito el fruto de tu vientre!'. María respondió con el Magnificat." },
+        { titulo: "El Nacimiento del Niño Jesús", meditacion: "María dio a luz a su hijo primogénito, lo envolvió en pañales y lo acostó en un pesebre. Los ángeles cantaban: '¡Gloria a Dios en el cielo!'." },
+        { titulo: "La Presentación del Niño Jesús en el Templo", meditacion: "María y José llevaron al Niño Jesús al templo. El anciano Simeón lo tomó en sus brazos y dijo: 'Ahora, Señor, puedes dejar que tu siervo muera en paz'." },
+        { titulo: "El Hallazgo del Niño Jesús en el Templo", meditacion: "Después de tres días, María y José encontraron a Jesús en el templo. Él les dijo: '¿No sabían que yo debo ocuparme de los asuntos de mi Padre?'." }
       ]) },
       
-      // ===== MISTERIOS DOLOROSOS (Martes y Viernes) =====
       { tipo: "misterios", dia: "dolorosos", pasos: generarMisterios([
-        { 
-          titulo: "La Oración de Jesús en el Huerto", 
-          meditacion: "Entonces Jesús fue con ellos a una propiedad llamada Getsemaní, y dijo a los discípulos: 'Quédense aquí, mientras yo voy allá a orar'. Y adelantándose un poco, cayó rostro en tierra, orando así: 'Padre mío, si es posible, que pase de mí esta copa, pero no sea como yo quiero, sino como quieras tú'." 
-        },
-        { 
-          titulo: "La Flagelación del Señor", 
-          meditacion: "Pilato mandó que azotaran a Jesús. Los soldados lo ataron a una columna y lo azotaron sin piedad, pero Él soportó el dolor en silencio por nuestra salvación." 
-        },
-        { 
-          titulo: "La Coronación de Espinas", 
-          meditacion: "Los soldados tejieron una corona de espinas y se la pusieron en la cabeza. Le pusieron un manto de púrpura y, burlándose de Él, decían: '¡Salve, Rey de los judíos!'." 
-        },
-        { 
-          titulo: "Jesús con la Cruz a cuestas camino al Calvario", 
-          meditacion: "Jesús, cargando su propia cruz, salió hacia el lugar llamado Calvario. En el camino, Simón de Cirene fue obligado a llevar la cruz detrás de Él." 
-        },
-        { 
-          titulo: "La Crucifixión y Muerte de Jesús", 
-          meditacion: "Cuando llegaron al lugar llamado Gólgota, lo crucificaron. Jesús dijo: 'Padre, perdónalos, porque no saben lo que hacen'. Y dando un fuerte grito, entregó el espíritu." 
-        }
+        { titulo: "La Oración de Jesús en el Huerto", meditacion: "Jesús fue a Getsemaní y dijo: 'Padre mío, si es posible, que pase de mí esta copa, pero no sea como yo quiero, sino como quieras tú'." },
+        { titulo: "La Flagelación del Señor", meditacion: "Pilato mandó que azotaran a Jesús. Los soldados lo ataron a una columna y lo azotaron sin piedad, pero Él soportó el dolor en silencio por nuestra salvación." },
+        { titulo: "La Coronación de Espinas", meditacion: "Los soldados tejieron una corona de espinas y se la pusieron en la cabeza. Burlándose de Él, decían: '¡Salve, Rey de los judíos!'." },
+        { titulo: "Jesús con la Cruz a cuestas", meditacion: "Jesús, cargando su propia cruz, salió hacia el Calvario. En el camino, Simón de Cirene fue obligado a llevar la cruz detrás de Él." },
+        { titulo: "La Crucifixión y Muerte de Jesús", meditacion: "Lo crucificaron. Jesús dijo: 'Padre, perdónalos, porque no saben lo que hacen'. Y entregó el espíritu." }
       ]) },
 
-      // ===== MISTERIOS GLORIOSOS (Miércoles y Domingo) =====
       { tipo: "misterios", dia: "gloriosos", pasos: generarMisterios([
-        { 
-          titulo: "La Resurrección del Señor", 
-          meditacion: "Al amanecer del primer día de la semana, las mujeres fueron al sepulcro y encontraron la piedra removida. Un ángel les dijo: 'No teman. Ha resucitado, como lo había dicho'." 
-        },
-        { 
-          titulo: "La Ascensión del Señor a los Cielos", 
-          meditacion: "Jesús llevó a sus discípulos a un monte y, levantando las manos, los bendijo. Mientras los bendecía, se separó de ellos y fue llevado al cielo." 
-        },
-        { 
-          titulo: "La Venida del Espíritu Santo", 
-          meditacion: "Al cumplirse el día de Pentecostés, estaban todos reunidos. De repente, vino del cielo un ruido como de un viento impetuoso, y todos quedaron llenos del Espíritu Santo." 
-        },
-        { 
-          titulo: "La Asunción de la Virgen María a los Cielos", 
-          meditacion: "Al terminar el curso de su vida terrenal, María fue llevada en cuerpo y alma a la gloria del cielo, donde su Hijo la esperaba para coronarla." 
-        },
-        { 
-          titulo: "La Coronación de la Virgen María como Reina del Cielo y de la Tierra", 
-          meditacion: "María fue coronada como Reina del cielo y de la tierra. Es nuestra Madre y Abogada ante su Hijo, y desde el cielo intercede por nosotros." 
-        }
+        { titulo: "La Resurrección del Señor", meditacion: "Al amanecer del primer día de la semana, las mujeres fueron al sepulcro y encontraron la piedra removida. Un ángel les dijo: 'Ha resucitado'." },
+        { titulo: "La Ascensión del Señor a los Cielos", meditacion: "Jesús llevó a sus discípulos a un monte y, mientras los bendecía, se separó de ellos y fue llevado al cielo." },
+        { titulo: "La Venida del Espíritu Santo", meditacion: "Estaban todos reunidos. Vino del cielo un ruido como de un viento impetuoso, y todos quedaron llenos del Espíritu Santo." },
+        { titulo: "La Asunción de la Virgen María", meditacion: "Al terminar su vida terrenal, María fue llevada en cuerpo y alma a la gloria del cielo, donde su Hijo la esperaba." },
+        { titulo: "La Coronación de la Virgen María", meditacion: "María fue coronada como Reina del cielo y de la tierra. Es nuestra Madre y Abogada ante su Hijo." }
       ]) },
 
-      // ===== MISTERIOS LUMINOSOS (Jueves) =====
       { tipo: "misterios", dia: "luminosos", pasos: generarMisterios([
-        { 
-          titulo: "El Bautismo de Jesús en el Jordán", 
-          meditacion: "Jesús fue bautizado por Juan en el río Jordán. Al salir del agua, el cielo se abrió y el Espíritu Santo descendió sobre Él como una paloma, y una voz dijo: 'Este es mi Hijo amado'." 
-        },
-        { 
-          titulo: "La Autorrevelación de Jesús en las Bodas de Caná", 
-          meditacion: "En una boda en Caná, faltó el vino. A petición de María, Jesús convirtió el agua en vino, manifestando así su gloria y sus discípulos creyeron en Él." 
-        },
-        { 
-          titulo: "El Anuncio del Reino de Dios", 
-          meditacion: "Jesús recorría toda Galilea predicando el Evangelio del Reino y sanando a la gente. Decía: 'El tiempo se ha cumplido, el Reino de Dios está cerca. Conviértanse y crean en el Evangelio'." 
-        },
-        { 
-          titulo: "La Transfiguración de Jesús", 
-          meditacion: "Jesús subió a un monte alto con Pedro, Santiago y Juan. Allí se transfiguró delante de ellos, su rostro resplandeció como el sol y sus vestidos se volvieron blancos como la luz." 
-        },
-        { 
-          titulo: "La Institución de la Eucaristía", 
-          meditacion: "Mientras cenaban, Jesús tomó pan, lo bendijo, lo partió y se lo dio a sus discípulos, diciendo: 'Tomen y coman, esto es mi cuerpo'. Luego tomó el cáliz y dijo: 'Beban todos de él, porque esta es mi sangre'." 
-        }
+        { titulo: "El Bautismo de Jesús en el Jordán", meditacion: "Jesús fue bautizado por Juan. Al salir del agua, el Espíritu Santo descendió sobre Él como una paloma, y una voz dijo: 'Este es mi Hijo amado'." },
+        { titulo: "La Autorrevelación en las Bodas de Caná", meditacion: "En una boda en Caná, faltó el vino. A petición de María, Jesús convirtió el agua en vino, manifestando su gloria." },
+        { titulo: "El Anuncio del Reino de Dios", meditacion: "Jesús predicaba el Evangelio del Reino. Decía: 'El tiempo se ha cumplido, el Reino de Dios está cerca. Conviértanse'." },
+        { titulo: "La Transfiguración de Jesús", meditacion: "Jesús subió a un monte con Pedro, Santiago y Juan. Se transfiguró delante de ellos, su rostro resplandeció como el sol." },
+        { titulo: "La Institución de la Eucaristía", meditacion: "Mientras cenaban, Jesús tomó pan, lo bendijo, lo partió y se lo dio a sus discípulos, diciendo: 'Esto es mi cuerpo'." }
       ]) },
 
-      { tipo: "texto", titulo: "Salve Regina", texto: "Dios te salve, Reina y Madre de misericordia, vida, dulzura y esperanza nuestra; Dios te salve. A ti llamamos los desterrados hijos de Eva; a ti suspiramos, gimiendo y llorando, en este valle de lágrimas. Ea, pues, Señora, abogada nuestra, vuelve a nosotros esos tus ojos misericordiosos; y después de este destierro muéstranos a Jesús, fruto bendito de tu vientre. ¡Oh clementísima, oh piadosa, oh dulce siempre Virgen María! Ruega por nosotros, Santa Madre de Dios, para que seamos dignos de alcanzar las promesas de Nuestro Señor Jesucristo. Amén." },
-      { tipo: "texto", titulo: "Oración Final", texto: "Oh Dios, cuyo Unigénito Hijo, con su vida, muerte y resurrección, nos otorgó los premios de la salvación eterna; concédenos, te rogamos, que meditando los misterios del Santísimo Rosario de la Virgen María, imitemos lo que contienen y consigamos lo que prometen. Por el mismo Cristo nuestro Señor. Amén." }
+      { tipo: "texto", titulo: "Salve Regina", texto: "Dios te salve, Reina y Madre de misericordia, vida, dulzura y esperanza nuestra; Dios te salve. A ti llamamos los desterrados hijos de Eva..." },
+      { tipo: "texto", titulo: "Oración Final", texto: "Oh Dios, cuyo Unigénito Hijo, con su vida, muerte y resurrección, nos otorgó los premios de la salvación eterna; concédenos, te rogamos, que meditando los misterios del Santísimo Rosario, imitemos lo que contienen y consigamos lo que prometen. Por Cristo nuestro Señor. Amén." }
     ]
   },
   {
@@ -137,9 +72,189 @@ const oracionesGuiadas = [
       { tipo: "padre_nuestro" },
       { tipo: "repeticion", titulo: "Ave María", veces: 1 },
       { tipo: "texto", titulo: "Credo", texto: "Creo en Dios, Padre Todopoderoso, Creador del cielo y de la tierra..." },
-      
-      // Decenas de la Coronilla
       { tipo: "decena_coronilla", veces: 5 }
+    ]
+  },
+  {
+    id: "posadas",
+    nombre: "Posadas Navideñas",
+    descripcion: "Pedir posada y preparar el nacimiento.",
+    pasos: [
+      { tipo: "texto", titulo: "En el exterior", texto: "En el nombre del cielo, os pido posada, pues no puede andar mi esposa amada." },
+      { tipo: "texto", titulo: "En el interior", texto: "Aquí no es mesón, sigan adelante, yo no puedo abrir, no sea algún tunante." },
+      { tipo: "texto", titulo: "En el exterior", texto: "No seas inhumano, tennos caridad, que el Dios de los cielos te lo premiará." },
+      { tipo: "texto", titulo: "En el interior", texto: "Ya se pueden ir y no molestar, porque si me enfado os voy a apalear." },
+      { tipo: "texto", titulo: "En el exterior", texto: "Venimos rendidos desde Nazaret, yo soy carpintero de nombre José." },
+      { tipo: "texto", titulo: "En el interior", texto: "No me importa el nombre, déjenme dormir, pues que ya les digo que no hemos de abrir." },
+      { tipo: "texto", titulo: "En el exterior", texto: "Posada te pide, amado casero, por sólo una noche la Reina del Cielo." },
+      { tipo: "texto", titulo: "En el interior", texto: "Pues si es una reina quien lo solicita, ¿cómo es que de noche anda tan solita?" },
+      { tipo: "texto", titulo: "En el exterior", texto: "Mi esposa es María, es Reina del Cielo, y madre va a ser del Divino Verbo." },
+      { tipo: "texto", titulo: "En el interior", texto: "¿Eres tú José? ¿Tu esposa es María? Entren, peregrinos, no los conocía." },
+      { tipo: "texto", titulo: "Entrada y Bienvenida", texto: "Entren, Santos Peregrinos, reciban este rincón, que aunque es pobre la morada, os la doy de corazón. Amén." }
+    ]
+  },
+  {
+    id: "via_crucis",
+    nombre: "Vía Crucis",
+    descripcion: "Las 14 estaciones de la cruz.",
+    pasos: [
+      { tipo: "texto", titulo: "Oración Inicial", texto: "Señor Jesús, nos disponemos a recorrer contigo el camino de la cruz. Danos la gracia de comprender tu amor y de cargar nuestras propias cruces con paciencia. Amén." },
+      { tipo: "texto", titulo: "Primera Estación: Jesús es condenado a muerte", texto: "Pilato se lavó las manos y entregó a Jesús para que lo crucificaran. Te adoramos, oh Cristo, y te bendecimos, porque por tu santa cruz redimiste al mundo." },
+      { tipo: "texto", titulo: "Segunda Estación: Jesús carga con la cruz", texto: "Jesús, cargando su propia cruz, salió hacia el lugar llamado Calvario. Te adoramos, oh Cristo..." },
+      { tipo: "texto", titulo: "Tercera Estación: Jesús cae por primera vez", texto: "Jesús cayó por primera vez bajo el peso de la cruz, pero se levantó con valentía. Te adoramos, oh Cristo..." },
+      { tipo: "texto", titulo: "Cuarta Estación: Jesús encuentra a su Madre", texto: "En el camino, Jesús se encontró con los ojos llenos de lágrimas de su Madre, la Virgen María. Te adoramos, oh Cristo..." },
+      { tipo: "texto", titulo: "Quinta Estación: Simón ayuda a Jesús", texto: "Los soldados obligaron a Simón de Cirene a llevar la cruz detrás de Jesús. Te adoramos, oh Cristo..." },
+      { tipo: "texto", titulo: "Sexta Estación: La Verónica enjuga el rostro de Jesús", texto: "Una mujer valiente, la Verónica, se acercó a limpiar el rostro ensangrentado de Jesús. Te adoramos, oh Cristo..." },
+      { tipo: "texto", titulo: "Séptima Estación: Jesús cae por segunda vez", texto: "Jesús cae de nuevo, agotado por el dolor y el peso de nuestros pecados. Te adoramos, oh Cristo..." },
+      { tipo: "texto", titulo: "Octava Estación: Jesús consuela a las mujeres", texto: "Jesús dijo a las mujeres que lloraban: 'No lloren por mí, lloren por ustedes y por sus hijos'. Te adoramos, oh Cristo..." },
+      { tipo: "texto", titulo: "Novena Estación: Jesús cae por tercera vez", texto: "Jesús cae por tercera vez, pero reúne sus últimas fuerzas para llegar al final. Te adoramos, oh Cristo..." },
+      { tipo: "texto", titulo: "Décima Estación: Jesús es despojado de sus vestiduras", texto: "Le quitaron sus vestiduras y se las repartieron, echándolas a suerte. Te adoramos, oh Cristo..." },
+      { tipo: "texto", titulo: "Undécima Estación: Jesús es clavado en la cruz", texto: "Lo clavaron en la cruz y lo levantaron entre el cielo y la tierra. Te adoramos, oh Cristo..." },
+      { tipo: "texto", titulo: "Duodécima Estación: Jesús muere en la cruz", texto: "Después de tres horas de agonía, Jesús dijo: 'Todo está cumplido', e inclinando la cabeza, entregó el espíritu. Te adoramos, oh Cristo..." },
+      { tipo: "texto", titulo: "Decimotercera Estación: Jesús es bajado de la cruz", texto: "José de Arimatea y Nicodemo bajaron el cuerpo de Jesús y lo pusieron en brazos de su Madre. Te adoramos, oh Cristo..." },
+      { tipo: "texto", titulo: "Decimocuarta Estación: Jesús es sepultado", texto: "Pusieron el cuerpo de Jesús en un sepulcro nuevo, y colocaron una gran piedra en la puerta. Te adoramos, oh Cristo..." },
+      { tipo: "texto", titulo: "Oración Final", texto: "Señor Jesús, te damos gracias por haber muerto en la cruz por nuestros pecados. Que al meditar tu pasión, aprendamos a amarte y a amar a los demás. Amén." }
+    ]
+  },
+  {
+    id: "siete_palabras",
+    nombre: "Las Siete Palabras",
+    descripcion: "Meditación para el Viernes Santo.",
+    pasos: [
+      { tipo: "texto", titulo: "Oración Inicial", texto: "Señor Jesús, en este día meditamos las últimas palabras que pronunciaste en la cruz. Abre nuestro corazón para recibir tu amor y tu perdón. Amén." },
+      { tipo: "texto", titulo: "1. 'Padre, perdónalos...'", texto: "'Padre, perdónalos, porque no saben lo que hacen'. (Lucas 23, 34)" },
+      { tipo: "texto", titulo: "2. 'Hoy estarás conmigo...'", texto: "'En verdad te digo que hoy estarás conmigo en el paraíso'. (Lucas 23, 43)" },
+      { tipo: "texto", titulo: "3. 'Mujer, aquí tienes a tu hijo...'", texto: "'Mujer, aquí tienes a tu hijo. Hijo, aquí tienes a tu madre'. (Juan 19, 26-27)" },
+      { tipo: "texto", titulo: "4. 'Dios mío, ¿por qué me has abandonado?'", texto: "'Dios mío, Dios mío, ¿por qué me has abandonado?'. (Mateo 27, 46)" },
+      { tipo: "texto", titulo: "5. 'Tengo sed'", texto: "'Tengo sed'. (Juan 19, 28)" },
+      { tipo: "texto", titulo: "6. 'Todo está cumplido'", texto: "'Todo está cumplido'. (Juan 19, 30)" },
+      { tipo: "texto", titulo: "7. 'Padre, en tus manos...'", texto: "'Padre, en tus manos encomiendo mi espíritu'. (Lucas 23, 46)" },
+      { tipo: "texto", titulo: "Oración Final", texto: "Señor Jesús, que tus siete palabras resuenen en nuestro corazón y nos ayuden a vivir con fe y esperanza. Amén." }
+    ]
+  },
+  {
+    id: "novena_guadalupe",
+    nombre: "Novena a la Virgen de Guadalupe",
+    descripcion: "Del 3 al 11 de diciembre.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Acto de Contrición", texto: "Señor mío Jesucristo, por ser tú tan bueno, me pesa de todo corazón haberte ofendido. Propongo firmemente no pecar más. Amén." },
+      { tipo: "texto", titulo: "Oración a la Virgen", texto: "¡Oh Virgen Inmaculada, Madre del verdadero Dios y Madre de la Iglesia! Tú, que desde este lugar manifiestas tu clemencia y tu compasión a todos los que buscan tu protección..." },
+      { tipo: "repeticion", titulo: "Ave María", veces: 3 },
+      { tipo: "texto", titulo: "Petición", texto: "Virgen de Guadalupe, Morenita, escucha nuestra súplica y concédenos la gracia que hoy te pedimos de todo corazón. (Hacer la petición en silencio)." },
+      { tipo: "texto", titulo: "Oración Final", texto: "No se turbe tu corazón, no temas. ¿No estoy yo aquí, que soy tu Madre? Amén." }
+    ]
+  },
+  {
+    id: "san_miguel",
+    nombre: "Oración a San Miguel Arcángel",
+    descripcion: "Para el 29 de septiembre.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración", texto: "San Miguel Arcángel, defiéndenos en la batalla. Sé nuestro amparo contra la perversidad y asechanzas del demonio. Reprímale Dios, pedimos suplicantes, y tú, Príncipe de la Milicia Celestial, arroja al infierno con el divino poder a Satanás y a los otros espíritus malignos que vagan por el mundo para la perdición de las almas. Amén." },
+      { tipo: "texto", titulo: "Oración por la Protección", texto: "Glorioso San Miguel, Príncipe de las milicias celestiales, protégenos en el camino y ayúdanos a ser fieles a Dios hasta el final. Amén." }
+    ]
+  },
+  {
+    id: "por_los_difuntos",
+    nombre: "Oración por los Difuntos",
+    descripcion: "Para el Día de Muertos y aniversarios.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración por el eterno descanso", texto: "Dales, Señor, el descanso eterno, y brille para ellos la luz perpetua. Que descansen en paz. Amén." },
+      { tipo: "padre_nuestro" },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 },
+      { tipo: "texto", titulo: "Oración final", texto: "Dios de misericordia, te pedimos por el alma de nuestros seres queridos que han partido de este mundo. Perdona sus faltas y recíbelos en tu gloria, donde no hay dolor ni llanto, sino paz y alegría para siempre. Amén." }
+    ]
+  },
+  {
+    id: "dia_madres",
+    nombre: "Oración por el Día de las Madres",
+    descripcion: "Para bendecir a mamá.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Bendición", texto: "Dios todopoderoso, te damos gracias por el don maravilloso de nuestra madre. Bendice su vida, su salud y su hogar. Que la Virgen María, la Madre más amorosa, la cuide y la proteja siempre. Amén." },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 },
+      { tipo: "texto", titulo: "Oración", texto: "Gracias, Señor, por las manos que nos cuidaron, por las palabras que nos consolaron y por el amor incondicional de nuestra madre. Amén." }
+    ]
+  },
+  {
+    id: "dia_padre",
+    nombre: "Oración por el Día del Padre",
+    descripcion: "Para bendecir a papá.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Bendición", texto: "Señor, que eres el Padre de todos, bendice a nuestro papá. Dale salud, fortaleza y sabiduría para guiar a nuestra familia. Que San José, el padre adoptivo de Jesús, sea su modelo y protector. Amén." },
+      { tipo: "padre_nuestro" },
+      { tipo: "texto", titulo: "Oración", texto: "Gracias, Señor, por el esfuerzo y el trabajo de nuestro padre. Recompensa su entrega y hazlo feliz en este día. Amén." }
+    ]
+  },
+  {
+    id: "ano_nuevo",
+    nombre: "Año Nuevo y Fin de Año",
+    descripcion: "Para dar gracias y pedir bendición.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Acción de Gracias", texto: "Señor, al terminar este año, te damos gracias por todo lo que vivimos: los momentos alegres y las pruebas. Gracias por tu compañía incondicional. Amén." },
+      { tipo: "texto", titulo: "Petición para el Año Nuevo", texto: "Bendice el nuevo año que comienza. Danos salud, trabajo, paz en el hogar y, sobre todo, la gracia de permanecer unidos a ti. Que nuestra familia crezca en amor y fe. Amén." },
+      { tipo: "padre_nuestro" }
+    ]
+  },
+  {
+    id: "pentecostes",
+    nombre: "Oración de Pentecostés",
+    descripcion: "Para pedir los dones del Espíritu Santo.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Ven, Espíritu Santo", texto: "Ven, Espíritu Santo, llena los corazones de tus fieles y enciende en ellos el fuego de tu amor. Amén." },
+      { tipo: "texto", titulo: "Petición de Dones", texto: "Espíritu de sabiduría y entendimiento, Espíritu de consejo y fortaleza, Espíritu de ciencia y piedad, Espíritu de temor de Dios: ven y renueva la faz de la tierra. Amén." },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
+    ]
+  },
+  {
+    id: "asuncion",
+    nombre: "Asunción de la Virgen",
+    descripcion: "Para el 15 de agosto.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración", texto: "Virgen María, hoy celebramos que fuiste llevada en cuerpo y alma a la gloria del cielo. Ruega por nosotros, que caminamos aún en esta tierra, para que un día podamos contemplarte cara a cara en el paraíso. Amén." },
+      { tipo: "padre_nuestro" },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
+    ]
+  },
+  {
+    id: "rosario_aurora",
+    nombre: "Rosario de Aurora",
+    descripcion: "Para rezar al amanecer.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración al amanecer", texto: "Señor, al comenzar este nuevo día, te ofrezco mi vida. Que la Virgen María me tome de la mano y me enseñe a caminar como tú quieres. Amén." },
+      { tipo: "texto", titulo: "Primer Misterio", texto: "Meditamos en el nacimiento de Jesús, la luz que ilumina el mundo." },
+      { tipo: "padre_nuestro" },
+      { tipo: "repeticion", titulo: "Ave María", veces: 10 },
+      { tipo: "gloria" },
+      { tipo: "texto", titulo: "Oración Final", texto: "Gracias, Virgen de la Aurora, por escuchar nuestras plegarias matutinas. Acompáñanos hoy en todos nuestros trabajos. Amén." }
+    ]
+  },
+  {
+    id: "bendicion_ninos",
+    nombre: "Bendición de los Niños",
+    descripcion: "Para bendecir a los más pequeños.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración", texto: "Señor Jesús, tú que dijiste 'Dejen que los niños vengan a mí', bendice a estos pequeños. Que el ángel de la guarda los cuide siempre, que crezcan sanos y fuertes, y que el amor de su familia los acompañe. Amén." },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
+    ]
+  },
+  {
+    id: "consagracion_virgen",
+    nombre: "Consagración a la Virgen",
+    descripcion: "Entrega tu vida a María.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Acto de Consagración", texto: "¡Oh Señora mía, oh Madre mía! Yo me ofrezco enteramente a ti. Y en prueba de mi filial afecto, te consagro en este día mis ojos, mis oídos, mi lengua, mi corazón... En una palabra, todo mi ser. Ya que soy todo tuyo, oh Madre de Dios, guárdame y defiéndeme como propiedad tuya. Amén." },
+      { tipo: "padre_nuestro" },
+      { tipo: "repeticion", titulo: "Ave María", veces: 3 }
     ]
   }
 ];
