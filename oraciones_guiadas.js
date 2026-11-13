@@ -1,7 +1,6 @@
 // oraciones_guiadas.js – Arcángel App
 // Oraciones para rezar paso a paso (Rosario, Coronilla y Fechas Especiales)
 
-// Función auxiliar para generar los misterios del Rosario con sus meditaciones
 function generarMisterios(misterios) {
   let pasos = [];
   misterios.forEach((m, index) => {
@@ -133,6 +132,118 @@ const oracionesGuiadas = [
     ]
   },
   {
+    id: "nochebuena",
+    nombre: "Nochebuena",
+    descripcion: "Para la noche del 24 de diciembre.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración de Nochebuena", texto: "Señor Jesús, en esta noche santa te contemplamos recién nacido en el pesebre. Viniste al mundo en la humildad y la sencillez, para mostrarnos el amor del Padre. Gracias por este regalo inefable." },
+      { tipo: "texto", titulo: "Petición", texto: "Que esta Nochebuena renueve nuestra fe y nuestra esperanza. Que la paz que trajiste al mundo habite en nuestros hogares, y que la luz del Niño Dios ilumine nuestras familias. Amén." },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
+    ]
+  },
+  {
+    id: "navidad",
+    nombre: "Navidad",
+    descripcion: "Para celebrar el 25 de diciembre.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración de Navidad", texto: "¡Feliz Navidad, Señor! Hoy el cielo y la tierra se llenan de alegría porque el Salvador ha nacido. Gracias por el don de tu Hijo, que vino a salvarnos y a enseñarnos a amar." },
+      { tipo: "texto", titulo: "Petición", texto: "En este día de fiesta, te pedimos que la alegría de la Navidad no se quede solo en los regalos, sino que se quede en nuestros corazones. Que podamos compartir el amor y la paz de Jesús con todos los que nos rodean. Amén." },
+      { tipo: "texto", titulo: "Gloria", texto: "Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén." }
+    ]
+  },
+  {
+    id: "anoviejo",
+    nombre: "Año Viejo",
+    descripcion: "Para la noche del 31 de diciembre.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Acción de Gracias", texto: "Señor, al terminar este año, te damos gracias por todo lo vivido. Gracias por los momentos de alegría, por los retos superados y por tu compañía en cada día. Reconocemos que en todo tu mano nos ha sostenido." },
+      { tipo: "texto", titulo: "Petición de Perdón", texto: "Te pedimos perdón por las faltas cometidas, por las veces que no te buscamos y por el tiempo que no aprovechamos. Lava nuestras culpas con tu misericordia." },
+      { tipo: "texto", titulo: "Oración Final", texto: "Que al cerrar este ciclo, dejemos atrás lo que no nos ayuda y abracemos la esperanza de un nuevo año lleno de tu gracia. Amén." },
+      { tipo: "padre_nuestro" }
+    ]
+  },
+  {
+    id: "ano_nuevo",
+    nombre: "Año Nuevo",
+    descripcion: "Para el 1 de enero.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración de Año Nuevo", texto: "Señor, hoy comenzamos un nuevo año. Te pedimos que camines con nosotros. Que cada día de este año sea una oportunidad para acercarnos más a ti. Bendice nuestros planes, nuestro trabajo, nuestras familias y nuestras decisiones." },
+      { tipo: "texto", titulo: "Petición", texto: "Que este año no lo dejemos pasar sin buscarte, sin agradecerte y sin servirte en los demás. Que María, nuestra Madre, nos acompañe y nos guíe. Amén." },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
+    ]
+  },
+  {
+    id: "reyes",
+    nombre: "Día de Reyes",
+    descripcion: "Para el 6 de enero.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración", texto: "Señor, como los Magos de Oriente, también nosotros queremos ponernos en camino para buscarte. Ellos siguieron la estrella y llegaron a Belén para adorarte y ofrecerte sus dones." },
+      { tipo: "texto", titulo: "Petición", texto: "Ayúdanos a ser generosos como ellos, a compartir nuestros bienes con los necesitados, y a ofrecerte lo mejor de nosotros. Que nuestra vida sea un regalo para los demás. Amén." },
+      { tipo: "padre_nuestro" }
+    ]
+  },
+  {
+    id: "candelaria",
+    nombre: "Día de la Candelaria",
+    descripcion: "Para el 2 de febrero.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración", texto: "Virgen María, Madre de Dios y Madre nuestra, hoy recordamos cuando llevaste a Jesús al templo y lo presentaste al Señor. Te pedimos que nos ayudes a presentar también nuestra vida a Dios." },
+      { tipo: "texto", titulo: "Petición", texto: "Bendice nuestros hogares, nuestras familias y nuestros trabajos. Que la luz de Cristo, que hoy se presenta al mundo, ilumine nuestros caminos y nos guíe siempre hacia el bien. Amén." },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
+    ]
+  },
+  {
+    id: "abuelo",
+    nombre: "Día del Abuelo",
+    descripcion: "Para el 28 de agosto.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Acción de Gracias", texto: "Dios nuestro, te damos gracias por el don de los abuelos. Ellos son fuente de sabiduría, de amor y de experiencia. Gracias por sus consejos, por su paciencia y por su ejemplo de fe." },
+      { tipo: "texto", titulo: "Bendición", texto: "Bendice, Señor, a nuestros abuelos. Dales salud, fortaleza y alegría. Que se sientan amados por nosotros, y que la Virgen María los acompañe y cuide en todo momento." },
+      { tipo: "padre_nuestro" }
+    ]
+  },
+  {
+    id: "carmen",
+    nombre: "Nuestra Señora del Carmen",
+    descripcion: "Para el 16 de julio.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración", texto: "Virgen del Carmen, Reina y Madre de los que esperan en ti, hoy te pedimos que nos cubras con tu manto. Tú que prometiste la salvación a quienes portan tu escapulario, protégenos de todo peligro y guíanos siempre por el camino del bien." },
+      { tipo: "texto", titulo: "Petición", texto: "Ayúdanos a vivir con fe y esperanza, a confiar en tu intercesión y a ser fieles a tu Hijo Jesús. Que tu presencia nos consuele en las dificultades y nos anime a seguir adelante. Amén." },
+      { tipo: "repeticion", titulo: "Ave María", veces: 3 }
+    ]
+  },
+  {
+    id: "todos_santos",
+    nombre: "Solemnidad de Todos los Santos",
+    descripcion: "Para el 1 de noviembre.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración", texto: "Señor, hoy celebramos la fiesta de todos los santos. Ellos son nuestros modelos de vida, de fe y de amor a ti. Algunos fueron mártires, otros humildes servidores, pero todos vivieron buscando tu voluntad." },
+      { tipo: "texto", titulo: "Petición", texto: "Ayúdanos a seguir su ejemplo, a ser santos en lo cotidiano, amando a los demás y viviendo con coherencia nuestra fe. Que un día podamos unirnos a ellos en el cielo. Amén." },
+      { tipo: "padre_nuestro" }
+    ]
+  },
+  {
+    id: "fieles_difuntos",
+    nombre: "Fieles Difuntos",
+    descripcion: "Para el 2 de noviembre.",
+    pasos: [
+      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
+      { tipo: "texto", titulo: "Oración por los Difuntos", texto: "Señor de la vida y de la muerte, hoy recordamos a nuestros hermanos que han partido. Te pedimos que los recibas en tu reino, y que les des el descanso eterno. Que brille para ellos la luz perpetua." },
+      { tipo: "texto", titulo: "Consuelo para los que quedamos", texto: "Consuela también a quienes lloramos su ausencia. Danos la esperanza de la resurrección, y fortalece nuestra fe para que vivamos en el amor y la entrega, esperando el día del reencuentro. Amén." },
+      { tipo: "padre_nuestro" },
+      { tipo: "repeticion", titulo: "Ave María", veces: 1 }
+    ]
+  },
+  {
     id: "novena_guadalupe",
     nombre: "Novena a la Virgen de Guadalupe",
     descripcion: "Del 3 al 11 de diciembre.",
@@ -147,7 +258,7 @@ const oracionesGuiadas = [
   },
   {
     id: "san_miguel",
-    nombre: "Oración a San Miguel Arcángel",
+    nombre: "San Miguel Arcángel",
     descripcion: "Para el 29 de septiembre.",
     pasos: [
       { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
@@ -156,20 +267,8 @@ const oracionesGuiadas = [
     ]
   },
   {
-    id: "por_los_difuntos",
-    nombre: "Oración por los Difuntos",
-    descripcion: "Para el Día de Muertos y aniversarios.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Oración por el eterno descanso", texto: "Dales, Señor, el descanso eterno, y brille para ellos la luz perpetua. Que descansen en paz. Amén." },
-      { tipo: "padre_nuestro" },
-      { tipo: "repeticion", titulo: "Ave María", veces: 1 },
-      { tipo: "texto", titulo: "Oración final", texto: "Dios de misericordia, te pedimos por el alma de nuestros seres queridos que han partido de este mundo. Perdona sus faltas y recíbelos en tu gloria, donde no hay dolor ni llanto, sino paz y alegría para siempre. Amén." }
-    ]
-  },
-  {
     id: "dia_madres",
-    nombre: "Oración por el Día de las Madres",
+    nombre: "Día de las Madres",
     descripcion: "Para bendecir a mamá.",
     pasos: [
       { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
@@ -180,7 +279,7 @@ const oracionesGuiadas = [
   },
   {
     id: "dia_padre",
-    nombre: "Oración por el Día del Padre",
+    nombre: "Día del Padre",
     descripcion: "Para bendecir a papá.",
     pasos: [
       { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
@@ -190,19 +289,8 @@ const oracionesGuiadas = [
     ]
   },
   {
-    id: "ano_nuevo",
-    nombre: "Año Nuevo y Fin de Año",
-    descripcion: "Para dar gracias y pedir bendición.",
-    pasos: [
-      { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
-      { tipo: "texto", titulo: "Acción de Gracias", texto: "Señor, al terminar este año, te damos gracias por todo lo que vivimos: los momentos alegres y las pruebas. Gracias por tu compañía incondicional. Amén." },
-      { tipo: "texto", titulo: "Petición para el Año Nuevo", texto: "Bendice el nuevo año que comienza. Danos salud, trabajo, paz en el hogar y, sobre todo, la gracia de permanecer unidos a ti. Que nuestra familia crezca en amor y fe. Amén." },
-      { tipo: "padre_nuestro" }
-    ]
-  },
-  {
     id: "pentecostes",
-    nombre: "Oración de Pentecostés",
+    nombre: "Pentecostés",
     descripcion: "Para pedir los dones del Espíritu Santo.",
     pasos: [
       { tipo: "texto", titulo: "Señal de la Cruz", texto: "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén." },
