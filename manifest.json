@@ -1,0 +1,21 @@
+{
+  "name": "Arcángel - Guía y Mensajero",
+  "short_name": "Arcángel",
+  "description": "Encuentra consuelo en la Palabra de Dios según tu estado emocional.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0F1117",
+  "theme_color": "#0F1117",
+  "icons": [
+    {
+      "src": "pergamino.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "pergamino.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
