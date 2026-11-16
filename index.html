@@ -520,7 +520,7 @@
                         <span class="material-icons-outlined">close</span> Salir
                     </button>
                     <div class="guia-titulo-header" id="guiaHeaderNombre">Oración</div>
-                    <div style="width: 60px;"></div> <!-- Espaciador -->
+                    <div style="width: 60px;"></div>
                 </div>
                 
                 <div class="guia-contenido">
@@ -568,6 +568,8 @@
     <script src="oraciones_eventos.js"></script>
     <script src="oraciones_guiadas.js"></script>
     <script src="fechas.js"></script>
+    
+    <!-- Lógica de la app original -->
     <script>
         const abrevMap = {
             "génesis": "gn", "exodo": "ex", "levítico": "lv", "números": "nm", "deuteronomio": "dt", "josué": "jos", "jueces": "jue", "ruth": "rt", "1 samuel": "1sm", "2 samuel": "2sm", "1 reyes": "1re", "2 reyes": "2re", "1 crónicas": "1cr", "2 crónicas": "2cr", "esdras": "esd", "nehemías": "neh", "ester": "est", "job": "job", "salmos": "sal", "proverbios": "pro", "eclesiastés": "ecl", "cantares": "cnt", "isaías": "isa", "jeremías": "jer", "lamentaciones": "lam", "ezequiel": "eze", "daniel": "dan", "oseas": "ose", "joel": "joe", "amós": "amo", "obadías": "oba", "jonás": "jon", "miqueas": "miq", "nahúm": "nah", "habacuc": "hab", "sofonías": "sof", "ageo": "age", "zacarías": "zac", "malaquías": "mal", "mateo": "mat", "marcos": "mar", "lucas": "luc", "juan": "jua", "hechos": "hch", "romanos": "rom", "1 corintios": "1co", "2 corintios": "2co", "gálatas": "gal", "efesios": "efe", "filipenses": "fil", "colosenses": "col", "1 tesalonicenses": "1ts", "2 tesalonicenses": "2ts", "1 timoteo": "1ti", "2 timoteo": "2ti", "tito": "tit", "filemón": "flm", "hebreos": "heb", "santiago": "snt", "1 pedro": "1pe", "2 pedro": "2pe", "1 juan": "1jn", "2 juan": "2jn", "3 juan": "3jn", "judas": "jud", "apocalipsis": "apo"
@@ -631,33 +633,18 @@
             const container = document.getElementById('categoriasContainer');
             container.innerHTML = '';
             
-            // Orden personalizado de las categorías
             const ordenDeseado = [
-                "Paz Interior",
-                "Fe / Confianza en Dios",
-                "Familia / Hogar",
-                "Amistad",
-                "Gratitud / Acción de gracias",
-                "Alegría / Felicidad",
-                "Fortaleza / Valentía",
-                "Protección / Refugio",
-                "Salud física y espiritual",
-                "Oración / Vida espiritual",
-                "Miedo / Ansiedad",
-                "Tristeza / Pena",
-                "Estrés / Agobio",
-                "Soledad",
-                "Desesperanza / Desánimo",
-                "Cansancio / Fatiga",
-                "Enfermedad / Dolor",
-                "Duelo / Pérdida"
+                "Paz Interior", "Fe / Confianza en Dios", "Familia / Hogar", "Amistad",
+                "Gratitud / Acción de gracias", "Alegría / Felicidad", "Fortaleza / Valentía",
+                "Protección / Refugio", "Salud física y espiritual", "Oración / Vida espiritual",
+                "Miedo / Ansiedad", "Tristeza / Pena", "Estrés / Agobio", "Soledad",
+                "Desesperanza / Desánimo", "Cansancio / Fatiga", "Enfermedad / Dolor", "Duelo / Pérdida"
             ];
 
-            // Reordenamos el array de categorías sin modificar el archivo original
             const categoriasOrdenadas = [...categories].sort((a, b) => {
                 let indexA = ordenDeseado.indexOf(a.nombre);
                 let indexB = ordenDeseado.indexOf(b.nombre);
-                if (indexA === -1) indexA = 999; // Si no está en la lista, se va al final
+                if (indexA === -1) indexA = 999;
                 if (indexB === -1) indexB = 999;
                 return indexA - indexB;
             });
@@ -1163,13 +1150,19 @@
         function detenerDictado() { if (recognition && estaGrabando) { try { recognition.stop(); } catch(e) {} } restaurarBoton(); }
         function restaurarBoton() { estaGrabando = false; const botonHablar = document.getElementById('botonHablar'); if (botonHablar) botonHablar.innerHTML = '<span class="material-icons-outlined">mic</span> Háblame'; }
 
-        // ===== NOTIFICACIÓN =====
+        // ===== NOTIFICACIÓN (Lógica antigua del navegador) =====
         let notificacionInterval = null;
         async function toggleNotificacion() {
             const switchEl = document.getElementById('switchVersiculoDia');
             if (switchEl.checked) {
                 if (Notification.permission === 'default') { const permiso = await Notification.requestPermission(); if (permiso !== 'granted') { alert('Permiso denegado'); switchEl.checked = false; return; } }
                 localStorage.setItem('arcangelNotificacionActiva', 'true'); programarNotificacion();
+                
+                // NUEVO: Activar las notificaciones push de Firebase
+                if(typeof window.iniciarFirebasePush === 'function') {
+                    window.iniciarFirebasePush();
+                }
+                
             } else { localStorage.setItem('arcangelNotificacionActiva', 'false'); if (notificacionInterval) clearInterval(notificacionInterval); }
         }
 
@@ -1199,6 +1192,59 @@
         }
 
         function toggleRedes() { document.getElementById('redesLinks').classList.toggle('active'); }
+    </script>
+
+    <!-- Lógica de Firebase Push (NUEVO) -->
+    <script type="module">
+        // Importar los SDKs de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA09LpE45IafrNer8BHL_0W9HYH7-osZxU",
+            authDomain: "arcangelapp-push.firebaseapp.com",
+            projectId: "arcangelapp-push",
+            storageBucket: "arcangelapp-push.firebasestorage.app",
+            messagingSenderId: "202077867375",
+            appId: "1:202077867375:web:fd0449ab9afca07f56ac9a"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+
+        // Exponer la función para que el botón de switch la pueda llamar
+        window.iniciarFirebasePush = async function() {
+            try {
+                console.log("Iniciando Firebase Push...");
+                const currentToken = await getToken(messaging, {
+                    vapidKey: 'BJ9q0WRh4yPIn4TFH0nRjfyOYixS6zgKP7VWIVZLP9XwUER3CbsL48I5ryqrepJaPbtrcrU3M92QpEge8bt-mFQ'
+                });
+
+                if (currentToken) {
+                    console.log("¡Token de FCM obtenido!: ", currentToken);
+                    // Guardamos el token en localStorage temporalmente
+                    localStorage.setItem('fcmToken', currentToken);
+                    
+                    // Mostramos una alerta para que sepas que funcionó
+                    alert("¡Notificaciones Push activadas!\n\nTu token es:\n" + currentToken.substring(0, 20) + "...\n\n(Guárdalo para las pruebas)");
+                } else {
+                    console.log("No se pudo obtener el token de registro. Pide permiso para generar uno.");
+                }
+            } catch (err) {
+                console.error("Ocurrió un error al obtener el token: ", err);
+                alert("Error al activar notificaciones. Revisa la consola.");
+            }
+        };
+
+        // Escuchar mensajes mientras la app está abierta
+        onMessage(messaging, (payload) => {
+            console.log("Mensaje recibido en primer plano: ", payload);
+            const notificacion = payload.notification;
+            if(notificacion) {
+                alert("Notificación en primer plano:\n" + notificacion.title + "\n" + notificacion.body);
+            }
+        });
     </script>
 </body>
 </html>
