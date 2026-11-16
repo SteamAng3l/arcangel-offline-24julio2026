@@ -1194,11 +1194,12 @@
         function toggleRedes() { document.getElementById('redesLinks').classList.toggle('active'); }
     </script>
 
-    <!-- Lógica de Firebase Push (NUEVO) -->
+    <!-- Lógica de Firebase Push y Firestore (NUEVO) -->
     <script type="module">
-        // Importar los SDKs de Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
+        // Importamos Firestore
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA09LpE45IafrNer8BHL_0W9HYH7-osZxU",
@@ -1212,15 +1213,14 @@
         // Inicializar Firebase
         const app = initializeApp(firebaseConfig);
         const messaging = getMessaging(app);
+        const db = getFirestore(app); // Inicializamos la base de datos
 
-        // Exponer la función para que el botón de switch la pueda llamar
         window.iniciarFirebasePush = async function() {
             try {
                 console.log("Iniciando Firebase Push...");
                 
-                // ¡AQUÍ ESTÁ LA MAGIA! Le decimos la ruta exacta de la carpeta
                 const swRegistration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
-                console.log("Service Worker registrado exitosamente:", swRegistration);
+                console.log("Service Worker registrado:", swRegistration);
 
                 const currentToken = await getToken(messaging, {
                     vapidKey: 'BJ9q0WRh4yPIn4TFH0nRjfyOYixS6zgKP7VWIVZLP9XwUER3CbsL48I5ryqrepJaPbtrcrU3M92QpEge8bt-mFQ',
@@ -1228,27 +1228,31 @@
                 });
 
                 if (currentToken) {
-                    console.log("¡Token de FCM obtenido!: ", currentToken);
-                    // Guardamos el token en localStorage temporalmente
+                    console.log("¡Token obtenido!: ", currentToken);
                     localStorage.setItem('fcmToken', currentToken);
+
+                    // GUARDAR EN FIRESTORE
+                    // Usamos el Token como ID del documento para que no se dupliquen
+                    await setDoc(doc(db, "usuarios", currentToken), {
+                        token: currentToken,
+                        fechaRegistro: new Date().toISOString()
+                    });
+                    console.log("¡Token guardado en la base de datos exitosamente!");
                     
-                    // Mostramos una alerta para que sepas que funcionó
-                    alert("¡Notificaciones Push activadas!\n\nTu token es:\n" + currentToken.substring(0, 20) + "...\n\n(Guárdalo para las pruebas)");
+                    alert("¡Notificaciones Push activadas y registradas en el sistema!");
                 } else {
-                    console.log("No se pudo obtener el token de registro. Pide permiso para generar uno.");
+                    console.log("No se pudo obtener el token.");
                 }
             } catch (err) {
-                console.error("Ocurrió un error al obtener el token: ", err);
+                console.error("Error al obtener el token: ", err);
                 alert("Error al activar notificaciones. Revisa la consola.");
             }
         };
 
-        // Escuchar mensajes mientras la app está abierta
         onMessage(messaging, (payload) => {
-            console.log("Mensaje recibido en primer plano: ", payload);
-            const notificacion = payload.notification;
-            if(notificacion) {
-                alert("Notificación en primer plano:\n" + notificacion.title + "\n" + notificacion.body);
+            console.log("Mensaje en primer plano: ", payload);
+            if(payload.notification) {
+                alert(payload.notification.title + "\n" + payload.notification.body);
             }
         });
     </script>
