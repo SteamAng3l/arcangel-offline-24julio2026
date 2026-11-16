@@ -22,7 +22,7 @@ async function enviarNotificacion() {
   
   // Ejemplo de prueba: Forzamos a que hoy es Navidad (25 de diciembre)
   // Cuando ya funcione, esto leerá tu archivo fechas.js automáticamente
-  if (mes === 11 && dia === 13) { // 13 de noviembre (fecha de hoy) para probar
+  if (mes === 11 && dia === 16) { // 16 de noviembre para probar
     const mensaje = {
       token: MI_TOKEN_DE_PRUEBA,
       notification: {
