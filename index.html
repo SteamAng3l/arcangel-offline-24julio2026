@@ -1217,8 +1217,14 @@
         window.iniciarFirebasePush = async function() {
             try {
                 console.log("Iniciando Firebase Push...");
+                
+                // ¡AQUÍ ESTÁ LA MAGIA! Le decimos la ruta exacta de la carpeta
+                const swRegistration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
+                console.log("Service Worker registrado exitosamente:", swRegistration);
+
                 const currentToken = await getToken(messaging, {
-                    vapidKey: 'BJ9q0WRh4yPIn4TFH0nRjfyOYixS6zgKP7VWIVZLP9XwUER3CbsL48I5ryqrepJaPbtrcrU3M92QpEge8bt-mFQ'
+                    vapidKey: 'BJ9q0WRh4yPIn4TFH0nRjfyOYixS6zgKP7VWIVZLP9XwUER3CbsL48I5ryqrepJaPbtrcrU3M92QpEge8bt-mFQ',
+                    serviceWorkerRegistration: swRegistration
                 });
 
                 if (currentToken) {
