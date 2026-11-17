@@ -77,14 +77,13 @@
             border: 1px solid var(--border-sutil);
         }
         
-        /* NUEVO ESTILO PARA EL LOGO DE TEXTO */
         .logo-texto {
             display: block;
             margin: 0 auto 0.5rem auto;
             width: 100%;
-            max-width: 320px; /* Tamaño perfecto para que se lea bien */
+            max-width: 320px;
             height: auto;
-            filter: drop-shadow(0px 5px 15px rgba(0,0,0,0.5)); /* Le da una sombrita para que resalte */
+            filter: drop-shadow(0px 5px 15px rgba(0,0,0,0.5));
         }
 
         .subtitulo { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--text-secondary); margin-bottom: 2rem; font-style: italic; }
@@ -136,7 +135,15 @@
         
         .btn-donar { background: transparent; border: 1px solid var(--border-dorado); color: var(--dorado); padding: 0.8rem 1.5rem; border-radius: 30px; font-size: 0.9rem; font-weight: 500; margin-top: 1rem; width: 100%; cursor: pointer; justify-content: center; }
         .btn-donar:hover { background: var(--dorado-suave); transform: translateY(-2px); }
-        .social-bar { text-align: center; margin-top: 24px; color: var(--text-muted); font-size: 0.78rem; line-height: 1.7; }
+        
+        .btn-legal {
+            background: transparent; border: none; color: var(--text-muted); font-size: 0.8rem;
+            text-decoration: underline; cursor: pointer; margin-top: 1.5rem; width: 100%;
+            transition: color 0.3s ease;
+        }
+        .btn-legal:hover { color: var(--dorado); }
+
+        .social-bar { text-align: center; margin-top: 14px; color: var(--text-muted); font-size: 0.78rem; line-height: 1.7; }
         
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; z-index: 300; padding: 20px; }
         .modal-overlay.activo { display: flex; }
@@ -180,6 +187,42 @@
         .momento-item-info { flex: 1; }
         .momento-item-titulo { font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 600; color: var(--text-color); margin-bottom: 0.2rem; }
         .momento-item-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.3; }
+
+        /* ===== ESTILOS DE FAVORITOS UNIFICADOS ===== */
+        .favorito-item { background: var(--bg-resp); border-radius: 16px; padding: 1.1rem 1.2rem; margin-bottom: 0.8rem; text-align: left; position: relative; border: 1px solid var(--border-sutil); }
+        .favorito-badge { display: inline-block; font-size: 0.65rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 10px; margin-bottom: 0.6rem; text-transform: uppercase; letter-spacing: 1px; }
+        .badge-versiculo { background: var(--dorado-suave); color: var(--dorado); }
+        .badge-oracion { background: rgba(100, 150, 255, 0.15); color: #7da9ff; }
+        .badge-evento { background: rgba(200, 100, 255, 0.15); color: #d48aff; }
+        
+        .favorito-item .frase-empatica { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 0.7rem; }
+        .favorito-item .versiculo-texto { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 0.4rem; line-height: 1.6; }
+        .favorito-item .versiculo-cita { font-size: 0.85rem; font-weight: 600; color: var(--dorado); margin-bottom: 0.8rem; }
+        .acciones-favorito { display: flex; gap: 0.5rem; margin-top: 0.6rem; flex-wrap: wrap; padding-top: 0.8rem; border-top: 1px solid var(--border-sutil); }
+        .acciones-favorito button { font-size: 0.78rem; padding: 0.4rem 0.85rem; background: transparent; border: 1px solid var(--border-sutil); color: var(--text-secondary); border-radius: 20px; }
+        .eliminar-fav { position: absolute; top: 8px; right: 12px; background: transparent; border: none; color: var(--text-muted); font-size: 1.6rem; cursor: pointer; line-height: 1; }
+        .no-favoritos { font-style: italic; color: var(--text-muted); margin-top: 1.5rem; text-align: center; font-size: 0.9rem; }
+
+        /* ===== PÁGINA DE INFORMACIÓN (LEGAL) ===== */
+        .info-texto { text-align: left; font-size: 0.95rem; line-height: 1.6; color: var(--text-color); margin-bottom: 1rem; }
+        .info-subtitulo { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--dorado); margin: 1.5rem 0 0.5rem 0; border-bottom: 1px solid var(--border-sutil); padding-bottom: 0.3rem; text-align: left; }
+        .info-texto strong { color: var(--dorado); }
+        
+        .dedicatoria {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed var(--border-sutil);
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            line-height: 1.6;
+        }
+        .dedicatoria:hover { opacity: 1; }
+        .dedicatoria .corazon { color: #d93838; font-size: 1.2rem; display: block; margin-bottom: 0.5rem; }
 
         /* ===== BANNER DE FECHA ESPECIAL ===== */
         #bannerFechaEspecial {
@@ -280,16 +323,6 @@
         .categoria-btn { background: var(--button-bg); border: 1px solid var(--border-sutil); color: var(--text-color); padding: 0.85rem 0.7rem; border-radius: 14px; font-family: 'Inter', sans-serif; font-size: 0.83rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; }
         .categoria-btn:hover { background: var(--dorado-suave); border-color: var(--border-dorado); color: var(--dorado); }
         
-        .favorito-item { background: var(--bg-resp); border-radius: 16px; padding: 1.1rem 1.2rem; margin-bottom: 0.8rem; text-align: left; position: relative; border: 1px solid var(--border-sutil); }
-        .favorito-item .categoria-nombre { font-size: 0.72rem; font-weight: 600; color: var(--dorado); margin-bottom: 0.4rem; text-transform: uppercase; }
-        .favorito-item .frase-empatica { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 0.7rem; }
-        .favorito-item .versiculo-texto { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 0.4rem; line-height: 1.6; }
-        .favorito-item .versiculo-cita { font-size: 0.85rem; font-weight: 600; color: var(--dorado); margin-bottom: 0.8rem; }
-        .acciones-favorito { display: flex; gap: 0.5rem; margin-top: 0.6rem; flex-wrap: wrap; padding-top: 0.8rem; border-top: 1px solid var(--border-sutil); }
-        .acciones-favorito button { font-size: 0.78rem; padding: 0.4rem 0.85rem; background: transparent; border: 1px solid var(--border-sutil); color: var(--text-secondary); border-radius: 20px; }
-        .eliminar-fav { position: absolute; top: 8px; right: 12px; background: transparent; border: none; color: var(--text-muted); font-size: 1.6rem; cursor: pointer; line-height: 1; }
-        .no-favoritos { font-style: italic; color: var(--text-muted); margin-top: 1.5rem; text-align: center; font-size: 0.9rem; }
-        
         .modo-toggle { position: fixed; top: 18px; right: 18px; font-size: 1.4rem; cursor: pointer; z-index: 200; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--bg-panel); backdrop-filter: blur(15px); border: 1px solid var(--border-sutil); }
         #canvasCompartir { display: none; }
         
@@ -326,9 +359,7 @@
             </div>
 
             <div class="panel">
-                <!-- AQUÍ ESTÁ EL NUEVO LOGO DE TEXTO -->
                 <img src="logo-texto.png" alt="Arcángel" class="logo-texto">
-                
                 <p class="subtitulo">Guía y Mensajero de la Palabra</p>
                 <p class="frase-corazon">¿Qué hay en tu corazón hoy?</p>
 
@@ -386,6 +417,8 @@
                 <button class="btn-donar" onclick="window.open('#', '_blank')">
                     <span class="material-icons-outlined" style="font-size: 1.05rem; vertical-align: middle;">favorite</span> Apoyar este proyecto
                 </button>
+
+                <button class="btn-legal" onclick="abrirModalLegal()">Aviso de Privacidad y Términos</button>
             </div>
 
             <div class="social-bar">
@@ -447,7 +480,6 @@
                 </button>
                 <h2 style="font-family: 'Cinzel', serif; color: var(--dorado); margin-bottom: 0.5rem; font-size: 1.6rem;">Oraciones Guiadas</h2>
                 <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">Reza paso a paso, ideal para acompañar</p>
-                
                 <div class="momentos-lista" id="listaGuiadas"></div>
             </div>
         </div>
@@ -457,7 +489,7 @@
             <div class="panel">
                 <h2 style="font-family: 'Cinzel', serif; color: var(--dorado); margin-bottom: 1rem; font-size: 1.6rem;">Mis Favoritos</h2>
                 <div id="listaFavoritos"></div>
-                <div class="no-favoritos" id="noFavoritosMsg">No tienes versículos guardados aún.</div>
+                <div class="no-favoritos" id="noFavoritosMsg">No tienes elementos guardados aún.</div>
             </div>
         </div>
 
@@ -514,6 +546,47 @@
                     <button onclick="otroEvento()"><span class="material-icons-outlined">refresh</span> Otra oración</button>
                     <button onclick="guardarEventoFavorito()"><span class="material-icons-outlined">star</span> Guardar</button>
                     <button onclick="compartirEvento()"><span class="material-icons-outlined">share</span> Compartir</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL LEGAL -->
+        <div class="modal-overlay" id="modalLegal">
+            <div class="modal-contenido">
+                <button class="cerrar-modal" onclick="cerrarModalLegal()">&times;</button>
+                <div class="oracion-cruz"><svg width="1.6em" height="1.6em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 9h12"/></svg></div>
+                <div class="oracion-nombre" style="font-size: 1.3rem;">Información Legal</div>
+                <div style="padding-top: 1rem;">
+                    
+                    <div class="info-subtitulo">Aviso de Privacidad</div>
+                    <p class="info-texto">
+                        En <strong>Arcángel</strong> nos tomamos muy en serio tu privacidad. Esta aplicación es 100% gratuita y no recopila datos personales como tu nombre, correo o ubicación. 
+                        Para enviar las notificaciones push (Versículo del Día), usamos un identificador anónimo (Token de Firebase) que no te identifica personalmente y se guarda de forma segura. No compartimos datos con terceros.
+                    </p>
+
+                    <div class="info-subtitulo">Fuentes de los Datos</div>
+                    <p class="info-texto">
+                        Todos los versículos bíblicos utilizados en esta app provienen de la versión <strong>Reina-Valera 1909 (RVR1909)</strong>, la cual es de dominio público. Las oraciones son recopilaciones de la tradición católica.
+                    </p>
+
+                    <div class="info-subtitulo">Términos y Descargo</div>
+                    <p class="info-texto">
+                        Arcángel es una herramienta de acompañamiento espiritual. La aplicación <strong>no sustituye</strong> la atención médica, psicológica ni el consejo profesional. Si estás pasando por una crisis de salud mental o emocional, te recomendamos buscar ayuda de un profesional de la salud.
+                    </p>
+
+                    <div class="info-subtitulo">Contacto y Ayuda</div>
+                    <p class="info-texto">
+                        ¿Tienes dudas o sugerencias? Escríbenos a: <br>
+                        <strong>contacto@arcangelapp.com</strong> <em>(Reemplaza este correo por el tuyo)</em>
+                    </p>
+
+                    <div class="dedicatoria">
+                        <span class="corazon">❤️</span>
+                        Hecha con amor y fe para mi mamá Teresa,<br>
+                        gracias por todo.<br><br>
+                        <em>— Miguel Ángel</em>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -602,6 +675,7 @@
             document.getElementById('pagina' + pagina.charAt(0).toUpperCase() + pagina.slice(1)).classList.add('activa');
             document.querySelectorAll('.navbar button').forEach(b => b.classList.remove('activo'));
             document.getElementById('nav' + pagina.charAt(0).toUpperCase() + pagina.slice(1)).classList.add('activo');
+            
             if (pagina === 'categorias') cargarCategorias();
             if (pagina === 'oraciones') cargarOraciones();
             if (pagina === 'favoritos') cargarFavoritos();
@@ -633,6 +707,10 @@
                 iniciarGuia(fechaEspecialHoy.idOracion);
             }
         }
+
+        // ===== MODAL LEGAL =====
+        function abrirModalLegal() { document.getElementById('modalLegal').classList.add('activo'); }
+        function cerrarModalLegal() { document.getElementById('modalLegal').classList.remove('activo'); }
 
         // ===== CATEGORÍAS Y VERSÍCULOS =====
         function cargarCategorias() {
@@ -728,44 +806,154 @@
         function guardarFavoritoDesdeModal() { guardarFavorito(); }
         function compartirDesdeModal() { compartirImagen(); }
 
-        // ===== FAVORITOS =====
+        // ===== FAVORITOS (UNIFICADOS) =====
         let versiculoActual = null;
+
         function guardarFavorito() {
             if (!versiculoActual) return;
             let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
             const yaExiste = favoritos.some(f => f.texto === versiculoActual.texto && f.cita === versiculoActual.cita);
             if (!yaExiste) {
-                favoritos.unshift({texto: versiculoActual.texto, cita: versiculoActual.cita, categoria: versiculoActual.categoria, frase: versiculoActual.frase || ''});
+                favoritos.unshift({
+                    texto: versiculoActual.texto, 
+                    cita: versiculoActual.cita, 
+                    categoria: versiculoActual.categoria, 
+                    frase: versiculoActual.frase || '',
+                    tipo: 'versiculo',
+                    timestamp: Date.now()
+                });
                 localStorage.setItem('arcangelFavs', JSON.stringify(favoritos));
                 alert('Versículo guardado en favoritos ⭐');
             } else alert('Este versículo ya está en favoritos.');
         }
 
+        function guardarOracionFavorito() {
+            if (!oracionActual) return; 
+            let favoritos = JSON.parse(localStorage.getItem('arcangelFavsOraciones') || '[]');
+            const yaExiste = favoritos.some(f => f.texto === oracionActual.texto);
+            if (!yaExiste) { 
+                favoritos.unshift({ 
+                    texto: oracionActual.texto, 
+                    nombre: oracionActual.nombre, 
+                    santo: oracionActual.santo || '', 
+                    tipo: 'oracion',
+                    timestamp: Date.now()
+                }); 
+                localStorage.setItem('arcangelFavsOraciones', JSON.stringify(favoritos)); 
+                alert('Oración guardada en favoritos ⭐'); 
+            } else alert('Esta oración ya está en favoritos.');
+        }
+
+        function guardarEventoFavorito() {
+            if (!eventoActual) return; 
+            let favoritos = JSON.parse(localStorage.getItem('arcangelFavsEventos') || '[]');
+            const yaExiste = favoritos.some(f => f.id === eventoActual.id);
+            if (!yaExiste) { 
+                favoritos.unshift({ 
+                    id: eventoActual.id, 
+                    titulo: eventoActual.titulo, 
+                    ocasion: eventoActual.ocasion, 
+                    texto: eventoActual.texto, 
+                    guia: eventoActual.guia || '', 
+                    tipo: 'evento',
+                    timestamp: Date.now()
+                }); 
+                localStorage.setItem('arcangelFavsEventos', JSON.stringify(favoritos)); 
+                alert('Oración guardada en favoritos ⭐'); 
+            } else alert('Esta oración ya está en favoritos.');
+        }
+
         function cargarFavoritos() {
             const lista = document.getElementById('listaFavoritos');
             const noMsg = document.getElementById('noFavoritosMsg');
-            let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
-            if (favoritos.length === 0) { lista.innerHTML = ''; noMsg.style.display = 'block'; return; }
+            
+            let versiculos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
+            let oracionesFav = JSON.parse(localStorage.getItem('arcangelFavsOraciones') || '[]');
+            let eventosFav = JSON.parse(localStorage.getItem('arcangelFavsEventos') || '[]');
+
+            // Agregar el tipo y timestamp si no lo tienen (para retrocompatibilidad)
+            versiculos = versiculos.map(v => ({...v, tipo: v.tipo || 'versiculo', timestamp: v.timestamp || Date.now() - 100000}));
+            oracionesFav = oracionesFav.map(o => ({...o, tipo: o.tipo || 'oracion', timestamp: o.timestamp || Date.now() - 50000}));
+            eventosFav = eventosFav.map(e => ({...e, tipo: e.tipo || 'evento', timestamp: e.timestamp || Date.now()}));
+
+            // Unir todos y ordenar por el más reciente
+            let todos = [...versiculos, ...oracionesFav, ...eventosFav].sort((a, b) => b.timestamp - a.timestamp);
+
+            if (todos.length === 0) { lista.innerHTML = ''; noMsg.style.display = 'block'; return; }
             noMsg.style.display = 'none';
-            lista.innerHTML = favoritos.map((fav, index) => `
-                <div class="favorito-item">
-                    <button class="eliminar-fav" onclick="eliminarFavorito(${index})">&times;</button>
-                    <div class="categoria-nombre">${fav.categoria || ''}</div>
-                    <div class="frase-empatica">${fav.frase || ''}</div>
-                    <div class="versiculo-texto">“${fav.texto}”</div>
-                    <div class="versiculo-cita">— ${fav.cita}</div>
-                    <div class="acciones-favorito">
+
+            lista.innerHTML = todos.map((fav, index) => {
+                let badge = '';
+                let contenido = '';
+                let acciones = '';
+
+                if (fav.tipo === 'versiculo') {
+                    badge = `<span class="favorito-badge badge-versiculo">Versículo</span>`;
+                    contenido = `
+                        <div class="categoria-nombre">${fav.categoria || ''}</div>
+                        <div class="frase-empatica">${fav.frase || ''}</div>
+                        <div class="versiculo-texto">“${fav.texto}”</div>
+                        <div class="versiculo-cita">— ${fav.cita}</div>
+                    `;
+                    acciones = `
                         <button onclick="speakFavorito('${fav.texto.replace(/'/g, "\\'")}', '${fav.cita.replace(/'/g, "\\'")}')"><span class="material-icons-outlined" style="font-size: 0.95rem; vertical-align: middle;">volume_up</span> Escuchar</button>
                         <button onclick="compartirFavorito('${fav.texto.replace(/'/g, "\\'")}', '${fav.cita.replace(/'/g, "\\'")}')"><span class="material-icons-outlined" style="font-size: 0.95rem; vertical-align: middle;">share</span> Compartir</button>
+                    `;
+                } else if (fav.tipo === 'oracion') {
+                    badge = `<span class="favorito-badge badge-oracion">Oración</span>`;
+                    contenido = `
+                        <div class="categoria-nombre">${fav.nombre || 'Oración'}</div>
+                        <div class="frase-empatica">${fav.santo || ''}</div>
+                        <div class="versiculo-texto" style="font-size: 0.95rem;">“${fav.texto.substring(0, 100)}...”</div>
+                    `;
+                    acciones = `
+                        <button onclick="speakFavoritoOracion('${fav.texto.replace(/'/g, "\\'")}')"><span class="material-icons-outlined" style="font-size: 0.95rem; vertical-align: middle;">volume_up</span> Escuchar</button>
+                    `;
+                } else if (fav.tipo === 'evento') {
+                    badge = `<span class="favorito-badge badge-evento">Momento Especial</span>`;
+                    contenido = `
+                        <div class="categoria-nombre">${fav.ocasion || ''}</div>
+                        <div class="frase-empatica">${fav.titulo || ''}</div>
+                        <div class="versiculo-texto" style="font-size: 0.95rem;">“${fav.texto.substring(0, 100)}...”</div>
+                    `;
+                    acciones = `
+                        <button onclick="speakFavoritoOracion('${fav.texto.replace(/'/g, "\\'")}')"><span class="material-icons-outlined" style="font-size: 0.95rem; vertical-align: middle;">volume_up</span> Escuchar</button>
+                    `;
+                }
+
+                return `
+                    <div class="favorito-item">
+                        <button class="eliminar-fav" onclick="eliminarFavoritoUnificado(${index}, '${fav.tipo}')">&times;</button>
+                        ${badge}
+                        ${contenido}
+                        <div class="acciones-favorito">
+                            ${acciones}
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        function eliminarFavorito(index) {
-            let favoritos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]');
-            favoritos.splice(index, 1);
-            localStorage.setItem('arcangelFavs', JSON.stringify(favoritos));
+        function eliminarFavoritoUnificado(index, tipo) {
+            let todos = [];
+            let versiculos = JSON.parse(localStorage.getItem('arcangelFavs') || '[]').map(v => ({...v, tipo: v.tipo || 'versiculo', timestamp: v.timestamp || Date.now() - 100000}));
+            let oracionesFav = JSON.parse(localStorage.getItem('arcangelFavsOraciones') || '[]').map(o => ({...o, tipo: o.tipo || 'oracion', timestamp: o.timestamp || Date.now() - 50000}));
+            let eventosFav = JSON.parse(localStorage.getItem('arcangelFavsEventos') || '[]').map(e => ({...e, tipo: e.tipo || 'evento', timestamp: e.timestamp || Date.now()}));
+            todos = [...versiculos, ...oracionesFav, ...eventosFav].sort((a, b) => b.timestamp - a.timestamp);
+
+            const itemAEliminar = todos[index];
+
+            if (itemAEliminar.tipo === 'versiculo') {
+                versiculos = versiculos.filter(v => v.texto !== itemAEliminar.texto || v.cita !== itemAEliminar.cita);
+                localStorage.setItem('arcangelFavs', JSON.stringify(versiculos));
+            } else if (itemAEliminar.tipo === 'oracion') {
+                oracionesFav = oracionesFav.filter(o => o.texto !== itemAEliminar.texto);
+                localStorage.setItem('arcangelFavsOraciones', JSON.stringify(oracionesFav));
+            } else if (itemAEliminar.tipo === 'evento') {
+                eventosFav = eventosFav.filter(e => e.id !== itemAEliminar.id);
+                localStorage.setItem('arcangelFavsEventos', JSON.stringify(eventosFav));
+            }
+
             cargarFavoritos();
         }
 
@@ -788,6 +976,7 @@
         function speakVersiculo() { if (versiculoActual) speakText(`${versiculoActual.texto}. ${formatearCitaParaVoz(versiculoActual.cita)}.`); }
         function speakVersiculoModal() { if (versiculoActual) speakText(`${versiculoActual.texto}. ${formatearCitaParaVoz(versiculoActual.cita)}.`); }
         function speakFavorito(texto, cita) { speakText(`${texto}. ${formatearCitaParaVoz(cita)}.`); }
+        function speakFavoritoOracion(texto) { speakText(texto); }
 
         // ===== COMPARTIR =====
         async function cargarFuentes() {
@@ -918,11 +1107,7 @@
 
         function cerrarModalOracion() { document.getElementById('modalOracion').classList.remove('activo'); }
         function speakOracion() { if (!oracionActual) return; speakText(limpiarTexto(oracionActual.texto)); }
-        function guardarOracionFavorito() {
-            if (!oracionActual) return; let favoritos = JSON.parse(localStorage.getItem('arcangelFavsOraciones') || '[]');
-            const yaExiste = favoritos.some(f => f.texto === oracionActual.texto);
-            if (!yaExiste) { favoritos.unshift({ texto: oracionActual.texto, nombre: oracionActual.nombre, santo: oracionActual.santo || '', tipo: 'oracion' }); localStorage.setItem('arcangelFavsOraciones', JSON.stringify(favoritos)); alert('Oración guardada en favoritos ⭐'); } else alert('Esta oración ya está en favoritos.');
-        }
+        
         function otraOracion() {
             const cat = oracionCategoriaActual || (oracionActual && oracionActual.categorias && oracionActual.categorias[0]);
             if (!cat) { alert('No hay más oraciones disponibles.'); return; }
@@ -981,11 +1166,6 @@
         function cerrarModalEvento() { document.getElementById('modalEvento').classList.remove('activo'); }
         function speakEvento() { if (!eventoActual) return; speakText(eventoActual.texto); }
         function otroEvento() { if (!eventoActual) return; const disponibles = oracionesEventos.filter(ev => ev.id !== eventoActual.id); if (disponibles.length === 0) return; const siguiente = disponibles[Math.floor(Math.random() * disponibles.length)]; mostrarEvento(siguiente); }
-        function guardarEventoFavorito() {
-            if (!eventoActual) return; let favoritos = JSON.parse(localStorage.getItem('arcangelFavsEventos') || '[]');
-            const yaExiste = favoritos.some(f => f.id === eventoActual.id);
-            if (!yaExiste) { favoritos.unshift({ id: eventoActual.id, titulo: eventoActual.titulo, ocasion: eventoActual.ocasion, texto: eventoActual.texto, guia: eventoActual.guia || '', tipo: 'evento' }); localStorage.setItem('arcangelFavsEventos', JSON.stringify(favoritos)); alert('Oración guardada en favoritos ⭐'); } else alert('Esta oración ya está en favoritos.');
-        }
 
         async function compartirEvento() {
             if (!eventoActual) return;
