@@ -76,15 +76,17 @@
             margin-bottom: 18px;
             border: 1px solid var(--border-sutil);
         }
-        h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-            color: var(--dorado);
-            letter-spacing: 4px;
-            line-height: 1.1;
+        
+        /* NUEVO ESTILO PARA EL LOGO DE TEXTO */
+        .logo-texto {
+            display: block;
+            margin: 0 auto 0.5rem auto;
+            width: 100%;
+            max-width: 320px; /* Tamaño perfecto para que se lea bien */
+            height: auto;
+            mix-blend-mode: screen; /* Hace que el fondo negro sea invisible */
         }
+
         .subtitulo { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--text-secondary); margin-bottom: 2rem; font-style: italic; }
         .frase-corazon { font-family: 'Playfair Display', serif; font-size: 1.35rem; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600; line-height: 1.4; }
         textarea, input[type="text"] {
@@ -296,7 +298,7 @@
             .guia-titulo-paso { font-size: 1.6rem; }
         }
         @media (max-width: 400px) {
-            h1 { font-size: 2.1rem; }
+            .logo-texto { max-width: 280px; }
             .panel { padding: 1.6rem 1.2rem; }
             button { padding: 0.65rem 1rem; font-size: 0.85rem; }
             .oracion-nombre { font-size: 1.3rem; }
@@ -324,7 +326,9 @@
             </div>
 
             <div class="panel">
-                <h1>Arcángel</h1>
+                <!-- AQUÍ ESTÁ EL NUEVO LOGO DE TEXTO -->
+                <img src="logo-texto.png" alt="Arcángel" class="logo-texto">
+                
                 <p class="subtitulo">Guía y Mensajero de la Palabra</p>
                 <p class="frase-corazon">¿Qué hay en tu corazón hoy?</p>
 
@@ -365,7 +369,6 @@
                         </label>
                         <span>Versículo del Día</span>
                     </div>
-                    <!-- BOTÓN DE MÚSICA ELIMINADO -->
                 </div>
 
                 <div class="redes-container">
