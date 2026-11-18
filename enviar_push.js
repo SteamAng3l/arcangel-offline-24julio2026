@@ -15,106 +15,123 @@ async function enviarNotificacion() {
   
   console.log(`Revisando si hoy (${dia}/${mes}) es una fecha especial...`);
   
-  let tituloNoti = "";
-  let cuerpoNoti = "";
+  let tituloFestivo = "";
+  let cuerpoFestivo = "";
 
   // ==========================================
-  // AQUÍ CONFIGURAMOS LAS FECHAS Y MENSAJES
+  // AQUÍ CONFIGURAMOS LAS FECHAS ESPECIALES
   // ==========================================
-
   if (mes === 1 && dia === 1) {
-    tituloNoti = "🎉 ¡Feliz Año Nuevo!";
-    cuerpoNoti = "Que este nuevo año esté lleno de bendiciones. Abre Arcángel para empezar con fe.";
+    tituloFestivo = "🎉 ¡Feliz Año Nuevo!";
+    cuerpoFestivo = "Que este nuevo año esté lleno de bendiciones. Abre Arcángel para empezar con fe.";
   } 
   else if (mes === 2 && dia === 2) {
-    tituloNoti = "🕯️ Día de la Candelaria";
-    cuerpoNoti = "Hoy presentamos al Niño Dios. Abre Arcángel y acompáñanos con una oración.";
+    tituloFestivo = "🕯️ Día de la Candelaria";
+    cuerpoFestivo = "Hoy presentamos al Niño Dios. Abre Arcángel y acompáñanos con una oración.";
   }
   else if (mes === 5 && dia === 10) {
-    tituloNoti = "🌹 ¡Feliz Día de las Madres!";
-    cuerpoNoti = "Ora por tu mamá hoy. Abre Arcángel y dedícale una bendición especial.";
+    tituloFestivo = "🌹 ¡Feliz Día de las Madres!";
+    cuerpoFestivo = "Ora por tu mamá hoy. Abre Arcángel y dedícale una bendición especial.";
   }
   else if (mes === 9 && dia === 29) {
-    tituloNoti = "👼 Hoy es San Miguel Arcángel";
-    cuerpoNoti = "San Miguel te protege hoy y siempre. Abre Arcángel para rezar su oración.";
+    tituloFestivo = "👼 Hoy es San Miguel Arcángel";
+    cuerpoFestivo = "San Miguel te protege hoy y siempre. Abre Arcángel para rezar su oración.";
   }
   else if (mes === 10 && dia === 28) {
-    tituloNoti = "🕯️ Día de San Judas Tadeo";
-    cuerpoNoti = "El santo de las causas difíciles intercede por ti. Abre Arcángel para orar.";
+    tituloFestivo = "🕯️ Día de San Judas Tadeo";
+    cuerpoFestivo = "El santo de las causas difíciles intercede por ti. Abre Arcángel para orar.";
   }
   else if (mes === 11 && dia === 1) {
-    tituloNoti = "😇 Solemnidad de Todos los Santos";
-    cuerpoNoti = "Celebramos a quienes están en la presencia de Dios. Abre Arcángel para recordarlos.";
+    tituloFestivo = "😇 Solemnidad de Todos los Santos";
+    cuerpoFestivo = "Celebramos a quienes están en la presencia de Dios. Abre Arcángel para recordarlos.";
   }
   else if (mes === 11 && dia === 2) {
-    tituloNoti = "🕯️ Fieles Difuntos";
-    cuerpoNoti = "Ora por tus seres queridos que partieron. Abre Arcángel y enciende una oración.";
+    tituloFestivo = "🕯️ Fieles Difuntos";
+    cuerpoFestivo = "Ora por tus seres queridos que partieron. Abre Arcángel y enciende una oración.";
   }
   else if (mes === 12 && dia === 12) {
-    tituloNoti = "🌹 ¡Hoy es la Virgen de Guadalupe!";
-    cuerpoNoti = "La Morenita te espera. Abre Arcángel y acompáñanos en su novena.";
+    tituloFestivo = "🌹 ¡Hoy es la Virgen de Guadalupe!";
+    cuerpoFestivo = "La Morenita te espera. Abre Arcángel y acompáñanos en su novena.";
   }
   else if (mes === 12 && dia === 24) {
-    tituloNoti = "🎄 ¡Feliz Nochebuena!";
-    cuerpoNoti = "El Salvador está por nacer. Abre Arcángel para rezar las Posadas o una oración de Navidad.";
+    tituloFestivo = "🎄 ¡Feliz Nochebuena!";
+    cuerpoFestivo = "El Salvador está por nacer. Abre Arcángel para rezar las Posadas o una oración de Navidad.";
   }
   else if (mes === 12 && dia === 25) {
-    tituloNoti = "👶 ¡Feliz Navidad!";
-    cuerpoNoti = "Que la luz del Niño Dios ilumine tu hogar. Abre Arcángel para celebrar con fe.";
+    tituloFestivo = "👶 ¡Feliz Navidad!";
+    cuerpoFestivo = "Que la luz del Niño Dios ilumine tu hogar. Abre Arcángel para celebrar con fe.";
   }
   else if (mes === 12 && dia === 31) {
-    tituloNoti = "🎆 Fin de Año";
-    cuerpoNoti = "Da gracias por este año. Abre Arcángel para despedir el año con una oración.";
-  }
-  // Fecha de prueba (puedes borrarla después)
-  else if (mes === 11 && dia === 16) {
-    tituloNoti = "🎄 ¡Prueba Real de Notificación!";
-    cuerpoNoti = "El sistema automático está funcionando perfectamente.";
+    tituloFestivo = "🎆 Fin de Año";
+    cuerpoFestivo = "Da gracias por este año. Abre Arcángel para despedir el año con una oración.";
   }
 
   // ==========================================
   // LÓGICA DE ENVÍO
   // ==========================================
 
-  if (tituloNoti !== "") {
-    console.log(`Fecha especial encontrada: ${tituloNoti}. Obteniendo usuarios...`);
+  if (tituloFestivo !== "") {
+    // ES UNA FECHA ESPECIAL: Se envía a TODOS.
+    console.log(`Fecha especial encontrada: ${tituloFestivo}. Obteniendo TODOS los usuarios...`);
     
-    // 1. Obtener todos los usuarios de Firestore
     const snapshot = await db.collection('usuarios').get();
-    
     if (snapshot.empty) {
       console.log("No hay usuarios registrados aún.");
       return;
     }
 
     const tokens = [];
-    snapshot.forEach(doc => {
-      tokens.push(doc.data().token);
-    });
+    snapshot.forEach(doc => { tokens.push(doc.data().token); });
 
     console.log(`Enviando a ${tokens.length} dispositivos...`);
 
-    // 2. Preparar el mensaje masivo
     const mensaje = {
-      notification: {
-        title: tituloNoti,
-        body: cuerpoNoti
+      notification: { title: tituloFestivo, body: cuerpoFestivo },
+      tokens: tokens 
+    };
+
+    try {
+      const response = await admin.messaging().sendEachForMulticast(mensaje);
+      console.log(`¡Éxito! Mensajes enviados: ${response.successCount}`);
+    } catch (error) {
+      console.error("Error al enviar:", error);
+    }
+
+  } else {
+    // NO ES FECHA ESPECIAL: Se envía el versículo diario SOLO a quienes quieren.
+    console.log("No es fecha especial. Preparando Versículo del Día...");
+    
+    // Filtrar solo a los usuarios que tienen quiereVersiculo === true
+    const snapshot = await db.collection('usuarios').where('quiereVersiculo', '==', true).get();
+    
+    if (snapshot.empty) {
+      console.log("Nadie ha activado el versículo diario hoy.");
+      return;
+    }
+
+    const tokens = [];
+    snapshot.forEach(doc => { tokens.push(doc.data().token); });
+
+    console.log(`Enviando versículo diario a ${tokens.length} dispositivos...`);
+
+    // Para esta prueba, pondré un versículo fijo. 
+    // Luego podemos hacer que el robot elija uno aleatorio de tu categories.js
+    const versiculoFijo = "El Señor es mi pastor, nada me falta. (Salmos 23:1)";
+
+    const mensaje = {
+      notification: { 
+        title: "✨ Tu Versículo del Día", 
+        body: versiculoFijo 
       },
       tokens: tokens 
     };
 
-    // 3. Enviar a todos
     try {
       const response = await admin.messaging().sendEachForMulticast(mensaje);
       console.log(`¡Éxito! Mensajes enviados: ${response.successCount}`);
-      if (response.failureCount > 0) {
-        console.log(`Fallos: ${response.failureCount}`);
-      }
     } catch (error) {
       console.error("Error al enviar:", error);
     }
-  } else {
-    console.log("Hoy no toca enviar notificación.");
   }
 }
 
