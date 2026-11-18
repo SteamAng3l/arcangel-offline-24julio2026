@@ -126,6 +126,11 @@
         input:checked + .slider { background-color: var(--dorado); }
         input:checked + .slider:before { transform: translateX(22px); background-color: #fff; }
         
+        /* Sub-switch para versículo diario */
+        .switch-container.sub-switch { margin-top: 0.5rem; padding-top: 0; border-top: none; padding-left: 2.5rem; opacity: 0.9; }
+        .switch-container.sub-switch .switch { transform: scale(0.8); transform-origin: left center; }
+        .switch-container.sub-switch .switch-label span { font-size: 0.82rem; color: var(--text-secondary); }
+
         .redes-container { margin: 1rem 0 0 0; }
         .redes-toggle { width: 100%; justify-content: center; background: transparent; border: 1px solid var(--border-sutil); color: var(--text-secondary); padding: 0.8rem; font-size: 0.9rem; }
         .redes-links { display: none; margin-top: 0.8rem; flex-wrap: wrap; gap: 1rem; justify-content: center; padding: 1rem 0; }
@@ -244,6 +249,16 @@
             cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
         }
         .banner-btn:hover { background: #fce788; transform: translateY(-2px); }
+
+        /* ===== MODAL BIENVENIDA ===== */
+        #modalBienvenida .modal-contenido { text-align: center; }
+        #modalBienvenida .oracion-cruz { margin-bottom: 0.5rem; }
+        #modalBienvenida p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6; }
+        .btn-bienvenida { width: 100%; margin-bottom: 0.8rem; padding: 1rem; font-size: 1rem; font-weight: 600; border-radius: 30px; }
+        .btn-activar { background: var(--dorado); color: #0F1117; border: none; }
+        .btn-activar:hover { background: #fce788; transform: translateY(-2px); }
+        .btn-ahora-no { background: transparent; border: 1px solid var(--border-sutil); color: var(--text-secondary); }
+        .btn-ahora-no:hover { border-color: var(--border-dorado); color: var(--dorado); }
 
         /* ===== MODO GUÍA (PANTALLA COMPLETA) ===== */
         #modalGuia {
@@ -392,13 +407,23 @@
                     </div>
                 </div>
 
+                <!-- CONTROLES DE NOTIFICACIÓN -->
                 <div class="switch-container">
                     <div class="switch-label">
                         <label class="switch">
-                            <input type="checkbox" id="switchVersiculoDia" onchange="toggleNotificacion()">
+                            <input type="checkbox" id="switchNotificaciones" onchange="toggleNotificaciones()">
                             <span class="slider"></span>
                         </label>
-                        <span>Versículo del Día</span>
+                        <span>Notificaciones Diarias</span>
+                    </div>
+                </div>
+                <div class="switch-container sub-switch">
+                    <div class="switch-label">
+                        <label class="switch">
+                            <input type="checkbox" id="switchVersiculoDiario" onchange="cambiarPreferenciaVersiculo()" disabled>
+                            <span class="slider"></span>
+                        </label>
+                        <span>Recibir Versículo cada mañana</span>
                     </div>
                 </div>
 
@@ -493,6 +518,17 @@
             </div>
         </div>
 
+        <!-- MODAL BIENVENIDA (NUEVO) -->
+        <div class="modal-overlay" id="modalBienvenida">
+            <div class="modal-contenido">
+                <div class="oracion-cruz"><svg width="1.6em" height="1.6em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 9h12"/></svg></div>
+                <div class="oracion-nombre" style="font-size: 1.4rem;">Bienvenido a Arcángel</div>
+                <p>Para recibir tu versículo diario y los avisos de días especiales, activa tus notificaciones.</p>
+                <button class="btn-bienvenida btn-activar" onclick="activarDesdeBienvenida()">Sí, activar</button>
+                <button class="btn-bienvenida btn-ahora-no" onclick="cerrarBienvenida()">Ahora no</button>
+            </div>
+        </div>
+
         <!-- MODAL CATEGORÍA (versículo) -->
         <div class="modal-overlay" id="modalCategoria">
             <div class="modal-contenido">
@@ -561,7 +597,7 @@
                     <div class="info-subtitulo">Aviso de Privacidad</div>
                     <p class="info-texto">
                         En <strong>Arcángel</strong> nos tomamos muy en serio tu privacidad. Esta aplicación es 100% gratuita y no recopila datos personales como tu nombre, correo o ubicación. 
-                        Para enviar las notificaciones push (Versículo del Día), usamos un identificador anónimo (Token de Firebase) que no te identifica personalmente y se guarda de forma segura. No compartimos datos con terceros.
+                        Para enviar las notificaciones push (Versículo del Día y Días Especiales), usamos un identificador anónimo (Token de Firebase) que no te identifica personalmente y se guarda de forma segura. No compartimos datos con terceros.
                     </p>
 
                     <div class="info-subtitulo">Fuentes de los Datos</div>
@@ -700,11 +736,104 @@
                 document.getElementById('bannerTitulo').textContent = `¡Hoy es ${fechaEspecialHoy.titulo}!`;
                 document.getElementById('bannerTexto').textContent = `Celebramos esta fecha especial. Te invitamos a rezar la oración de hoy.`;
             }
+
+            // Revisar estado de notificaciones
+            verificarEstadoNotificaciones();
+
+            // Revisar si hay que mostrar el modal de bienvenida
+            verificarModalBienvenida();
+
+            // Pedir permiso de almacenamiento persistente (para que no borren los favoritos)
+            if (navigator.storage && navigator.storage.persist) {
+                navigator.storage.persist().then(granted => {
+                    console.log(granted ? "Almacenamiento persistente concedido" : "Almacenamiento persistente denegado");
+                });
+            }
         });
 
         function abrirGuiaDesdeBanner() {
             if (fechaEspecialHoy) {
                 iniciarGuia(fechaEspecialHoy.idOracion);
+            }
+        }
+
+        // ===== LÓGICA DE NOTIFICACIONES Y MODAL BIENVENIDA =====
+        function verificarModalBienvenida() {
+            const tieneToken = localStorage.getItem('fcmToken');
+            const ultimoAviso = localStorage.getItem('arcangelUltimoAviso');
+            const ahora = Date.now();
+            const TRES_SEMANAS = 21 * 24 * 60 * 60 * 1000; // 21 días en milisegundos
+
+            if (!tieneToken) {
+                if (!ultimoAviso || (ahora - parseInt(ultimoAviso) > TRES_SEMANAS)) {
+                    document.getElementById('modalBienvenida').classList.add('activo');
+                }
+            }
+        }
+
+        function cerrarBienvenida() {
+            document.getElementById('modalBienvenida').classList.remove('activo');
+            localStorage.setItem('arcangelUltimoAviso', Date.now().toString());
+        }
+
+        async function activarDesdeBienvenida() {
+            document.getElementById('modalBienvenida').classList.remove('activo');
+            await solicitarPermisoYToken();
+            document.getElementById('switchNotificaciones').checked = true;
+            document.getElementById('switchVersiculoDiario').disabled = false;
+            document.getElementById('switchVersiculoDiario').checked = true;
+            await guardarPreferenciaEnFirestore(true);
+        }
+
+        function verificarEstadoNotificaciones() {
+            if (localStorage.getItem('fcmToken')) {
+                document.getElementById('switchNotificaciones').checked = true;
+                document.getElementById('switchVersiculoDiario').disabled = false;
+                // Recuperar preferencia del versículo
+                const quiereVersiculo = localStorage.getItem('quiereVersiculo') !== 'false';
+                document.getElementById('switchVersiculoDiario').checked = quiereVersiculo;
+            }
+        }
+
+        async function toggleNotificaciones() {
+            const switchEl = document.getElementById('switchNotificaciones');
+            const subSwitch = document.getElementById('switchVersiculoDiario');
+
+            if (switchEl.checked) {
+                await solicitarPermisoYToken();
+                if (localStorage.getItem('fcmToken')) {
+                    subSwitch.disabled = false;
+                    subSwitch.checked = true;
+                    await guardarPreferenciaEnFirestore(true);
+                } else {
+                    switchEl.checked = false;
+                }
+            } else {
+                // Si apaga el principal, apagamos todo
+                subSwitch.disabled = true;
+                subSwitch.checked = false;
+                localStorage.removeItem('fcmToken'); // O podrías actualizar Firestore para desactivar
+                // En este caso, simplemente no recibirá nada.
+            }
+        }
+
+        async function cambiarPreferenciaVersiculo() {
+            const subSwitch = document.getElementById('switchVersiculoDiario');
+            const quiere = subSwitch.checked;
+            localStorage.setItem('quiereVersiculo', quiere);
+            await guardarPreferenciaEnFirestore(quiere);
+        }
+
+        // Esta función la llenará el script de Firebase
+        async function solicitarPermisoYToken() {
+            if (typeof window.iniciarFirebasePush === 'function') {
+                await window.iniciarFirebasePush();
+            }
+        }
+
+        async function guardarPreferenciaEnFirestore(quiereVersiculo) {
+            if (typeof window.actualizarPreferenciaFirestore === 'function') {
+                await window.actualizarPreferenciaFirestore(quiereVersiculo);
             }
         }
 
@@ -806,7 +935,7 @@
         function guardarFavoritoDesdeModal() { guardarFavorito(); }
         function compartirDesdeModal() { compartirImagen(); }
 
-        // ===== FAVORITOS (UNIFICADOS) =====
+        // ===== FAVORITOS =====
         let versiculoActual = null;
 
         function guardarFavorito() {
@@ -871,12 +1000,10 @@
             let oracionesFav = JSON.parse(localStorage.getItem('arcangelFavsOraciones') || '[]');
             let eventosFav = JSON.parse(localStorage.getItem('arcangelFavsEventos') || '[]');
 
-            // Agregar el tipo y timestamp si no lo tienen (para retrocompatibilidad)
             versiculos = versiculos.map(v => ({...v, tipo: v.tipo || 'versiculo', timestamp: v.timestamp || Date.now() - 100000}));
             oracionesFav = oracionesFav.map(o => ({...o, tipo: o.tipo || 'oracion', timestamp: o.timestamp || Date.now() - 50000}));
             eventosFav = eventosFav.map(e => ({...e, tipo: e.tipo || 'evento', timestamp: e.timestamp || Date.now()}));
 
-            // Unir todos y ordenar por el más reciente
             let todos = [...versiculos, ...oracionesFav, ...eventosFav].sort((a, b) => b.timestamp - a.timestamp);
 
             if (todos.length === 0) { lista.innerHTML = ''; noMsg.style.display = 'block'; return; }
@@ -1329,53 +1456,11 @@
                 recognition.onresult = (event) => { const texto = event.results[0][0].transcript.trim(); if (texto) { document.getElementById('inputSentimiento').value = texto; buscarVersiculo(); } };
                 recognition.onerror = () => { restaurarBoton(); }; recognition.onend = restaurarBoton;
             } else { botonHablar.style.opacity = '0.5'; botonHablar.disabled = true; }
-            if (localStorage.getItem('arcangelNotificacionActiva') === 'true') { document.getElementById('switchVersiculoDia').checked = true; programarNotificacion(); }
         });
 
         function iniciarDictado() { if (recognition && !estaGrabando) { try { recognition.start(); } catch(e) {} } }
         function detenerDictado() { if (recognition && estaGrabando) { try { recognition.stop(); } catch(e) {} } restaurarBoton(); }
         function restaurarBoton() { estaGrabando = false; const botonHablar = document.getElementById('botonHablar'); if (botonHablar) botonHablar.innerHTML = '<span class="material-icons-outlined">mic</span> Háblame'; }
-
-        // ===== NOTIFICACIÓN (Lógica antigua del navegador) =====
-        let notificacionInterval = null;
-        async function toggleNotificacion() {
-            const switchEl = document.getElementById('switchVersiculoDia');
-            if (switchEl.checked) {
-                if (Notification.permission === 'default') { const permiso = await Notification.requestPermission(); if (permiso !== 'granted') { alert('Permiso denegado'); switchEl.checked = false; return; } }
-                localStorage.setItem('arcangelNotificacionActiva', 'true'); programarNotificacion();
-                
-                // NUEVO: Activar las notificaciones push de Firebase
-                if(typeof window.iniciarFirebasePush === 'function') {
-                    window.iniciarFirebasePush();
-                }
-                
-            } else { localStorage.setItem('arcangelNotificacionActiva', 'false'); if (notificacionInterval) clearInterval(notificacionInterval); }
-        }
-
-        function programarNotificacion() {
-            if (notificacionInterval) clearInterval(notificacionInterval);
-            notificacionInterval = setInterval(() => {
-                const ahora = new Date();
-                if (ahora.getHours() === 9 && ahora.getMinutes() === 24) {
-                    const hoy = ahora.toLocaleDateString('es-MX');
-                    if (localStorage.getItem('arcangelUltimoDiaNoti') !== hoy) { enviarNotificacion(); localStorage.setItem('arcangelUltimoDiaNoti', hoy); }
-                }
-            }, 60000);
-        }
-
-        function obtenerVersiculoAleatorioUnico() {
-            const usados = JSON.parse(localStorage.getItem('arcangelVersosUsadosNoti') || '[]'); const todasRefs = [];
-            categories.forEach(cat => { cat.referencias.forEach(ref => todasRefs.push(ref)); });
-            const disponibles = todasRefs.filter(ref => !usados.includes(`${ref.libro}-${ref.capitulo}-${ref.versiculo}`));
-            if (disponibles.length === 0) { localStorage.setItem('arcangelVersosUsadosNoti', '[]'); return obtenerVersiculoAleatorioUnico(); }
-            const elegido = disponibles[Math.floor(Math.random() * disponibles.length)]; usados.push(`${elegido.libro}-${elegido.capitulo}-${elegido.versiculo}`); if (usados.length > 50) usados.shift(); localStorage.setItem('arcangelVersosUsadosNoti', JSON.stringify(usados));
-            return elegido;
-        }
-
-        function enviarNotificacion() {
-            const ref = obtenerVersiculoAleatorioUnico(); const texto = obtenerTextoVersiculo(ref) || "El Señor es mi pastor, nada me falta.";
-            if (Notification.permission === 'granted') { new Notification('✨ Versículo del Día', { body: `${texto} — ${ref.libro} ${ref.capitulo}:${ref.versiculo}` }); }
-        }
 
         function toggleRedes() { document.getElementById('redesLinks').classList.toggle('active'); }
     </script>
@@ -1385,7 +1470,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
         // Importamos Firestore
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA09LpE45IafrNer8BHL_0W9HYH7-osZxU",
@@ -1400,6 +1485,8 @@
         const app = initializeApp(firebaseConfig);
         const messaging = getMessaging(app);
         const db = getFirestore(app); // Inicializamos la base de datos
+
+        let tokenActual = localStorage.getItem('fcmToken') || null;
 
         window.iniciarFirebasePush = async function() {
             try {
@@ -1416,13 +1503,14 @@
                 if (currentToken) {
                     console.log("¡Token obtenido!: ", currentToken);
                     localStorage.setItem('fcmToken', currentToken);
+                    tokenActual = currentToken;
 
                     // GUARDAR EN FIRESTORE
-                    // Usamos el Token como ID del documento para que no se dupliquen
                     await setDoc(doc(db, "usuarios", currentToken), {
                         token: currentToken,
-                        fechaRegistro: new Date().toISOString()
-                    });
+                        fechaRegistro: new Date().toISOString(),
+                        quiereVersiculo: true // Por defecto, sí quiere versículo
+                    }, { merge: true });
                     console.log("¡Token guardado en la base de datos exitosamente!");
                     
                     alert("¡Notificaciones Push activadas y registradas en el sistema!");
@@ -1432,6 +1520,19 @@
             } catch (err) {
                 console.error("Error al obtener el token: ", err);
                 alert("Error al activar notificaciones. Revisa la consola.");
+            }
+        };
+
+        window.actualizarPreferenciaFirestore = async function(quiereVersiculo) {
+            if (!tokenActual) return;
+            try {
+                const userRef = doc(db, "usuarios", tokenActual);
+                await updateDoc(userRef, {
+                    quiereVersiculo: quiereVersiculo
+                });
+                console.log("Preferencia de versículo actualizada:", quiereVersiculo);
+            } catch (err) {
+                console.error("Error al actualizar preferencia: ", err);
             }
         };
 
