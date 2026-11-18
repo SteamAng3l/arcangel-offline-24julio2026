@@ -50,7 +50,10 @@
             --placeholder-color: #ADB5BD;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        html { scroll-behavior: smooth; font-size: 18px; }
+        
+        /* LETRA BASE AUMENTADA A 20PX */
+        html { scroll-behavior: smooth; font-size: 20px; }
+        
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-body);
@@ -59,18 +62,21 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 24px 14px 100px 14px;
+            padding: 24px 10px 100px 10px; /* Menos margen horizontal */
             transition: background-color 0.4s ease, color 0.4s ease;
             -webkit-font-smoothing: antialiased;
             line-height: 1.5;
         }
-        .app-container { width: 100%; max-width: 520px; margin: 0 auto; }
+        
+        /* CONTENEDOR MÁS ANCHO */
+        .app-container { width: 100%; max-width: 580px; margin: 0 auto; }
+        
         .panel {
             background: var(--bg-panel);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 2rem 1.6rem;
+            padding: 2rem 1.4rem;
             box-shadow: var(--sombra-suave);
             text-align: center;
             margin-bottom: 18px;
@@ -81,21 +87,23 @@
             display: block;
             margin: 0 auto 0.5rem auto;
             width: 100%;
-            max-width: 320px;
+            max-width: 340px;
             height: auto;
             filter: drop-shadow(0px 5px 15px rgba(0,0,0,0.5));
         }
 
         .subtitulo { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--text-secondary); margin-bottom: 2rem; font-style: italic; }
         .frase-corazon { font-family: 'Playfair Display', serif; font-size: 1.35rem; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600; line-height: 1.4; }
+        
         textarea, input[type="text"] {
             width: 100%; padding: 1rem 1.1rem; border: 1px solid var(--border-sutil); border-radius: 14px;
             background: var(--button-bg); color: var(--text-color); font-family: 'Inter', sans-serif;
             font-size: 1rem; outline: none; margin-bottom: 1rem; line-height: 1.5;
         }
-        textarea { height: 90px; resize: none; }
+        textarea { height: 100px; resize: none; }
         textarea:focus, input[type="text"]:focus { border-color: var(--border-dorado); }
         textarea::placeholder, input::placeholder { color: var(--placeholder-color); font-weight: 300; }
+        
         .botonera { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1rem; }
         button {
             background: var(--button-bg); border: 1px solid var(--border-sutil); color: var(--text-color);
@@ -106,6 +114,7 @@
         button:hover { background: var(--button-hover); border-color: var(--border-dorado); transform: translateY(-2px); }
         button.microfono { background: var(--dorado-suave); border-color: var(--border-dorado); color: var(--dorado); }
         button .material-icons-outlined { font-size: 1.15rem; }
+        
         .respuesta { background: var(--bg-resp); border-radius: 18px; padding: 1.6rem; margin-top: 1.2rem; text-align: left; border: 1px solid var(--border-sutil); animation: fadeInUp 0.5s ease; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
         .respuesta .categoria-nombre { font-size: 0.75rem; font-weight: 600; color: var(--dorado); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1.5px; }
@@ -126,7 +135,6 @@
         input:checked + .slider { background-color: var(--dorado); }
         input:checked + .slider:before { transform: translateX(22px); background-color: #fff; }
         
-        /* Sub-switch para versículo diario */
         .switch-container.sub-switch { margin-top: 0.5rem; padding-top: 0; border-top: none; padding-left: 2.5rem; opacity: 0.9; }
         .switch-container.sub-switch .switch { transform: scale(0.8); transform-origin: left center; }
         .switch-container.sub-switch .switch-label span { font-size: 0.82rem; color: var(--text-secondary); }
@@ -152,7 +160,7 @@
         
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; z-index: 300; padding: 20px; }
         .modal-overlay.activo { display: flex; }
-        .modal-contenido { background: var(--bg-panel-solid); border-radius: 22px; padding: 1.8rem 1.6rem; width: 460px; max-width: 100%; border: 1px solid var(--border-sutil); text-align: left; position: relative; max-height: 88vh; overflow-y: auto; }
+        .modal-contenido { background: var(--bg-panel-solid); border-radius: 22px; padding: 1.8rem 1.6rem; width: 500px; max-width: 100%; border: 1px solid var(--border-sutil); text-align: left; position: relative; max-height: 88vh; overflow-y: auto; }
         .modal-contenido .cerrar-modal { position: absolute; top: 8px; right: 14px; background: transparent; border: none; color: var(--text-secondary); font-size: 2rem; cursor: pointer; line-height: 1; }
         .modal-contenido .cerrar-modal:hover { color: var(--dorado); }
         
@@ -334,8 +342,10 @@
         .navbar button .material-icons-outlined { font-size: 1.35rem; }
         .pagina { display: none; }
         .pagina.activa { display: block; }
-        .categorias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 0.7rem; margin-top: 1.2rem; }
-        .categoria-btn { background: var(--button-bg); border: 1px solid var(--border-sutil); color: var(--text-color); padding: 0.85rem 0.7rem; border-radius: 14px; font-family: 'Inter', sans-serif; font-size: 0.83rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; }
+        
+        /* GRID DE CATEGORÍAS MÁS GRANDE PARA QUE QUEPA LA LETRA */
+        .categorias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.8rem; margin-top: 1.2rem; }
+        .categoria-btn { background: var(--button-bg); border: 1px solid var(--border-sutil); color: var(--text-color); padding: 0.95rem 0.8rem; border-radius: 14px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; }
         .categoria-btn:hover { background: var(--dorado-suave); border-color: var(--border-dorado); color: var(--dorado); }
         
         .modo-toggle { position: fixed; top: 18px; right: 18px; font-size: 1.4rem; cursor: pointer; z-index: 200; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--bg-panel); backdrop-filter: blur(15px); border: 1px solid var(--border-sutil); }
@@ -346,14 +356,16 @@
             .guia-titulo-paso { font-size: 1.6rem; }
         }
         @media (max-width: 400px) {
+            html { font-size: 19px; } /* Ajuste fino para pantallas muy chicas */
             .logo-texto { max-width: 280px; }
-            .panel { padding: 1.6rem 1.2rem; }
-            button { padding: 0.65rem 1rem; font-size: 0.85rem; }
+            .panel { padding: 1.6rem 1rem; }
+            button { padding: 0.65rem 0.9rem; font-size: 0.85rem; }
             .oracion-nombre { font-size: 1.3rem; }
             .oracion-subtitulo { font-size: 1rem; }
             .oracion-cuerpo { font-size: 1rem; }
             .acceso-titulo { font-size: 0.75rem; }
             .guia-texto { font-size: 1.2rem; }
+            .categorias-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
         }
     </style>
 </head>
@@ -518,7 +530,7 @@
             </div>
         </div>
 
-        <!-- MODAL BIENVENIDA (NUEVO) -->
+        <!-- MODAL BIENVENIDA -->
         <div class="modal-overlay" id="modalBienvenida">
             <div class="modal-contenido">
                 <div class="oracion-cruz"><svg width="1.6em" height="1.6em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 9h12"/></svg></div>
@@ -813,7 +825,6 @@
                 subSwitch.disabled = true;
                 subSwitch.checked = false;
                 localStorage.removeItem('fcmToken'); // O podrías actualizar Firestore para desactivar
-                // En este caso, simplemente no recibirá nada.
             }
         }
 
@@ -824,7 +835,6 @@
             await guardarPreferenciaEnFirestore(quiere);
         }
 
-        // Esta función la llenará el script de Firebase
         async function solicitarPermisoYToken() {
             if (typeof window.iniciarFirebasePush === 'function') {
                 await window.iniciarFirebasePush();
