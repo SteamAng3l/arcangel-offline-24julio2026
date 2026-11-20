@@ -764,7 +764,12 @@
         let fechaEspecialHoy = null;
 
         function limpiarTexto(texto) { return texto.replace(/Jehová|Jehova/g, 'Dios').replace(/Israelitas/g, 'Hijos de la Tierra del Señor').replace(/israelitas/g, 'hijos de la Tierra del Señor').replace(/Israelita/g, 'Hijo de la Tierra del Señor').replace(/israelita/g, 'hijo de la Tierra del Señor').replace(/Israel/g, 'La Tierra del Señor').replace(/israel/g, 'la Tierra del Señor'); }
-
+                function limpiarTexto(texto) { 
+            // ... (las líneas que ya tienes de Jehová, Israel, etc.)
+            texto = texto.replace(/crió/g, 'creó'); // <--- AGREGA ESTA LÍNEA
+            return texto;
+        }
+        
         function obtenerTextoVersiculo(referencia) {
             const nombreLibro = referencia.libro.trim().toLowerCase().replace(/\s+/g, ' ');
             const abrev = abrevMap[nombreLibro];
