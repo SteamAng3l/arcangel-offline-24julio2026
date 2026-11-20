@@ -719,9 +719,19 @@
     </div>
         <!-- MINI REPRODUCTOR DE AUDIOLIBRO -->
     <div id="reproductorBiblia">
-        <div class="player-header">
+              <div class="player-header">
             <div class="player-titulo" id="playerTitulo">Génesis 1</div>
             <button class="player-cerrar" onclick="cerrarAudiolibro()">&times;</button>
+        </div>
+        
+        <!-- NUEVOS SELECTORES -->
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <select id="selectorLibro" onchange="cambiarLibroSeleccionado()" style="flex: 2; background: var(--button-bg); color: var(--text-color); border: 1px solid var(--border-sutil); padding: 0.5rem; border-radius: 8px; font-family: 'Inter', sans-serif;">
+                <!-- Opciones llenadas por JS -->
+            </select>
+            <select id="selectorCapitulo" onchange="cambiarCapituloSeleccionado()" style="flex: 1; background: var(--button-bg); color: var(--text-color); border: 1px solid var(--border-sutil); padding: 0.5rem; border-radius: 8px; font-family: 'Inter', sans-serif;">
+                <!-- Opciones llenadas por JS -->
+            </select>
         </div>
         <div class="player-texto-actual" id="playerTextoActual">Presiona Play para comenzar...</div>
         <div class="player-controles">
@@ -1603,72 +1613,65 @@
         });
     </script>
 
-      <!-- Lógica del Audiolibro (Funcional) -->
+        <!-- Lógica del Audiolibro (Funcional y con Memoria) -->
     <script>
-        // --- VARIABLES DE CONTROL ---
         let playerLibroActual = "Génesis";
         let playerCapituloActual = 1;
-        let playerVersiculoActual = 0; // Índice del arreglo
+        let playerVersiculoActual = 0;
         let playerVersiculos = [];
         let playerLeyendo = false;
 
-        // --- MAPEO DE LIBROS (Para que la Biblia sepa qué buscar) ---
         const librosBiblia = [
-            { nombre: "Génesis", abrev: "gn" }, { nombre: "Éxodo", abrev: "ex" },
-            { nombre: "Levítico", abrev: "lv" }, { nombre: "Números", abrev: "nm" },
-            { nombre: "Deuteronomio", abrev: "dt" }, { nombre: "Josué", abrev: "jos" },
-            { nombre: "Jueces", abrev: "jue" }, { nombre: "Rut", abrev: "rt" },
-            { nombre: "1 Samuel", abrev: "1sm" }, { nombre: "2 Samuel", abrev: "2sm" },
-            { nombre: "1 Reyes", abrev: "1re" }, { nombre: "2 Reyes", abrev: "2re" },
-            { nombre: "1 Crónicas", abrev: "1cr" }, { nombre: "2 Crónicas", abrev: "2cr" },
-            { nombre: "Esdras", abrev: "esd" }, { nombre: "Nehemías", abrev: "neh" },
-            { nombre: "Ester", abrev: "est" }, { nombre: "Job", abrev: "job" },
-            { nombre: "Salmos", abrev: "sal" }, { nombre: "Proverbios", abrev: "pro" },
-            { nombre: "Eclesiastés", abrev: "ecl" }, { nombre: "Cantares", abrev: "cnt" },
-            { nombre: "Isaías", abrev: "isa" }, { nombre: "Jeremías", abrev: "jer" },
-            { nombre: "Lamentaciones", abrev: "lam" }, { nombre: "Ezequiel", abrev: "eze" },
-            { nombre: "Daniel", abrev: "dan" }, { nombre: "Oseas", abrev: "ose" },
-            { nombre: "Joel", abrev: "joe" }, { nombre: "Amós", abrev: "amo" },
-            { nombre: "Obadías", abrev: "oba" }, { nombre: "Jonás", abrev: "jon" },
-            { nombre: "Miqueas", abrev: "miq" }, { nombre: "Nahúm", abrev: "nah" },
-            { nombre: "Habacuc", abrev: "hab" }, { nombre: "Sofonías", abrev: "sof" },
-            { nombre: "Ageo", abrev: "age" }, { nombre: "Zacarías", abrev: "zac" },
-            { nombre: "Malaquías", abrev: "mal" }, { nombre: "Mateo", abrev: "mat" },
-            { nombre: "Marcos", abrev: "mar" }, { nombre: "Lucas", abrev: "luc" },
-            { nombre: "Juan", abrev: "jua" }, { nombre: "Hechos", abrev: "hch" },
-            { nombre: "Romanos", abrev: "rom" }, { nombre: "1 Corintios", abrev: "1co" },
-            { nombre: "2 Corintios", abrev: "2co" }, { nombre: "Gálatas", abrev: "gal" },
-            { nombre: "Efesios", abrev: "efe" }, { nombre: "Filipenses", abrev: "fil" },
-            { nombre: "Colosenses", abrev: "col" }, { nombre: "1 Tesalonicenses", abrev: "1ts" },
-            { nombre: "2 Tesalonicenses", abrev: "2ts" }, { nombre: "1 Timoteo", abrev: "1ti" },
-            { nombre: "2 Timoteo", abrev: "2ti" }, { nombre: "Tito", abrev: "tit" },
-            { nombre: "Filemón", abrev: "flm" }, { nombre: "Hebreos", abrev: "heb" },
-            { nombre: "Santiago", abrev: "snt" }, { nombre: "1 Pedro", abrev: "1pe" },
-            { nombre: "2 Pedro", abrev: "2pe" }, { nombre: "1 Juan", abrev: "1jn" },
-            { nombre: "2 Juan", abrev: "2jn" }, { nombre: "3 Juan", abrev: "3jn" },
-            { nombre: "Judas", abrev: "jud" }, { nombre: "Apocalipsis", abrev: "apo" }
+            { nombre: "Génesis", abrev: "gn" }, { nombre: "Éxodo", abrev: "ex" }, { nombre: "Levítico", abrev: "lv" }, { nombre: "Números", abrev: "nm" }, { nombre: "Deuteronomio", abrev: "dt" }, { nombre: "Josué", abrev: "jos" }, { nombre: "Jueces", abrev: "jue" }, { nombre: "Rut", abrev: "rt" }, { nombre: "1 Samuel", abrev: "1sm" }, { nombre: "2 Samuel", abrev: "2sm" }, { nombre: "1 Reyes", abrev: "1re" }, { nombre: "2 Reyes", abrev: "2re" }, { nombre: "1 Crónicas", abrev: "1cr" }, { nombre: "2 Crónicas", abrev: "2cr" }, { nombre: "Esdras", abrev: "esd" }, { nombre: "Nehemías", abrev: "neh" }, { nombre: "Ester", abrev: "est" }, { nombre: "Job", abrev: "job" }, { nombre: "Salmos", abrev: "sal" }, { nombre: "Proverbios", abrev: "pro" }, { nombre: "Eclesiastés", abrev: "ecl" }, { nombre: "Cantares", abrev: "cnt" }, { nombre: "Isaías", abrev: "isa" }, { nombre: "Jeremías", abrev: "jer" }, { nombre: "Lamentaciones", abrev: "lam" }, { nombre: "Ezequiel", abrev: "eze" }, { nombre: "Daniel", abrev: "dan" }, { nombre: "Oseas", abrev: "ose" }, { nombre: "Joel", abrev: "joe" }, { nombre: "Amós", abrev: "amo" }, { nombre: "Obadías", abrev: "oba" }, { nombre: "Jonás", abrev: "jon" }, { nombre: "Miqueas", abrev: "miq" }, { nombre: "Nahúm", abrev: "nah" }, { nombre: "Habacuc", abrev: "hab" }, { nombre: "Sofonías", abrev: "sof" }, { nombre: "Ageo", abrev: "age" }, { nombre: "Zacarías", abrev: "zac" }, { nombre: "Malaquías", abrev: "mal" }, { nombre: "Mateo", abrev: "mat" }, { nombre: "Marcos", abrev: "mar" }, { nombre: "Lucas", abrev: "luc" }, { nombre: "Juan", abrev: "jua" }, { nombre: "Hechos", abrev: "hch" }, { nombre: "Romanos", abrev: "rom" }, { nombre: "1 Corintios", abrev: "1co" }, { nombre: "2 Corintios", abrev: "2co" }, { nombre: "Gálatas", abrev: "gal" }, { nombre: "Efesios", abrev: "efe" }, { nombre: "Filipenses", abrev: "fil" }, { nombre: "Colosenses", abrev: "col" }, { nombre: "1 Tesalonicenses", abrev: "1ts" }, { nombre: "2 Tesalonicenses", abrev: "2ts" }, { nombre: "1 Timoteo", abrev: "1ti" }, { nombre: "2 Timoteo", abrev: "2ti" }, { nombre: "Tito", abrev: "tit" }, { nombre: "Filemón", abrev: "flm" }, { nombre: "Hebreos", abrev: "heb" }, { nombre: "Santiago", abrev: "snt" }, { nombre: "1 Pedro", abrev: "1pe" }, { nombre: "2 Pedro", abrev: "2pe" }, { nombre: "1 Juan", abrev: "1jn" }, { nombre: "2 Juan", abrev: "2jn" }, { nombre: "3 Juan", abrev: "3jn" }, { nombre: "Judas", abrev: "jud" }, { nombre: "Apocalipsis", abrev: "apo" }
         ];
 
-        // --- CARGAR DATOS DEL LIBRO ---
-        function cargarLibro(libroNombre, capitulo = 1) {
+        function inicializarSelectores() {
+            const selLibro = document.getElementById('selectorLibro');
+            selLibro.innerHTML = '';
+            librosBiblia.forEach(libro => {
+                const opt = document.createElement('option');
+                opt.value = libro.nombre;
+                opt.textContent = libro.nombre;
+                selLibro.appendChild(opt);
+            });
+        }
+
+        function actualizarSelectoresCapitulos() {
+            const libroInfo = librosBiblia.find(l => l.nombre === playerLibroActual);
+            const libroData = bibleData.find(b => b.abbrev === libroInfo.abrev);
+            const totalCapitulos = libroData ? libroData.chapters.length : 1;
+            
+            const selCap = document.getElementById('selectorCapitulo');
+            selCap.innerHTML = '';
+            for (let i = 1; i <= totalCapitulos; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = `Cap. ${i}`;
+                selCap.appendChild(opt);
+            }
+            selCap.value = playerCapituloActual;
+        }
+
+        function cargarLibro(libroNombre, capitulo = 1, versiculo = 0, guardar = true) {
             const libroInfo = librosBiblia.find(l => l.nombre === libroNombre);
             if (!libroInfo) return;
-            
             const libroData = bibleData.find(b => b.abbrev === libroInfo.abrev);
             if (!libroData) return;
 
             playerLibroActual = libroNombre;
             playerCapituloActual = capitulo;
             playerVersiculos = libroData.chapters[capitulo - 1] || [];
-            playerVersiculoActual = 0;
+            playerVersiculoActual = versiculo >= playerVersiculos.length ? 0 : versiculo;
 
-            // Actualizar UI
             document.getElementById('playerTitulo').textContent = `${libroNombre} ${capitulo}`;
             document.getElementById('barraProgreso').max = playerVersiculos.length;
-            document.getElementById('barraProgreso').value = 1;
             document.getElementById('progresoTotal').textContent = playerVersiculos.length;
             
+            actualizarSelectoresCapitulos();
+            document.getElementById('selectorLibro').value = libroNombre;
             actualizarTextoPlayer();
+            
+            if (guardar) guardarProgreso();
         }
 
         function actualizarTextoPlayer() {
@@ -1679,30 +1682,53 @@
             document.getElementById('barraProgreso').value = playerVersiculoActual + 1;
         }
 
-        // --- CONTROLES DE REPRODUCCIÓN ---
+        function guardarProgreso() {
+            const progreso = {
+                libro: playerLibroActual,
+                capitulo: playerCapituloActual,
+                versiculo: playerVersiculoActual
+            };
+            localStorage.setItem('arcangelProgresoBiblia', JSON.stringify(progreso));
+        }
+
         function abrirAudiolibro() {
             document.getElementById('reproductorBiblia').classList.add('activo');
-            // Por ahora, siempre inicia en Génesis 1 si no hay nada cargado
-            if (playerVersiculos.length === 0) {
-                cargarLibro("Génesis", 1);
+            inicializarSelectores();
+            
+            const guardado = localStorage.getItem('arcangelProgresoBiblia');
+            if (guardado) {
+                const p = JSON.parse(guardado);
+                cargarLibro(p.libro, p.capitulo, p.versiculo, false);
+            } else {
+                cargarLibro("Génesis", 1, 0, false);
             }
         }
 
         function cerrarAudiolibro() {
             document.getElementById('reproductorBiblia').classList.remove('activo');
             detenerLectura();
+            guardarProgreso();
+        }
+
+        function cambiarLibroSeleccionado() {
+            const nuevoLibro = document.getElementById('selectorLibro').value;
+            cargarLibro(nuevoLibro, 1, 0);
+            if (playerLeyendo) { detenerLectura(); iniciarLectura(); }
+        }
+
+        function cambiarCapituloSeleccionado() {
+            const nuevoCap = parseInt(document.getElementById('selectorCapitulo').value);
+            cargarLibro(playerLibroActual, nuevoCap, 0);
+            if (playerLeyendo) { detenerLectura(); iniciarLectura(); }
         }
 
         function togglePlayBiblia() {
-            if (playerLeyendo) {
-                detenerLectura();
-            } else {
-                iniciarLectura();
-            }
+            if (playerLeyendo) detenerLectura();
+            else iniciarLectura();
         }
 
         function iniciarLectura() {
-            if (playerVersiculoActual >= playerVersiculos.length) return; // Si ya terminó, no hace nada
+            if (playerVersiculoActual >= playerVersiculos.length) return;
             playerLeyendo = true;
             document.getElementById('iconoPlayBiblia').textContent = 'pause';
             leerVersiculoActual();
@@ -1717,9 +1743,7 @@
         function leerVersiculoActual() {
             if (!playerLeyendo) return;
             if (playerVersiculoActual >= playerVersiculos.length) {
-                // Terminó el capítulo
                 detenerLectura();
-                document.getElementById('iconoPlayBiblia').textContent = 'play_arrow';
                 alert("¡Has terminado este capítulo!");
                 return;
             }
@@ -1729,16 +1753,16 @@
             utterance.lang = 'es-MX';
             utterance.rate = 0.9;
 
-            // Cuando termine de leer, pasa al siguiente
             utterance.onend = () => {
                 if (playerLeyendo) {
                     playerVersiculoActual++;
                     actualizarTextoPlayer();
-                    setTimeout(leerVersiculoActual, 800); // Pequeña pausa entre versículos
+                    guardarProgreso();
+                    setTimeout(leerVersiculoActual, 800);
                 }
             };
 
-            window.speechSynthesis.cancel(); // Por si acaso
+            window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utterance);
         }
 
@@ -1746,6 +1770,7 @@
             if (playerVersiculoActual < playerVersiculos.length - 1) {
                 playerVersiculoActual++;
                 actualizarTextoPlayer();
+                guardarProgreso();
                 if (playerLeyendo) { window.speechSynthesis.cancel(); setTimeout(leerVersiculoActual, 300); }
             }
         }
@@ -1754,6 +1779,7 @@
             if (playerVersiculoActual > 0) {
                 playerVersiculoActual--;
                 actualizarTextoPlayer();
+                guardarProgreso();
                 if (playerLeyendo) { window.speechSynthesis.cancel(); setTimeout(leerVersiculoActual, 300); }
             }
         }
@@ -1761,9 +1787,9 @@
         function saltarAVersiculo(val) {
             playerVersiculoActual = parseInt(val) - 1;
             actualizarTextoPlayer();
+            guardarProgreso();
             if (playerLeyendo) { window.speechSynthesis.cancel(); setTimeout(leerVersiculoActual, 300); }
         }
     </script>
-
 </body>
 </html>
