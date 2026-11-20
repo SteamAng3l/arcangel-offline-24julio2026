@@ -350,7 +350,32 @@
         
         .modo-toggle { position: fixed; top: 18px; right: 18px; font-size: 1.4rem; cursor: pointer; z-index: 200; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--bg-panel); backdrop-filter: blur(15px); border: 1px solid var(--border-sutil); }
         #canvasCompartir { display: none; }
+                /* ===== MINI REPRODUCTOR DE AUDIOLIBRO ===== */
+        #reproductorBiblia {
+            position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%);
+            width: 95%; max-width: 560px; background: var(--bg-panel-solid);
+            border: 1px solid var(--dorado); border-radius: 20px;
+            padding: 1rem; z-index: 250;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+            display: none; flex-direction: column; gap: 0.5rem;
+            animation: slideUpPlayer 0.4s ease;
+        }
+        #reproductorBiblia.activo { display: flex; }
+        @keyframes slideUpPlayer { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
         
+        .player-header { display: flex; justify-content: space-between; align-items: center; }
+        .player-titulo { font-family: 'Cinzel', serif; color: var(--dorado); font-size: 0.95rem; font-weight: 600; }
+        .player-cerrar { background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; line-height: 1; }
+        
+        .player-texto-actual { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--text-color); font-style: italic; line-height: 1.4; max-height: 3.8em; overflow: hidden; text-overflow: ellipsis; }
+        
+        .player-controles { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 0.3rem; }
+        .player-controles button { background: var(--button-bg); border: 1px solid var(--border-sutil); color: var(--dorado); width: 50px; height: 50px; border-radius: 50%; font-size: 1.2rem; padding: 0; }
+        .player-controles button.btn-play { width: 60px; height: 60px; background: var(--dorado); color: #0F1117; border: none; }
+        
+        .player-progreso { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.3rem; }
+        .player-progreso input[type="range"] { flex: 1; accent-color: var(--dorado); height: 6px; border-radius: 3px; cursor: pointer; }
+        .player-progreso span { font-size: 0.75rem; color: var(--text-muted); font-family: 'Inter', sans-serif; }
         @media (max-width: 600px) {
             .guia-texto { font-size: 1.3rem; }
             .guia-titulo-paso { font-size: 1.6rem; }
@@ -692,7 +717,24 @@
             <span class="material-icons-outlined">star</span> <span>Favoritos</span>
         </button>
     </div>
-
+        <!-- MINI REPRODUCTOR DE AUDIOLIBRO -->
+    <div id="reproductorBiblia">
+        <div class="player-header">
+            <div class="player-titulo" id="playerTitulo">Génesis 1</div>
+            <button class="player-cerrar" onclick="cerrarAudiolibro()">&times;</button>
+        </div>
+        <div class="player-texto-actual" id="playerTextoActual">Presiona Play para comenzar...</div>
+        <div class="player-controles">
+            <button onclick="anteriorVersiculo()"><span class="material-icons-outlined">skip_previous</span></button>
+            <button class="btn-play" id="btnPlayBiblia" onclick="togglePlayBiblia()"><span class="material-icons-outlined" id="iconoPlayBiblia">play_arrow</span></button>
+            <button onclick="siguienteVersiculo()"><span class="material-icons-outlined">skip_next</span></button>
+        </div>
+        <div class="player-progreso">
+            <span id="progresoActual">1</span>
+            <input type="range" id="barraProgreso" min="1" max="10" value="1" onchange="saltarAVersiculo(this.value)">
+            <span id="progresoTotal">10</span>
+        </div>
+    </div>
     <canvas id="canvasCompartir" width="1080" height="1080"></canvas>
     <img id="fondoPergamino" src="pergamino.jpg" style="display:none;" crossorigin="anonymous">
 
@@ -1561,11 +1603,21 @@
         });
     </script>
 
-    <!-- AUDIOLIBRO: Lógica temporal (irá en el primer script al final) -->
+    <!-- Lógica del Audiolibro (Paso 2: Diseño visual) -->
     <script>
         function abrirAudiolibro() {
-            alert("¡Próximamente! Aquí abriremos el reproductor.");
+            document.getElementById('reproductorBiblia').classList.add('activo');
         }
+        function cerrarAudiolibro() {
+            document.getElementById('reproductorBiblia').classList.remove('activo');
+            if(window.speechSynthesis) window.speechSynthesis.cancel();
+        }
+        function togglePlayBiblia() {
+            alert("Próximamente: Aquí iniciará la lectura de la Biblia.");
+        }
+        function anteriorVersiculo() { alert("Próximamente: Ir al versículo anterior."); }
+        function siguienteVersiculo() { alert("Próximamente: Ir al versículo siguiente."); }
+        function saltarAVersiculo(val) { alert("Próximamente: Saltar al versículo " + val); }
     </script>
 
 </body>
